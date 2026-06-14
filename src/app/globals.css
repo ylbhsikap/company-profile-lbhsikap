@@ -200,47 +200,95 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 /* =========================================================================
    3. HERO BANNER & LAYOUT COMPONENT
    ========================================================================= */
+
+/* Hero Utama (Beranda) */
 .hero {
-    background: linear-gradient(rgba(17, 17, 17, 0.75), rgba(34, 34, 34, 0.85)), url('/ruangan10.jpg') no-repeat center center/cover;
-    height: 90vh; 
+    position: relative;
+    height: 90vh;
     display: flex;
     align-items: center;
+    justify-content: center;
     color: var(--text-light);
     text-align: center;
-    padding-top: 60px;
+    overflow: hidden;
 }
-.hero-content h2 {
-    font-size: 44px; 
-    margin-bottom: 15px;
+
+/* Hero Sub (Halaman Lain) */
+.hero-sub {
+    position: relative;
+    height: 40vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    text-align: center;
+    padding-top: 70px;
+    overflow: hidden;
+}
+
+/* Overlay Gelap untuk kedua tipe Hero */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(17, 17, 17, 0.75); /* Sesuaikan opasitas sesuai selera */
+    z-index: 1;
+}
+
+/* Memastikan konten berada di atas gambar dan overlay */
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 20px;
+}
+
+.hero-sub h2 {
+    font-size: 36px;
     font-weight: 700;
-    letter-spacing: 0.5px;
-}
-.hero-content p {
-    font-size: 18px;
-    margin-bottom: 25px;
-    color: #dddddd; 
-}
-
-.btn-cta {
-    background-color: var(--text-light); 
-    color: var(--primary); 
-    padding: 12px 30px;
-    border-radius: 4px;
-    font-weight: bold;
-    display: inline-block;
-    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease, box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 1px;
     text-transform: uppercase;
-    font-size: 14px;
-    letter-spacing: 0.5px;
-    border: 1px solid var(--text-light);
 }
 
-.btn-cta:hover {
-    background-color: var(--accent); 
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+.hero-sub p {
+    font-size: 16px;
+    color: #cccccc;
+    margin-top: 8px;
+}
+.btn-cta {
+    display: inline-block; /* Penting agar padding berfungsi */
+    padding: 12px 30px;    /* 12px atas/bawah, 30px kiri/kanan */
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border-radius: 4px;    /* Sedikit lengkungan agar modern */
+}
+/* Untuk tombol yang dasarnya putih bingkai hitam */
+.btn-cta-outline {
+    position: relative; /* Wajib ada agar ::before bisa menempel di sini */
+    overflow: hidden;   /* Ini akan memotong warna hitam agar tidak "keluar jalur" */
+    border: 2px solid white;
+    /* ... properti lainnya */
 }
 
+.btn-cta-outline::before {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; width: 100%; height: 0;
+  background: #111111; /* Mengisi warna hitam pekat */
+  transition: height 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+.btn-cta-outline:hover::before {
+  height: 100%; /* Tinggi warna hitam naik penuh */
+}
+
+.btn-cta-outline:hover {
+    background: white;
+    color: black;
+}
 .section-padding {
     padding: 90px 0 60px 0;
 }
@@ -252,20 +300,15 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 }
 
 .card {
-    background: #ffffff;
-    border-radius: 6px;
-    padding: 25px;
-    border: 1px solid var(--border-color);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
-    margin-bottom: 25px;
-    border-top: 3px solid var(--primary); 
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-top-color 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
-    border-top-color: var(--secondary); 
+  transform: translateY(-6px);
+  border-color: #111111;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.07);
 }
 
 .card h3 {
@@ -457,3 +500,63 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
         gap: 10px;
     }
 }
+/* --- ANIMASI BERGANTINYA LOGO/HEADER SAAT SCROLL --- */
+header {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    background: transparent;
+    transition: background-color 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+                box-shadow 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    z-index: 999;
+}
+
+header.header-scrolled {
+    background: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #e5e5e5;
+}
+
+/* --- LOGIKA HAMBURGER ANIMASI SILANG (X) --- */
+.menu-toggle.toggle-active span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+    background-color: #111111;
+}
+.menu-toggle.toggle-active span:nth-child(2) {
+    opacity: 0; /* Garis tengah menghilang */
+}
+.menu-toggle.toggle-active span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+    background-color: #111111;
+}
+
+/* --- LOGIKA DROPDOWN MENU MOBILE SLIDE DOWN --- */
+@media (max-width: 768px) {
+    .nav-container {
+        display: block; /* Aktifkan blok */
+        position: absolute;
+        top: 100%; left: 0; width: 100%;
+        background: #ffffff;
+        border-bottom: 1px solid #e5e5e5;
+        
+        /* Menggunakan max-height untuk efek slide down yang sangat mulus */
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    /* Ketika hamburger diklik, kelas ini disuntikkan oleh React */
+    .nav-container.nav-open {
+        max-height: 400px; /* Sesuaikan tinggi total menu Anda */
+    }
+}
+.reveal-box {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), 
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-box.visible {
+  opacity: 1;
+  transform: translateY(0);
+} 
