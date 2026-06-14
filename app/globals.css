@@ -1,0 +1,722 @@
+/* =========================================================================
+   0. IMPORT PREMIUM FONTS (✔️ PERBAIKAN: Tautan Resmi Google Fonts Inter)
+   ========================================================================= */
+@import url('https://googleapis.com');
+
+/* =========================================================================
+   1. VARIABLES & CORE STYLES (Skema Warna Estetika Monochrome)
+   ========================================================================= */
+:root {
+    --primary: #111111;       /* Hitam Arang Pekat (Dominan & Tegas) */
+    --secondary: #333333;     /* Hitam Abu-abu (Elemen Sekunder & Tombol) */
+    --accent: #f8f9fa;        /* Abu-abu Terang Bersih (Latar Belakang Kontras) */
+    --text-dark: #1a1a1a;     /* Teks Utama Hitam Karbon */
+    --text-light: #ffffff;    /* Teks Terang Putih Murni */
+    --border-color: #e5e5e5;  /* Batas Garis Abu-abu Lembut */
+    
+    /* Variabel Kurva Animasi Sinkron dengan Script.js */
+    --transition-premium: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    color: var(--text-dark);
+    background-color: #ffffff;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+ul {
+    list-style-position: inside;
+}
+
+.container {
+    width: 85%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* =========================================================================
+   2. HEADER & NAVIGATION BAR (DYNAMIC TRANSPARENT & STICKY WHITE SYSTEM)
+   ========================================================================= */
+header {
+    position: fixed;               /* ✔️ Membuat header selalu melayang di atas seksi banner */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent; /* ✔️ Mode Awal: Bening/Transparan saat diam di atas */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                box-shadow 0.4s ease, 
+                border-color 0.4s ease; /* Transisi memudar halus */
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    transition: padding 0.4s ease; /* Memberikan efek menyusut ramping saat di-scroll */
+}
+
+.logo-link {
+    display: flex;
+    align-items: center; 
+    gap: 12px;           
+}
+
+.brand-logo {
+    height: 46px;
+    width: auto;
+    display: block;
+    object-fit: contain;
+    /* Membuat logo item otomatis memutih di awal (bisa dihapus jika logo Anda sudah putih) */
+}
+
+.logo-text {
+    display: flex;
+    flex-direction: column; 
+    line-height: 1.2;
+}
+
+.logo-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #ffffff; /* Warna teks awal: Putih murni */
+    transition: color 0.4s ease;
+}
+
+.logo-subtitle {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #dddddd;
+    transition: color 0.4s ease;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-links li {
+    padding: 0 12px;
+}
+
+.nav-links a {
+    color: #ffffff; /* Warna menu awal: Putih bersih */
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0.85;
+    padding: 8px 0;
+    position: relative;
+    transition: color 0.4s ease, opacity 0.4s ease;
+}
+
+.nav-links a:hover, 
+.nav-links a.active {
+    color: #ffffff;
+    opacity: 1;
+}
+
+/* Garis bawah penanda menu aktif mode transparan */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: #ffffff; 
+    transition: width 0.3s ease;
+}
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
+}
+
+/* Tombol Aksi Merah Khas YLBHI */
+.nav-utility { padding-left: 15px !important; }
+.nav-utility .lang-switch {
+    background-color: #cc2222;
+    color: #ffffff;
+    padding: 8px 18px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 700;
+    display: inline-block;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(204, 34, 34, 0.2);
+}
+.nav-utility .lang-switch:hover { background-color: #b31111; transform: translateY(-1px); }
+.nav-utility .lang-switch a { color: #ffffff !important; opacity: 1 !important; }
+.nav-utility .lang-switch a::after { display: none !important; }
+
+/* Tombol Hamburger HP */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 1050;
+}
+.menu-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: #ffffff; /* Tombol awal putih */
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* =========================================================================
+   ⚡ MODE KEDUA: ATURAN PERUBAHAN WARNA SAAT DI-SCROLL KE BAWAH (PENTING!)
+   ========================================================================= */
+header.header-scrolled {
+    background-color: #ffffff;                  /* ✔️ Berubah menjadi putih bersih */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06); /* Muncul bayangan tipis profesional */
+    border-bottom: 1px solid #eeeeee;
+}
+
+header.header-scrolled .navbar {
+    padding: 10px 0; /* Menu menyusut menjadi lebih ramping & hemat ruang baca */
+}
+
+header.header-scrolled .brand-logo {
+    height: 40px; /* Ukuran gambar logo ikut mengecil proporsional */
+}
+
+header.header-scrolled .logo-title { color: #111111; }     /* Judul berubah jadi hitam */
+header.header-scrolled .logo-subtitle { color: #666666; }  /* Subtitle berubah jadi abu-abu */
+header.header-scrolled .menu-toggle span { background-color: #111111; } /* Hamburger jadi hitam */
+
+header.header-scrolled .nav-links a {
+    color: #333333; /* Barisan teks menu berubah menjadi abu-abu gelap */
+    opacity: 0.9;
+}
+header.header-scrolled .nav-links a:hover,
+header.header-scrolled .nav-links a.active {
+    color: #000000; /* Teks aktif menjadi hitam pekat */
+    opacity: 1;
+}
+header.header-scrolled .nav-links a::after {
+    background-color: #111111; /* Garis indikator aktif berubah jadi hitam minimalis */
+}
+
+/* =========================================================================
+   3. HERO BANNER SECTION (Halaman Utama)
+   ========================================================================= */
+.hero {
+    background: linear-gradient(rgba(17, 17, 17, 0.75), rgba(34, 34, 34, 0.85)), url('/ruangan10.jpg') no-repeat center center/cover;
+    height: 90vh; /* ✔️ Sedikit ditinggikan ukurannya agar proporsi spanduk transparan mewah */
+    display: flex;
+    align-items: center;
+    color: var(--text-light);
+    text-align: center;
+    padding-top: 60px; /* Memberikan ruang napas di atas agar teks hero tidak terlalu naik */
+}
+.hero-content h2 {
+    font-size: 44px; /* Ganti angka 38px ini (misal ke 44px) jika ingin judulnya lebih besar */
+    margin-bottom: 15px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+.hero-content p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: #dddddd; /* Warna teks deskripsi hero yang lebih terang untuk kontras */
+}
+
+/* =========================================================================
+   4. BUTTONS & UI COMPONENTS
+   ========================================================================= */
+.btn-cta {
+    background-color: var(--text-light); 
+    color: var(--primary); 
+    padding: 12px 30px;
+    border-radius: 4px;
+    font-weight: bold;
+    display: inline-block;
+    transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s ease, box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    border: 1px solid var(--text-light);
+}
+
+.btn-cta:hover {
+    background-color: var(--accent); 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.btn-download {
+    background-color: var(--primary); 
+    color: var(--text-light);
+    padding: 12px 25px;
+    border-radius: 4px;
+    display: inline-block;
+    font-weight: bold;
+    margin-top: 15px;
+    border: 1px solid var(--primary);
+    transition: var(--transition-premium);
+}
+
+.btn-download:hover {
+    background-color: transparent; 
+    color: var(--primary);
+}
+
+/* =========================================================================
+   5. TEMPLATE LAYOUTS & STRUKTUR HALAMAN
+   ========================================================================= */
+
+.section-padding {
+    padding: 90px 0 60px 0; /* Artinya: Jarak atas 90px, kanan 0, bawah 60px, kiri 0 */
+}
+
+/* =========================================================================
+   PAGE TITLE BANNER SYSTEM (GAMBAR LATAR BELAKANG UNTUK TIAP HALAMAN)
+   ========================================================================= */
+.page-title-banner {
+    height: 35vh; /* Tinggi spanduk halaman di laptop yang proporsional & mewah */
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #ffffff; /* Mengubah warna teks judul halaman menjadi putih bersih */
+    padding-top: 60px; /* Memberikan ruang napas di bawah menu navigasi melayang */
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 60px; 
+}
+
+.page-title-banner h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.3); /* Bayangan teks lembut agar judul menonjol */
+}
+
+/* 📥 MEMASUKKAN LINK GAMBAR SPESIFIK UNTUK MASING-MASING HALAMAN */
+
+/* Gambar Latar Belakang Halaman Tentang Kami (Tema Ruang Rapat/Kolektif) */
+#banner-tentang {
+    background: linear-gradient(rgba(17, 17, 17, 0.75), rgba(34, 34, 34, 0.85)), 
+                url('/ruangan.jpg') no-repeat center center/cover;
+}
+
+/* Gambar Latar Belakang Halaman Publikasi (Tema Tumpukan Buku Jurnal/Kertas Kajian) */
+#banner-publikasi {
+    background: linear-gradient(rgba(17, 17, 17, 0.75), rgba(34, 34, 34, 0.85)), 
+                url('/ruangan1.jpg') no-repeat center center/cover;
+}
+
+/* Gambar Latar Belakang Halaman Layanan Hukum (Tema Palu Sidang/Skala Keadilan) */
+#banner-layanan {
+    background: linear-gradient(rgba(17, 17, 17, 0.75), rgba(34, 34, 34, 0.85)), 
+                url('/ruangan2.jpg') no-repeat center center/cover;
+}
+/* Gambar Latar Belakang Halaman Layanan Hukum (Tema Palu Sidang/Skala Keadilan) */
+#banner-kontak {
+    background: linear-gradient(rgba(17, 17, 17, 0.75), rgba(34, 34, 34, 0.85)), 
+                url('/ruangan2.jpg') no-repeat center center/cover;
+}
+
+/* Sistem Tata Letak Grid */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.split-layout, 
+.form-container, 
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+/* Komponen Kartu Informasi */
+.card {
+    background: #ffffff;
+    border-radius: 6px;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    margin-bottom: 25px;
+    border-top: 3px solid var(--primary); 
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-top-color 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    border-top-color: var(--secondary); 
+}
+
+.card h2, 
+.card h3 {
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.card-date {
+    font-size: 12px;
+    color: #777777;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* =========================================================================
+   6. FORMULIR PENGADUAN DIGITAL (LAYANAN HUKUM)
+   ========================================================================= */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: var(--primary);
+}
+
+input, 
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+input:focus, 
+textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+}
+
+.btn-submit {
+    background-color: var(--primary);
+    color: var(--text-light);
+    padding: 12px 25px;
+    border: 1px solid var(--primary);
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    font-size: 15px;
+    text-transform: uppercase;
+    /* ✔️ DISESUAIKAN: Transisi halus cubic-bezier mendukung efek pemrosesan berkas di Script.js */
+    transition: var(--transition-premium);
+}
+
+.btn-submit:hover {
+    background-color: transparent;
+    color: var(--primary);
+}
+
+/* Box Simulasi Google Maps */
+.map-box {
+    background-color: var(--accent);
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-weight: bold;
+    color: var(--primary);
+    border: 1px solid var(--border-color);
+}
+
+/* =========================================================================
+   7. FOOTER PERMANEN (PREMIUM MONOCHROME & BALANCED TYPOGRAPHY)
+   ========================================================================= */
+.site-footer {
+    background-color: #111111; /* Hitam arang formal khas biro hukum profesional */
+    color: #ffffff;
+    padding: 60px 0 0 0; /* Memberikan ruang udara atas yang lega */
+    margin-top: 80px;
+    border-top: 1px solid #222222;
+    font-size: 14px; /* Ukuran font standar internasional untuk keterbacaan kaki halaman */
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1.5fr; /* Pembagian proporsi lebar 3 kolom yang seimbang */
+    gap: 40px;
+    padding-bottom: 40px;
+}
+
+.footer-box h4 {
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+/* Garis aksen minimalis putih di bawah judul seksi footer */
+.footer-box h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 30px;
+    height: 2px;
+    background-color: #ffffff;
+}
+
+.footer-box p {
+    color: #aaaaaa; /* Warna abu-abu redup agar kontras mata nyaman di latar belakang hitam */
+    line-height: 1.7;
+    text-align: justify;
+}
+
+/* Pengaturan Kolom Pilar Gerakan */
+.footer-pilar-list {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-pilar-list li {
+    color: #aaaaaa;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+/* Pengaturan Kolom Informasi Kontak Direktori */
+.footer-contact-details {
+    list-style: none;
+    padding: 0;
+    margin-top: 12px;
+}
+
+.footer-contact-details li {
+    color: #aaaaaa;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.footer-contact-details strong {
+    color: #ffffff; /* Menyoroti label informasi kontak penting */
+}
+
+/* Bagian Baris Hak Cipta Paling Bawah */
+.footer-bottom {
+    background-color: #0a0a0a; /* Warna hitam pekat penutup struktur */
+    padding: 20px 0;
+    border-top: 1px solid #1a1a1a;
+    color: #666666;
+    font-size: 12px;
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-legal {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================================================
+   8. RESPONSIVE DESIGN ENGINE (PENGATURAN KHUSUS HP - OPTIMASI TOTAL)
+   ========================================================================= */
+@media (max-width: 992px) {
+    .container {
+        width: 90%; /* Memberikan ruang udara tipis di kanan-kiri layar tablet */
+    }
+    body {
+    font-size: 12px; /* Mengatur base font ukuran teks dasar di HP menjadi lebih kecil */
+}
+}
+
+@media (max-width: 768px) {
+    /* --- NAVIGASI ATAS DI HP --- */
+    .navbar {
+        padding: 10px 0; /* Membuat header bar lebih ramping di HP */
+    }
+
+    .brand-logo {
+        height: 38px; /* Mengecilkan logo di HP agar tidak memakan ruang layar */
+    }
+
+    .logo-title {
+        font-size: 14px; /* Menyesuaikan ukuran teks nama LBH di HP */
+    }
+
+    .logo-subtitle {
+        font-size: 10px;
+    }
+
+    /* Munculkan Tombol Hamburger di HP */
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Sistem Menu Dropdown yang turun rapi dari atas */
+    .nav-container {
+        display: none; 
+        position: absolute;
+        top: 100%; /* Turun tepat di bawah batas bawah header putih */
+        left: 0;
+        width: 100%;
+        background-color: #ffffff; /* Berwarna putih bersih agar teks menu gelap terbaca */
+        box-shadow: 0 12px 24px rgba(0,0,0,0.08);
+        z-index: 999;
+        border-bottom: 2px solid #eeeeee;
+        border-top: 1px solid #eeeeee;
+    }
+
+    /* Ketika Hamburgermenu Aktif, tampilkan menu secara mulus */
+    .nav-container.nav-open {
+        display: block;
+        animation: slideDownMenu 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes slideDownMenu {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Barisan menu menumpuk vertikal rapi di tengah layar HP */
+    .nav-links {
+        flex-direction: column;
+        padding: 20px 0;
+        gap: 1px;
+        width: 100%;
+        text-align: center;
+    }
+
+    .nav-links li {
+        width: 100%;
+        padding: 5px 0;
+    }
+
+    .nav-links a {
+        font-size: 16px;
+        font-weight: 600;
+        display: inline-block;
+        color: #111111 !important; /* WAJIB: Teks menu di HP dipaksa hitam agar kontras di latar putih drop-down */
+    }
+
+    .nav-links a::after {
+        display: none !important; /* Matikan efek garis bawah hover desktop saat di HP */
+    }
+
+    /* Tombol Merah Aduan Menyesuaikan Lebar Layar HP */
+    .nav-utility {
+        padding-left: 0 !important;
+        margin-top: 10px;
+        display: flex;
+        justify-content: center;
+    }
+    
+    .nav-utility .lang-switch {
+        width: 80%; /* Tombol merah memanjang proporsional pas untuk jempol user HP */
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    /* Animasi Tombol Tiga Garis Berputar Membentuk Ikon Silang (X) */
+    .menu-toggle.toggle-active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .menu-toggle.toggle-active span:nth-child(2) { opacity: 0; }
+    .menu-toggle.toggle-active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* --- KONTEN BANNER & HALAMAN UTAMA DI HP --- */
+    .hero {
+        height: 70vh; /* Mengurangi tinggi spanduk utama di HP agar user cepat melihat konten bawah */
+        padding-top: 40px;
+    }
+
+    .hero-content h2 {
+        font-size: 24px; /* Mengecilkan judul utama di HP agar tidak patah kata berantakan */
+        line-height: 1.3;
+    }
+
+    .hero-content p {
+        font-size: 10px; /* Mengecilkan teks penjelas */
+        padding: 0 15px;
+    }
+
+    /* Spanduk Gambar Latar Belakang Tiap Halaman */
+    .page-title-banner {
+        height: 25vh; /* Ukuran tinggi spanduk otomatis menyusut pas di layar HP */
+        padding-top: 40px;
+        margin-bottom: 30px; /* Jarak proporsional antara spanduk dan konten bawah di HP */
+    }
+
+    .page-title-banner h1 {
+        font-size: 20px; /* Ukuran tulisan judul halaman mengecil pas di HP */
+    }
+
+    /* --- SISTEM TATA LETAK KOLOM DI HP (ANTI-MELUBER) --- */
+    /* Memaksa layout kolom kiri-kanan desktop runtuh otomatis menjadi 1 kolom vertikal ke bawah */
+    .grid-3,
+    .split-layout, 
+    .form-container, 
+    .grid-2 {
+        grid-template-columns: 1fr;
+        gap: 25px; /* Jarak vertikal antar-kotak/kartu di HP */
+    }
+    
+    .section-padding {
+        padding: 35px 0; /* Memperkecil padding seksi agar hemat ruang gulir layar HP */
+    }
+    
+    .card {
+        padding: 5px; /* Memperkecil ruang dalam kotak agar informasi lebih padat */
+    }
+
+    /* --- FOOTER DI HP --- */
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding-bottom: 30px;
+    }
+    
+    .footer-box h4 {
+        margin-bottom: 12px;
+    }
+    
+    .footer-box p {
+        text-align: left; /* Mengubah rata kanan-kiri menjadi rata kiri agar natural di layar kecil HP */
+    }
+    
+    .footer-bottom-content {
+        flex-direction: column; /* Catatan hak cipta dan legalitas menumpuk rapi di tengah */
+        gap: 8px;
+        text-align: center;
+    }
+}
