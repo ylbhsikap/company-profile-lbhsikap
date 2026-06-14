@@ -1,68 +1,19 @@
 import "./globals.css";
-import Image from "next/image";
+import Navbar from "@/app/components/navbar"; // Jalan pintas absolut, anti-eror lokasi folder
 
 export const metadata = {
   title: "LBH SIKAP YOGYAKARTA | Bantuan Hukum Gratis Yogyakarta",
   description: "Lembaga Bantuan Hukum LBH SIKAP YOGYAKARTA menyediakan layanan pengacara gratis, konsultasi hukum pro bono, dan advokasi struktural untuk masyarakat kurang mampu di YOGYAKARTA.",
   keywords: ["LBH gratis", "bantuan hukum pro bono", "pengacara gratis", "bantuan hukum struktural", "posbakum", "YOGYAKARTA"],
   robots: "index, follow",
-  icons: {
-    icon: "/assets/images/favicon.png",
-  }
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="id">
-      <head>
-        {/* Schema.org JSON-LD SEO Google */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LegalService",
-              "name": "LBH SIKAP YOGYAKARTA",
-              "description": "Lembaga Bantuan Hukum Pro Bono untuk Masyarakat Kurang mampu",
-              "priceRange": "Rp0 (Gratis / Pro-Bono)",
-              "logo": "https://ylbhsikap.or.id"
-            })
-          }}
-        />
-      </head>
       <body>
-        {/* HEADER NAVIGATION */}
-        <header>
-          <div className="container navbar">
-            <div className="logo">
-              <a href="/" className="logo-link">
-                {/* Menggunakan Image Next.js untuk Logo */}
-                <Image src="/logo.png" alt="Logo LBH SIKAP YOGYAKARTA" width={45} height={45} className="brand-logo" priority />
-                <div className="logo-text">
-                  <span className="logo-title">LBH SIKAP</span>
-                  <span className="logo-subtitle">YOGYAKARTA</span>
-                </div>
-              </a>
-            </div>
-            
-            <button className="menu-toggle" aria-label="Buka Menu Navigasi">
-              <span></span><span></span><span></span>
-            </button>
-
-            <nav className="nav-container">
-              <ul className="nav-links">
-                <li><a href="/">BERANDA</a></li>
-                <li><a href="/tentang">TENTANG KAMI</a></li>
-                <li><a href="/publikasi">PUBLIKASI</a></li>
-                <li><a href="/layanan">LAYANAN HUKUM</a></li>
-                <li><a href="/kontak">KONTAK</a></li>
-                <li className="nav-utility">
-                  <span className="lang-switch"><a href="/layanan">AJUKAN ADUAN</a></span>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </header>
+        {/* Memasang Navbar Interaktif yang sudah mendukung tombol hamburger mobile */}
+        <Navbar />
 
         {/* Konten Halaman Dinamis */}
         {children}
@@ -96,7 +47,7 @@ export default function RootLayout({ children }) {
 
           <div className="footer-bottom">
             <div className="container footer-bottom-content">
-              <p>&copy; 2026 LBH SIKAP Yogyakarta. Hak Cipta Dilindungi.</p>
+              <p>© 2026 LBH SIKAP Yogyakarta. Hak Cipta Dilindungi.</p>
               <p className="footer-legal">Managed by OPLAY.ID</p>
             </div>
           </div>
