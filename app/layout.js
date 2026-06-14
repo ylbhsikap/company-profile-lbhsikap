@@ -1,5 +1,5 @@
 import "./globals.css";
-import Navbar from "@/app/components/navbar"; // Jalan pintas absolut, anti-eror lokasi folder
+import Navbar from "@/app/components/navbar";
 
 export const metadata = {
   title: "LBH SIKAP YOGYAKARTA | Bantuan Hukum Gratis Yogyakarta",
@@ -12,13 +12,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="id">
       <body>
-        {/* Memasang Navbar Interaktif yang sudah mendukung tombol hamburger mobile */}
         <Navbar />
-
-        {/* Konten Halaman Dinamis */}
         {children}
 
-        {/* FOOTER PERMANEN PREMIUM */}
+        {/* FOOTER PERMANEN */}
         <footer className="site-footer">
           <div className="container footer-grid">
             <div className="footer-box profile-box">

@@ -1,34 +1,51 @@
-"use client"; // Mengaktifkan fitur interaktif React (Click, State, dll)
+"use client"; 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  // State untuk menyimpan status menu (terbuka atau tertutup)
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
 
-  // Fungsi untuk membalikkan status menu saat tombol diklik
+  // Menangani Efek Scroll Mengubah Warna Header (Transparan ke Putih)
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 50) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // Jalankan sekali saat inisialisasi
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  // Fungsi untuk menutup menu otomatis saat salah satu link diklik
   const closeMenu = () => {
     setIsOpen(false);
   };
 
   return (
-    <header>
+    <header className={isScrolled ? "header-scrolled" : ""}>
       <div className="container navbar">
         <div className="logo">
           <Link href="/" className="logo-link" onClick={closeMenu}>
+            {/* Memastikan Logo Membaca File dari folder public/logo.png */}
             <Image 
               src="/logo.png" 
               alt="Logo LBH SIKAP YOGYAKARTA" 
-              width={45} 
-              height={45} 
-              className="brand-logo" 
+              width={46} 
+              height={46} 
+              className="brand-logo"
               priority 
             />
             <div className="logo-text">
@@ -38,23 +55,43 @@ export default function Navbar() {
           </Link>
         </div>
         
-        {/* Tombol Hamburger dengan status class dinamis 'active' */}
+        {/* Tombol Hamburger Mobile */}
         <button 
-          className={`menu-toggle ${isOpen ? "active" : ""}`} 
+          className={`menu-toggle ${isOpen ? "toggle-active" : ""}`} 
           aria-label="Buka Menu Navigasi"
           onClick={toggleMenu}
         >
           <span></span><span></span><span></span>
         </button>
 
-        {/* Container Navigasi dengan status class dinamis 'active' */}
-        <nav className={`nav-container ${isOpen ? "active" : ""}`}>
+        {/* Container Navigasi Dropdown */}
+        <nav className={`nav-container ${isOpen ? "nav-open" : ""}`}>
           <ul className="nav-links">
-            <li><Link href="/" onClick={closeMenu}>BERANDA</Link></li>
-            <li><Link href="/tentang" onClick={closeMenu}>TENTANG KAMI</Link></li>
-            <li><Link href="/publikasi" onClick={closeMenu}>PUBLIKASI</Link></li>
-            <li><Link href="/layanan" onClick={closeMenu}>LAYANAN HUKUM</Link></li>
-            <li><Link href="/kontak" onClick={closeMenu}>KONTAK</Link></li>
+            <li>
+              <Link href="/" className={pathname === "/" ? "active" : ""} onClick={closeMenu}>
+                BERANDA
+              </Link>
+            </li>
+            <li>
+              <Link href="/tentang" className={pathname === "/tentang" ? "active" : ""} onClick={closeMenu}>
+                TENTANG KAMI
+              </Link>
+            </li>
+            <li>
+              <Link href="/publikasi" className={pathname === "/publikasi" ? "active" : ""} onClick={closeMenu}>
+                PUBLIKASI
+              </Link>
+            </li>
+            <li>
+              <Link href="/layanan" className={pathname === "/layanan" ? "active" : ""} onClick={closeMenu}>
+                LAYANAN HUKUM
+              </Link>
+            </li>
+            <li>
+              <Link href="/kontak" className={pathname === "/kontak" ? "active" : ""} onClick={closeMenu}>
+                KONTAK
+              </Link>
+            </li>
             <li className="nav-utility">
               <span className="lang-switch">
                 <Link href="/layanan" onClick={closeMenu}>AJUKAN ADUAN</Link>
