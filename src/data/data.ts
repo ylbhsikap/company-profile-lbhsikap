@@ -106,7 +106,7 @@ export const kontakInfo = {
   jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
   whatsapp: "081906157620",
   email: "yogyakarta@ylbhsikap.or.id",
-  mapsEmbed: "https://www.google.com/maps/embed?pb=..." // Masukkan link iframe lengkap Anda di sini
+  mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d686.8473194684079!2d110.39667568367959!3d-7.756825588079311!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59a6cc94c5f7%3A0x86660a3450d13952!2sLBH%20SIKAP%20Yogyakarta%20-%20Lembaga%20Bantuan%20Hukum%20%26%20Studi%20Kebijakan%20Publik!5e0!3m2!1sen!2sid!4v1781551067597!5m2!1sen!2sid\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"" // Masukkan link iframe lengkap Anda di sini
 };
 // Kriteria Layanan
 export const kriteriaLayanan = [
