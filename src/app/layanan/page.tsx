@@ -3,20 +3,13 @@
 import React from "react";
 import Image from "next/image";
 // 1. Satukan seluruh import dari data pusat agar tidak duplikat
-import { kriteriaLayanan, asetGambar } from "@/data/data"; 
+import { kriteriaLayanan, asetGambar, AsetGambarType} from "@/data/data"; 
 
 // 2. Definisikan tipe data kriteria penerimaan kasus
 interface KriteriaItem {
   judul: string;
   deskripsi: string;
   borderLeft: string;
-}
-
-// 3. Definisikan tipe data untuk skema aset gambar terpusat
-interface AsetGambarType {
-  bannerUtama: string;
-  kantorSekretariat: string;
-  logoResmi: string;
 }
 
 export default function Layanan() {
@@ -37,7 +30,7 @@ export default function Layanan() {
     <main>
       <section id="banner-layanan" className="hero-sub"> 
         <Image 
-          src={gambar.kantorSekretariat} // ✨ Sukses terhubung ke skema gambar terpusat
+          src={gambar.layanan} // ✨ Sukses terhubung ke skema gambar terpusat
           alt="Layanan LBH SIKAP" 
           fill 
           priority 

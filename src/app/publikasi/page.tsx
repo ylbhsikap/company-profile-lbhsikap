@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import PublikasiCard from "@/app/components/PublikasiCard"; // Komponen kartu artikel
 // 1. Gabungkan seluruh import dari data pusat ke dalam satu baris agar rapi
-import { publikasiData, publikasiDokumen, asetGambar } from "@/data/data"; 
+import { publikasiData, publikasiDokumen, asetGambar, AsetGambarType } from "@/data/data"; 
 
 // 2. Interface untuk Data Artikel/Siaran Pers
 interface PublikasiItem {
@@ -25,13 +25,6 @@ interface DokumenItem {
   tombolLabel: string;
 }
 
-// 4. Interface untuk skema aset gambar terpusat
-interface AsetGambarType {
-  bannerUtama: string;
-  kantorSekretariat: string;
-  logoResmi: string;
-}
-
 export default function Publikasi() {
   // 5. Hubungkan variabel dengan tipe datanya masing-masing menggunakan Type Assertion
   const gambar = asetGambar as AsetGambarType;
@@ -43,7 +36,7 @@ export default function Publikasi() {
       {/* BANNER UTAMA */}
       <section id="banner-publikasi" className="hero-sub"> 
         <Image 
-          src={gambar.kantorSekretariat} // ✨ Sukses dialihkan ke skema gambar terpusat
+          src={gambar.publikasi} // ✨ Sukses dialihkan ke skema gambar terpusat
           alt="Publikasi LBH SIKAP" 
           fill 
           priority 

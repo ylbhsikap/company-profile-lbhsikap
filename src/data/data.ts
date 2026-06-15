@@ -12,10 +12,35 @@ const sectionData = {
   ]
 };
 
+export interface Berita {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  category: string;
+  color: string;
+  gambarKunci: "bannerUtama" | "kantorSekretariat" | "dokumentasiKasus"; // ✨ Mengunci pilihan sesuai aset gambar terpusat
+}
+// 1. Buat interfacenya di sini
+export interface AsetGambarType {
+  bannerUtama: string;
+  kantorSekretariat: string;
+  logoResmi: string;
+  tentangkami: string;
+  kontak: string;
+  layanan: string;
+  publikasi: string; 
+  dokumentasiKasus?: string; // Tambahkan properti ini jika ada gambar khusus untuk berita
+}
 export const asetGambar = {
-  bannerUtama: "/assets/images/banner-hero.jpg",
-  kantorSekretariat: "/assets/images/ruangan-sekretariat.jpg", // Digunakan di Kontak, Layanan, & Tentang
-  logoResmi: "/assets/images/logo-lbh.png"
+  bannerUtama: "/assets/images/ruangan10.jpg",
+  kantorSekretariat: "/assets/images/ruangan1.jpg", // Digunakan di Kontak, Layanan, & Tentang
+  logoResmi: "/assets/images/logo-lbh.png",
+  tentangkami: "/assets/images/ruangan2.jpg",
+  kontak: "/assets/images/ruangan.jpg",
+  layanan: "/assets/images/ruangan10.jpg",
+  publikasi: "/assets/images/ruangan10.jpg",
+  dokumentasiKasus: "/assets/images/ruangan10.jpg" // Gambar khusus untuk berita
 };
 
 export { sectionData };
@@ -53,7 +78,8 @@ export const BerandaData = [
     title: "Pernyataan Sikap: Menolak Tindakan Represif Terhadap Hak Sipil", 
     excerpt: "LBH SIKAP Yogyakarta mengecam keras segala bentuk tindakan intimidasi...", 
     category: "SIARAN PERS",
-    color: "#111111" 
+    color: "#111111",
+    gambarKunci: "bannerUtama"
   },
   { 
     id: "2", 
@@ -61,7 +87,8 @@ export const BerandaData = [
     title: "Menggugat Posisi Paralegal dalam Sistem Peradilan Pidana", 
     excerpt: "Menganalisis urgensi penguatan payung hukum bagi gerakan aktor lini depan...", 
     category: "OPINI HUKUM",
-    color: "#555555" 
+    color: "#555555",
+    gambarKunci: "kantorSekretariat"
   },
   { 
     id: "3", 
@@ -69,7 +96,8 @@ export const BerandaData = [
     title: "Catatan Krisis: Laporan Pemetaan Sengketa Tanah", 
     excerpt: "Hasil riset kolaboratif mengenai potret buram sengketa agraria...", 
     category: "RISET & DATA",
-    color: "#999999" 
+    color: "#999999",
+    gambarKunci: "dokumentasiKasus"
   },
 ];
 // Kontak

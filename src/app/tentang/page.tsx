@@ -1,20 +1,13 @@
 import React from "react";
 import Image from "next/image";
 // 1. Satukan seluruh import dari data pusat agar rapi dan tidak redundan
-import { tentangKami, asetGambar } from "@/data/data"; 
+import { tentangKami, asetGambar, AsetGambarType } from "@/data/data"; 
 
 // 2. Definisikan tipe data untuk objek tentangKami
 interface TentangKamiType {
   sejarahSingkat: string;
   visi: string;
   misi: string[]; // Misi berupa array yang berisi baris-baris teks (string)
-}
-
-// 3. Definisikan tipe data untuk skema aset gambar terpusat
-interface AsetGambarType {
-  bannerUtama: string;
-  kantorSekretariat: string;
-  logoResmi: string;
 }
 
 export default function Tentang() {
@@ -26,7 +19,7 @@ export default function Tentang() {
     <main>
       <section className="hero-sub">
         <Image 
-          src={gambar.kantorSekretariat} // ✨ Sukses dialihkan ke skema gambar terpusat
+          src={gambar.tentangkami} // ✨ Sukses dialihkan ke skema gambar terpusat
           alt="Tentang LBH SIKAP" 
           fill 
           priority 

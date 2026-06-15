@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { kontakInfo, asetGambar } from "@/data/data"; 
+import { kontakInfo, asetGambar, AsetGambarType } from "@/data/data"; 
 
 // 2. Definisikan tipe data untuk objek kontakInfo dari data pusat
 interface KontakInfoType {
@@ -10,14 +10,6 @@ interface KontakInfoType {
   email: string;
   mapsEmbed: string;
 }
-
-// 3. Definisikan tipe data untuk skema aset gambar terpusat
-interface AsetGambarType {
-  bannerUtama: string;
-  kantorSekretariat: string;
-  logoResmi: string;
-}
-
 export default function Kontak() {
   // 4. Tegaskan tipe data menggunakan Type Assertion agar aman diakses oleh TypeScript
   const info = kontakInfo as KontakInfoType;
@@ -27,7 +19,7 @@ export default function Kontak() {
     <main>
       <section className="hero-sub">
         <Image 
-          src={gambar.kantorSekretariat} // ✨ Mengambil dari skema gambar terpusat
+          src={gambar.kontak} // ✨ Mengambil dari skema gambar terpusat
           alt="Sekretariat LBH SIKAP" 
           fill 
           priority 
