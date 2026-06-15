@@ -415,13 +415,15 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 /* =========================================================================
    5. RESPONSIVE ENGINE (MOBILE FIXES)
    ========================================================================= */
+/* =========================================================================
+   REVISI PADA BAGIAN RESPONSIVE ENGINE & DROPDOWN (MOBILE)
+   ========================================================================= */
 @media (max-width: 768px) {
     .menu-toggle {
         display: flex;
     }
 
     .nav-container {
-        display: none; 
         position: absolute;
         top: 100%; 
         left: 0;
@@ -429,19 +431,20 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
         background-color: #ffffff; 
         box-shadow: 0 12px 24px rgba(0,0,0,0.08);
         z-index: 999;
-        border-bottom: 2px solid #eeeeee;
-        border-top: 1px solid #eeeeee;
+        border-bottom: 1px solid #e5e5e5;
+        
+        /* OPTIMASI ANIMASI SLIDE DOWN */
+        max-height: 0;
+        overflow: hidden;
+        visibility: hidden;
+        transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                    visibility 0.5s ease;
     }
 
-    /* Ketika Hamburgermenu Aktif */
+    /* Ketika kelas nav-open disuntikkan oleh React */
     .nav-container.nav-open {
-        display: block;
-        animation: slideDownMenu 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    @keyframes slideDownMenu {
-        from { opacity: 0; transform: translateY(-10px); }
-        to { opacity: 1; transform: translateY(0); }
+        max-height: 450px; /* Sesuaikan dengan tinggi total menu mobile */
+        visibility: visible;
     }
 
     .nav-links {
@@ -479,23 +482,23 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
         text-align: center;
     }
 
-    /* Efek Animasi X Hambuger */
-    .menu-toggle.toggle-active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
-    .menu-toggle.toggle-active span:nth-child(2) { opacity: 0; }
-    .menu-toggle.toggle-active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    /* ANIMASI HAMBURGER JADI X (YANG SUDAH DI-PREISI) */
+    .menu-toggle.toggle-active span:nth-child(1) { 
+        transform: translateY(7px) rotate(45deg); 
+        background-color: #111111;
+    }
+    .menu-toggle.toggle-active span:nth-child(2) { 
+        opacity: 0; 
+    }
+    .menu-toggle.toggle-active span:nth-child(3) { 
+        transform: translateY(-7px) rotate(-45deg); 
+        background-color: #111111;
+    }
 
-    .hero {
-        height: 70vh;
-    }
-    .hero-content h2 {
-        font-size: 26px;
-    }
-    .grid-3 {
-        grid-template-columns: 1fr;
-    }
-    .footer-grid {
-        grid-template-columns: 1fr;
-    }
+    .hero { height: 70vh; }
+    .hero-content h2 { font-size: 26px; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr; }
     .footer-bottom-content {
         flex-direction: column;
         text-align: center;
