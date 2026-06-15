@@ -1,8 +1,12 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, ReactNode } from "react";
 
-export default function ScrollReveal({ children }) {
-  const ref = useRef(null);
+interface ScrollRevealProps {
+  children: ReactNode;
+}
+
+export default function ScrollReveal({ children }: ScrollRevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -11,7 +15,7 @@ export default function ScrollReveal({ children }) {
           entry.target.classList.add("visible");
         }
       },
-      { 
+      {
         threshold: 0.15, // Elemen terpicu jika 15% areanya sudah masuk layar
         rootMargin: "0px 0px -50px 0px" // Terpicu sedikit sebelum menyentuh batas pandang
       }

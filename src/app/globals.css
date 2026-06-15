@@ -23,6 +23,7 @@ body {
     background-color: #ffffff;
     line-height: 1.6;
     overflow-x: hidden;
+    transition: opacity 0.3s ease-in-out;
 }
 
 a {
@@ -290,7 +291,7 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
     color: black;
 }
 .section-padding {
-    padding: 90px 0 60px 0;
+    padding: 40px 0 60px 0;
 }
 
 .grid-3 {
@@ -329,8 +330,8 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 .site-footer {
     background-color: #111111; 
     color: #ffffff;
-    padding: 60px 0 0 0; 
-    margin-top: 80px;
+    padding: 40px 0 0 0; 
+    margin-top: 40px;
     border-top: 1px solid #222222;
     font-size: 14px; 
 }
@@ -339,7 +340,7 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
     display: grid;
     grid-template-columns: 2fr 1fr 1.5fr; 
     gap: 40px;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
 }
 
 .footer-box h4 {
@@ -348,7 +349,7 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     position: relative;
     padding-bottom: 8px;
 }
@@ -365,7 +366,8 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 
 .footer-box p {
     color: #aaaaaa; 
-    line-height: 1.7;
+    line-height: 1.5;
+    margin-bottom: 10px;
     text-align: justify;
 }
 
@@ -376,7 +378,7 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 
 .footer-pilar-list li {
     color: #aaaaaa;
-    margin-bottom: 10px;
+    margin-bottom: 1px;
     font-weight: 500;
 }
 
@@ -389,7 +391,7 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 .footer-contact-details li {
     color: #aaaaaa;
     margin-bottom: 8px;
-    line-height: 1.6;
+    line-height: 1.4;
 }
 
 .footer-contact-details strong {
@@ -398,7 +400,7 @@ header.header-scrolled .menu-toggle span { background-color: #111111; }
 
 .footer-bottom {
     background-color: #0a0a0a; 
-    padding: 20px 0;
+    padding: 15px 0;
     border-top: 1px solid #1a1a1a;
     color: #666666;
     font-size: 12px;

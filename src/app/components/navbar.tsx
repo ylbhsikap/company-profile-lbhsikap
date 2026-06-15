@@ -6,13 +6,14 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
+  // TypeScript otomatis mendeteksi ini sebagai boolean (true/false)
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const pathname = usePathname();
 
   // Menangani Efek Scroll Mengubah Warna Header (Transparan ke Putih)
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScroll = (): void => {
       if (window.scrollY > 50) {
         setIsScrolled(true);
       } else {
@@ -26,11 +27,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const toggleMenu = () => {
+  const toggleMenu = (): void => {
     setIsOpen(!isOpen);
   };
 
-  const closeMenu = () => {
+  const closeMenu = (): void => {
     setIsOpen(false);
   };
 
@@ -56,12 +57,13 @@ export default function Navbar() {
         </div>
         
         {/* Tombol Hamburger Mobile */}
-        <button 
+        <button
           className={`menu-toggle ${isOpen ? "toggle-active" : ""}`} 
           aria-label="Buka Menu Navigasi"
+          aria-expanded={isOpen}
           onClick={toggleMenu}
         >
-          <span></span><span></span><span></span>
+          <span></span><span></span><span></span>   
         </button>
 
         {/* Container Navigasi Dropdown */}
