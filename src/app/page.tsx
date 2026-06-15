@@ -1,7 +1,9 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import NewsCard from "@/app/components/NewsCard"; // 💡 Sesuaikan dengan folder NewsCard Anda
-import {BerandaData} from "@/data/data"; // 💡 Pastikan di data.ts namanya memang BerandaData, bukan newsData
+// 1. Satukan seluruh import dari data pusat ke dalam satu baris agar rapi
+import { BerandaData, asetGambar } from "@/data/data"; 
 
 // Definisi tipe data untuk Berita
 interface Berita {
@@ -13,9 +15,19 @@ interface Berita {
   color?: string;
 }
 
+// Interface untuk skema aset gambar terpusat
+interface AsetGambarType {
+  bannerUtama: string;
+  kantorSekretariat: string;
+  logoResmi: string;
+}
+
 function Home() {
+  // 2. Hubungkan variabel gambar dengan tipe datanya menggunakan Type Assertion
+  const gambar = asetGambar as AsetGambarType;
+
   // Mengambil maksimal 3 berita terbaru untuk tampil di Beranda  
-  const latestNews: Berita[] = BerandaData ? BerandaData.slice(0, 3) : [];
+  const latestNews: Berita[] = BerandaData ? (BerandaData as Berita[]).slice(0, 3) : [];
 
   return (
     <main>
@@ -23,10 +35,11 @@ function Home() {
       <section className="hero">
         {/* Menggunakan Image Next.js dengan benar */}
         <Image 
-          src="/ruangan10.jpg" 
+          src={gambar.bannerUtama} // ✨ Sukses dialihkan ke properti bannerUtama di skema gambar terpusat
           alt="Interior LBH SIKAP" 
           fill 
           priority 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
           style={{ objectFit: "cover" }} 
         />
         <div className="hero-overlay"></div>

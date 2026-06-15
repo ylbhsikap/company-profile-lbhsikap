@@ -12,6 +12,12 @@ const sectionData = {
   ]
 };
 
+export const asetGambar = {
+  bannerUtama: "/assets/images/banner-hero.jpg",
+  kantorSekretariat: "/assets/images/ruangan-sekretariat.jpg", // Digunakan di Kontak, Layanan, & Tentang
+  logoResmi: "/assets/images/logo-lbh.png"
+};
+
 export { sectionData };
 export const publikasiData = [
   { 

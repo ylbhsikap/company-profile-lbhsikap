@@ -1,17 +1,37 @@
 import React from "react";
 import Image from "next/image";
-import { kontakInfo } from "@/data/data"; // Import data dari pusat
+import { kontakInfo, asetGambar } from "@/data/data"; 
+
+// 2. Definisikan tipe data untuk objek kontakInfo dari data pusat
+interface KontakInfoType {
+  alamat: string;
+  jamOperasional: string;
+  whatsapp: string;
+  email: string;
+  mapsEmbed: string;
+}
+
+// 3. Definisikan tipe data untuk skema aset gambar terpusat
+interface AsetGambarType {
+  bannerUtama: string;
+  kantorSekretariat: string;
+  logoResmi: string;
+}
 
 export default function Kontak() {
-  const info = kontakInfo;
+  // 4. Tegaskan tipe data menggunakan Type Assertion agar aman diakses oleh TypeScript
+  const info = kontakInfo as KontakInfoType;
+  const gambar = asetGambar as AsetGambarType;
+
   return (
     <main>
       <section className="hero-sub">
         <Image 
-          src="/ruangan.jpg" 
+          src={gambar.kantorSekretariat} // ✨ Mengambil dari skema gambar terpusat
           alt="Sekretariat LBH SIKAP" 
           fill 
           priority 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
           style={{ objectFit: "cover" }} 
         />
         <div className="hero-overlay"></div>

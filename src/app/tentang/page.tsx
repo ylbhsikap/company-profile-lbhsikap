@@ -1,26 +1,36 @@
 import React from "react";
 import Image from "next/image";
-import { tentangKami } from "@/data/data"; // Import data dari pusat
+// 1. Satukan seluruh import dari data pusat agar rapi dan tidak redundan
+import { tentangKami, asetGambar } from "@/data/data"; 
 
-// 1. Definisikan tipe data untuk objek tentangKami
+// 2. Definisikan tipe data untuk objek tentangKami
 interface TentangKamiType {
   sejarahSingkat: string;
   visi: string;
   misi: string[]; // Misi berupa array yang berisi baris-baris teks (string)
 }
 
+// 3. Definisikan tipe data untuk skema aset gambar terpusat
+interface AsetGambarType {
+  bannerUtama: string;
+  kantorSekretariat: string;
+  logoResmi: string;
+}
+
 export default function Tentang() {
-  // 2. Tegaskan tipe data menggunakan Type Assertion agar aman diakses oleh komponen
+  // 4. Tegaskan tipe data menggunakan Type Assertion agar aman dibaca TypeScript
   const dataTentang = tentangKami as TentangKamiType;
+  const gambar = asetGambar as AsetGambarType;
 
   return (
     <main>
       <section className="hero-sub">
         <Image 
-          src="/ruangan.jpg" 
+          src={gambar.kantorSekretariat} // ✨ Sukses dialihkan ke skema gambar terpusat
           alt="Tentang LBH SIKAP" 
           fill 
           priority 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
           style={{ objectFit: "cover" }} 
         />
         <div className="hero-overlay"></div>

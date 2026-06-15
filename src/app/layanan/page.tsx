@@ -2,17 +2,29 @@
 
 import React from "react";
 import Image from "next/image";
-import { kriteriaLayanan } from "@/data/data"; // Import data kriteria
+// 1. Satukan seluruh import dari data pusat agar tidak duplikat
+import { kriteriaLayanan, asetGambar } from "@/data/data"; 
 
-// 1. Definisikan tipe data untuk isi objek di dalam array kriteriaLayanan
+// 2. Definisikan tipe data kriteria penerimaan kasus
 interface KriteriaItem {
   judul: string;
   deskripsi: string;
   borderLeft: string;
 }
 
+// 3. Definisikan tipe data untuk skema aset gambar terpusat
+interface AsetGambarType {
+  bannerUtama: string;
+  kantorSekretariat: string;
+  logoResmi: string;
+}
+
 export default function Layanan() {
-  // 2. Handler submit dengan tipe data TypeScript yang aman
+  // 4. Hubungkan variabel gambar dengan tipe datanya agar bisa dibaca komponen Image
+  const gambar = asetGambar as AsetGambarType;
+  const daftarKriteria = kriteriaLayanan as KriteriaItem[];
+
+  // 5. Handler submit dengan tipe data TypeScript yang aman
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     alert("Sistem Keamanan LBH SIKAP: Berkas pengaduan Anda telah berhasil dienkripsi...");
@@ -21,16 +33,15 @@ export default function Layanan() {
     target.reset();
   };
 
-  const daftarKriteria = kriteriaLayanan as KriteriaItem[];
-
   return (
     <main>
       <section id="banner-layanan" className="hero-sub"> 
         <Image 
-          src="/ruangan.jpg" 
+          src={gambar.kantorSekretariat} // ✨ Sukses terhubung ke skema gambar terpusat
           alt="Layanan LBH SIKAP" 
           fill 
           priority 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
           style={{ objectFit: "cover" }} 
         />
         <div className="hero-overlay"></div>
@@ -58,7 +69,7 @@ export default function Layanan() {
               </ul>
             </div>
 
-            {/* SEKSI KANAN: FORMULIR ADUAN (SUDAH DIKEMBALIKAN INPUTNYA) */}
+            {/* SEKSI KANAN: FORMULIR ADUAN */}
             <div style={{ background: "#ffffff", padding: "35px", borderRadius: "6px", border: "1px solid #e5e5e5", boxShadow: "0 4px 20px rgba(0,0,0,0.03)" }}>
               <h2 style={{ fontSize: "24px", fontWeight: "700", marginBottom: "25px" }}>Formulir Kontak Aduan</h2>
               

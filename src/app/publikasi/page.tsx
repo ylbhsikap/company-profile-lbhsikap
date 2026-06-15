@@ -1,9 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import PublikasiCard from "@/app/components/PublikasiCard"; // Komponen kartu artikel
-import { publikasiData, publikasiDokumen } from "@/data/data"; // Import kedua data
+// 1. Gabungkan seluruh import dari data pusat ke dalam satu baris agar rapi
+import { publikasiData, publikasiDokumen, asetGambar } from "@/data/data"; 
 
-// 1. Interface untuk Data Artikel/Siaran Pers (Tipe ID menggunakan string agar sinkron)
+// 2. Interface untuk Data Artikel/Siaran Pers
 interface PublikasiItem {
   id: string;
   title: string;
@@ -13,7 +14,7 @@ interface PublikasiItem {
   excerpt: string;
 }
 
-// 2. Interface untuk Data Dokumen/Modul Hukum resmi
+// 3. Interface untuk Data Dokumen/Modul Hukum resmi
 interface DokumenItem {
   id: string;
   tagColor: string;
@@ -24,9 +25,16 @@ interface DokumenItem {
   tombolLabel: string;
 }
 
+// 4. Interface untuk skema aset gambar terpusat
+interface AsetGambarType {
+  bannerUtama: string;
+  kantorSekretariat: string;
+  logoResmi: string;
+}
+
 export default function Publikasi() {
-  // 3. Tegaskan tipe data array dari pusat data menggunakan Type Assertion
-  // Convert via unknown to avoid strict mismatch between source data shape and PublikasiItem
+  // 5. Hubungkan variabel dengan tipe datanya masing-masing menggunakan Type Assertion
+  const gambar = asetGambar as AsetGambarType;
   const daftarArtikel = publikasiData as unknown as PublikasiItem[];
   const daftarDokumen = publikasiDokumen as unknown as DokumenItem[];
 
@@ -35,10 +43,11 @@ export default function Publikasi() {
       {/* BANNER UTAMA */}
       <section id="banner-publikasi" className="hero-sub"> 
         <Image 
-          src="/ruangan.jpg" 
+          src={gambar.kantorSekretariat} // ✨ Sukses dialihkan ke skema gambar terpusat
           alt="Publikasi LBH SIKAP" 
           fill 
           priority 
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
           style={{ objectFit: "cover" }} 
         />
         <div className="hero-overlay"></div>
