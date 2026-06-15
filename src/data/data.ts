@@ -147,13 +147,45 @@ export const publikasiDokumen = [
     link: "#"
   }
 ];
-// Bagian tentang kami
-export const tentangKami = {
-  visi: "Menjadi lembaga bantuan hukum struktural yang progresif dalam menegakkan hak konstitusional masyarakat marjinal dan memastikan keadilan akses hukum di Indonesia.",
-  misi: [
-    "Memberikan pendampingan hukum pro bono kepada kelompok buta hukum dan korban ketidakadilan.",
-    "Melakukan advokasi kebijakan publik yang berpihak pada hak-hak sipil dan kelompok rentan.",
-    "Membangun jejaring paralegal komunitas untuk penguatan kapasitas hukum di tingkat akar rumput."
-  ],
-  sejarahSingkat: "LBH SIKAP Yogyakarta lahir dari kesadaran kolektif atas masih tingginya hambatan masyarakat dalam mengakses keadilan hukum. Sejak berdiri, kami berfokus pada pendekatan litigasi dan non-litigasi yang bersinggungan langsung dengan persoalan hak asasi manusia dan keadilan struktural."
+
+//  PENGATURAN STRUKTUR ORGANISASI & DAFTAR ANGGOTA HAL TENTANG KAMI
+export const strukturOrganisasi = {
+  pimpinan: { nama: "Prof. Dr. Ahmad Sodikin, S.H.", jabatan: "Ketua Dewan Pembina" },
+  direktur: { nama: "Budi Santoso, S.H., M.H.", jabatan: "Direktur Eksekutif" },
+  divisi: [
+    { nama: "Siti Rahma, S.H.", jabatan: "Kepala Divisi Litigasi" },
+    { nama: "Andi Wijaya, S.H.", jabatan: "Kepala Divisi Non-Litigasi" },
+    { nama: "Rian Hidayat, S.Sos.", jabatan: "Sekretaris & Umum" }
+  ]
 };
+
+export const daftarAnggota = [
+  {
+    id: 1,
+    nama: "Budi Santoso, S.H., M.H.",
+    jabatan: "Direktur Eksekutif",
+    deskripsi: "Budi Santoso memiliki pengalaman lebih dari 15 tahun di bidang advokasi hukum publik dan penanganan hak asasi manusia. Menyelesaikan studi magister hukum di Universitas Gadjah Mada, beliau aktif memimpin reformasi bantuan hukum gratis bagi masyarakat marjinal di Yogyakarta.",
+    foto: "/assets/images/ruangan10.jpg" // Ganti dengan path gambar asli Anda
+  },
+  {
+    id: 2,
+    nama: "Siti Rahma, S.H.",
+    jabatan: "Kepala Divisi Litigasi",
+    deskripsi: "Siti berspesialisasi dalam hukum pidana dan perlindungan perempuan & anak. Rekam jejaknya mencakup penyelesaian berbagai kasus struktural besar. Dedikasinya terhadap keadilan menjadikannya pilar utama dalam pergerakan bantuan hukum di LBH SIKAP.",
+    foto: "/assets/images/ruangan.jpg" // Ganti dengan path gambar asli Anda
+  },
+  {
+    id: 3, // <-- Pastikan ID selalu berurutan dan unik (tidak boleh sama)
+    nama: "Andi Wijaya, S.H.", // <-- Nama lengkap dan gelar anggota baru
+    jabatan: "Kepala Divisi Non-Litigasi", // <-- Jabatan di lembaga
+    deskripsi: "Andi fokus pada edukasi hukum masyarakat, penyuluhan paralegal, dan mediasi sengketa di luar pengadilan. Memiliki komitmen tinggi dalam memberdayakan masyarakat sadar hukum.", // <-- Deskripsi profil
+    foto: "/assets/images/ruangan.jpg" // <-- Taruh foto di folder public/images/ lalu panggil jalurnya di sini
+  },
+  {
+    id: 4, // <-- Pastikan ID selalu berurutan dan unik (tidak boleh sama)
+    nama: "Rian Hidayat, S.Sos.", // <-- Nama lengkap dan gelar anggota baru
+    jabatan: "Sekretaris & Umum", // <-- Jabatan di lembaga
+    deskripsi: "Rian memiliki pengalaman luas dalam manajemen organisasi dan koordinasi kegiatan. Dedikasinya terhadap pelayanan publik menjadikannya aset berharga bagi LBH SIKAP.", // <-- Deskripsi profil
+    foto: "/assets/images/ruangan2.jpg" // <-- Taruh foto di folder public/images/ lalu panggil jalurnya di sini
+  },
+];

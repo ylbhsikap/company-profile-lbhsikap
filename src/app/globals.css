@@ -565,3 +565,177 @@ header.header-scrolled {
   opacity: 1;
   transform: translateY(0);
 } 
+
+
+
+Halaman Tentang Kami
+/* =========================================================================
+   7. STRUKTUR BAGAN ORGANISASI (TREE)
+   ========================================================================= */
+.organogram-section {
+    margin-top: 60px;
+}
+
+.organogram-tree {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+.tree-level {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.tree-node {
+    background: #111111;
+    color: #ffffff;
+    padding: 15px 25px;
+    border-radius: 4px;
+    text-align: center;
+    min-width: 220px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border: 1px solid #222222;
+}
+
+.tree-node h3 {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.tree-node p {
+    font-size: 12px;
+    color: #aaaaaa;
+}
+
+/* =========================================================================
+   8. DAFTAR ANGGOTA (REVISI: 50-50 BALANCED & SEAMLESS) (PENGATURAN LAYOUT)
+   ========================================================================= */
+.member-list {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-top: 40px;
+}
+
+.member-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Membagi tepat 50% kiri dan 50% kanan */
+    align-items: stretch; /* Memastikan tinggi teks dan foto selalu sama */
+    border: 1px solid var(--border-color);
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    min-height: 360px;
+}
+
+/* Kolom Keterangan */
+.member-info {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: #ffffff;
+    z-index: 2;
+}
+
+/* Kolom Foto (Utuh & Proporsional) */
+.member-photo-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    background-color: #f5f5f5; /* Warna dasar jika gambar loading */
+}
+
+/* EFEK SAMBUNGAN BARU: Gradasi halus ditaruh di atas foto */
+.member-photo-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 25%; /* Mengatur kelembutan gradasi sambungan */
+    height: 100%;
+    /* Gradasi dari putih pekat (sisi teks) ke transparan (sisi foto) */
+    background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    z-index: 2;
+}
+
+.member-info h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 6px;
+}
+
+.member-info .role-tag {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 700;
+    color: #666666;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.member-info p {
+    color: #444444;
+    font-size: 14.5px;
+    line-height: 1.8;
+    text-align: justify;
+    margin: 0;
+}
+
+/* TATA LETAK ZIG-ZAG OTOMATIS AGAR DINAMIS */
+/* Baris Genap (2, 4, 6): Tukar posisi agar Foto di Kiri, Teks di Kanan */
+.member-row:nth-child(even) .member-info {
+    order: 2;
+}
+
+.member-row:nth-child(even) .member-photo-wrapper {
+    order: 1;
+}
+
+/* Balik arah gradasi sambungan untuk baris genap */
+.member-row:nth-child(even) .member-photo-wrapper::after {
+    left: auto;
+    right: 0;
+    background: linear-gradient(to left, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* RESPONSIF MOBILE (Tumpuk Vertikal) */
+@media (max-width: 900px) {
+    .member-row, .member-row:nth-child(even) {
+        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .member-info {
+        order: 1 !important;
+        padding: 35px 25px;
+    }
+
+    .member-photo-wrapper {
+        order: 2 !important;
+        height: 320px;
+        min-height: 320px;
+    }
+
+    /* Ubah arah sambungan gradasi dari atas ke bawah saat di mobile */
+    .member-photo-wrapper::after,
+    .member-row:nth-child(even) .member-photo-wrapper::after {
+        top: 0;
+        left: 0;
+        right: auto;
+        width: 100%;
+        height: 25%;
+        background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+    }
+}

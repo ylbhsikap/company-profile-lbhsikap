@@ -32,7 +32,7 @@ function Home() {
           alt="Interior LBH SIKAP" 
           fill 
           priority 
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 65vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
           style={{ objectFit: "cover" }} 
         />
         <div className="hero-overlay"></div>
@@ -53,7 +53,7 @@ function Home() {
   {/* Mengubah container agar bisa mencakup layar yang lebih luas (Large Desktop) */}
   <div className="container" style={{ maxWidth: "1440px", margin: "0 auto", padding: "0 40px" }}>
     
-    <h2 className="section-title" style={{ marginBottom: "60px", textAlign: "center", fontSize: "42px", fontWeight: "800" }}>
+    <h2 className="section-title" style={{ marginBottom: "60px", textAlign: "center", fontSize: "32px", fontWeight: "800" }}>
       Berita & Advokasi Terbaru
     </h2>
 
