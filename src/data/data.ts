@@ -206,3 +206,12 @@ export const daftarAnggota: AnggotaType[] = [
     foto: "/assets/images/ruangan2.jpg" 
   },
 ];
+
+export const daftarPosbakum = [
+{ id: 1, pengadilan: "Posbakum PN Sleman", lokasi: "Jl. Roro Jonggrang", jam: "09:00 - 15:00" },
+{ id: 2, pengadilan: "Posbakum PA Bantul", lokasi: "Jl. Jend. Sudirman", jam: "08:30 - 14:30" },
+{ id: 3, pengadilan: "Posbakum PN Yogyakarta", lokasi: "Jl. Perintis Kemerdekaan", jam: "09:00 - 16:00" },
+{ id: 4, pengadilan: "Posbakum PA Sleman", lokasi: "Jl. Magelang", jam: "08:00 - 14:00" },
+{ id: 5, pengadilan: "Posbakum PN Bantul", lokasi: "Jl. Parangtritis", jam: "09:00 - 15:00" },
+{ id: 6, pengadilan: "Posbakum PA Yogyakarta", lokasi: "Jl. Mataram", jam: "08:30 - 14:30" },   
+];

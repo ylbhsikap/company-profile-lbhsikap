@@ -3,7 +3,8 @@ import React from "react";
 import Image from "next/image";
 import { OrganogramTree } from "@/app/components/OrganogramTree";
 import { MemberList } from "@/app/components/MemberList";
-import { asetGambar, AsetGambarType, strukturOrganisasi, daftarAnggota } from "@/data/data"; 
+// 💡 PERBAIKAN 1: Mengambil AnggotaType langsung dari pusat data agar sinkron (String id)
+import { asetGambar, strukturOrganisasi, daftarAnggota, AnggotaType } from "@/data/data";
 
 interface OrganisasiType {
   pimpinan: { nama: string; jabatan: string };
@@ -11,26 +12,18 @@ interface OrganisasiType {
   divisi: { nama: string; jabatan: string }[];
 }
 
-interface AnggotaType {
-  id: number;
-  nama: string;
-  jabatan: string;
-  deskripsi: string;
-  foto: string;
-}
-
 export default function Tentang() {
-  const gambar = asetGambar as AsetGambarType;
+  // 💡 PERBAIKAN 2: Next.js sudah tahu tipe gambar secara otomatis, tidak perlu 'as AsetGambarType'
+  const gambar = asetGambar; 
   const treeOrga = strukturOrganisasi as OrganisasiType;
   const anggotaList = daftarAnggota as AnggotaType[];
 
   return (
     <main className="w-full bg-white">
       {/* HERO SUB - Banner Atas Halaman */}
-      {/* pt-16 digunakan untuk memberi ruang agar tidak tertutup Navbar Anda */}
       <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]">
         
-        {/* 1. Pembungkus Gambar Background Khusus (Solusi Error Position) */}
+        {/* 1. Pembungkus Gambar Background Khusus */}
         <div className="absolute inset-0 z-0 h-full w-full">
           <Image 
             src={gambar.tentangkami} 
@@ -46,7 +39,7 @@ export default function Tentang() {
         <div className="absolute inset-0 z-10 bg-black/70"></div>
         
         {/* 3. Konten Teks Hero Sub */}
-        <div className="relative z-20 w-11/12 max-w-300 text-center text-white px-4">
+        <div className="relative z-20 w-11/12 max-w-5xl text-center text-white px-4">
           <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
             Tentang LBH SIKAP
           </h1>
@@ -57,16 +50,14 @@ export default function Tentang() {
       </section>
 
       {/* SEKSI KONTEN UTAMA */}
-      {/* py-16 = Padding atas-bawah 64px menggantikan section-padding */}
       <section className="w-full py-16 bg-white">
-        {/* max-w-300 = Lebar maksimal 1200px, mx-auto = Otomatis ke tengah */}
-        <div className="mx-auto w-11/12 max-w-300">
+        {/* 💡 TIPS: Mengubah max-w-300 menjadi max-w-5xl (standard lebar container Tailwind v4) */}
+        <div className="mx-auto w-11/12 max-w-5xl">
           
           {/* Komponen Bagan Pohon Struktur Organisasi */}
           <OrganogramTree treeOrga={treeOrga} />
 
           {/* Garis Pembatas (Horizontal Rule) versi Tailwind v4 */}
-          {/* my-16 = Margin atas-bawah 64px penggantikan margin 70px manual */}
           <hr className="my-16 border-0 border-t border-gray-200" />
 
           {/* Komponen Daftar Anggota Bersambung */}

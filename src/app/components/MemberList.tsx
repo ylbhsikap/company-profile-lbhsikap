@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 
 interface AnggotaType {
-  id: number;
+  id: string;
   nama: string;
   jabatan: string;
   deskripsi: string;
