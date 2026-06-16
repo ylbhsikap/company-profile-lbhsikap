@@ -55,7 +55,7 @@ export function MemberList({ anggotaList }: MemberListProps) {
                 ${isEven ? "md:order-1" : "md:order-2"}`}
               >
                 {/* 💡 DIV PENYELAMAT: Memastikan direct parent dari Image fill berposisi absolute */}
-                <div className="absolute inset-0 z-0 h-full w-full">
+                <div className="relative inset-0 z-0 h-full w-full">
                   <Image
                     src={member.foto}
                     alt={member.nama}

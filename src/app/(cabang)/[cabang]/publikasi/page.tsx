@@ -1,8 +1,8 @@
 // src/app/publikasi/page.tsx
 import React from "react";
 import Image from "next/image";
-import PublikasiCard from "@/app/components/PublikasiCard"; 
-import { DokumenCard } from "@/app/components/DokumenCard"; 
+import PublikasiCard from "@/components/features/publikasi/PublikasiCard"; 
+import { DokumenCard } from "@/components/DokumenCard"; 
 import { publikasiData, publikasiDokumen, asetGambar, AsetGambarType } from "@/data/data"; 
 
 interface PublikasiItem {

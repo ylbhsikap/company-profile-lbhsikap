@@ -1,8 +1,8 @@
 // src/app/tentang/page.tsx
 import React from "react";
 import Image from "next/image";
-import { OrganogramTree } from "@/app/components/OrganogramTree";
-import { MemberList } from "@/app/components/MemberList";
+import { OrganogramTree } from "@/components/features/tentang/OrganogramTree";
+import { MemberList } from "@/components/features/tentang/MemberList";
 // 💡 PERBAIKAN 1: Mengambil AnggotaType langsung dari pusat data agar sinkron (String id)
 import { asetGambar, strukturOrganisasi, daftarAnggota, AnggotaType } from "@/data/data";
 

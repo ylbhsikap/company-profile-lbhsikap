@@ -2,8 +2,8 @@
 import React from "react";
 import Image from "next/image";
 import { kontakInfo, asetGambar, AsetGambarType } from "@/data/data"; 
-import { ContactCard } from "@/app/components/ContactsCard";
-import { MapBox } from "@/app/components/MapBox";
+import { ContactCard } from "@/components/features/kontak/ContactsCard";
+import { MapBox } from "@/components/features/kontak/MapBox";
 
 interface KontakInfoType {
   alamat: string;

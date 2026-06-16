@@ -1,0 +1,4762 @@
+=== FILE: ./next-env.d.ts ===
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/dev/types/routes.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+
+=== FILE: ./src/app/page.module.css ===
+.page {
+  --background: #fafafa;
+  --foreground: #fff;
+
+  --text-primary: #000;
+  --text-secondary: #666;
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+  --button-secondary-border: #ebebeb;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-geist-sans);
+  background-color: var(--background);
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  width: 100%;
+  max-width: 800px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  background-color: var(--foreground);
+  padding: 120px 60px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 24px;
+}
+
+.intro h1 {
+  max-width: 320px;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 48px;
+  letter-spacing: -2.4px;
+  text-wrap: balance;
+  color: var(--text-primary);
+}
+
+.intro p {
+  max-width: 440px;
+  font-size: 18px;
+  line-height: 32px;
+  text-wrap: balance;
+  color: var(--text-secondary);
+}
+
+.intro a {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.ctas {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 440px;
+  gap: 16px;
+  font-size: 14px;
+}
+
+.ctas a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 128px;
+  border: 1px solid transparent;
+  transition: 0.2s;
+  cursor: pointer;
+  width: fit-content;
+  font-weight: 500;
+}
+
+a.primary {
+  background: var(--text-primary);
+  color: var(--background);
+  gap: 8px;
+}
+
+a.secondary {
+  border-color: var(--button-secondary-border);
+}
+
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  a.primary:hover {
+    background: var(--button-primary-hover);
+    border-color: transparent;
+  }
+
+  a.secondary:hover {
+    background: var(--button-secondary-hover);
+    border-color: transparent;
+  }
+}
+
+@media (max-width: 600px) {
+  .main {
+    padding: 48px 24px;
+  }
+
+  .intro {
+    gap: 16px;
+  }
+
+  .intro h1 {
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: -1.92px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert();
+  }
+
+  .page {
+    --background: #000;
+    --foreground: #000;
+
+    --text-primary: #ededed;
+    --text-secondary: #999;
+
+    --button-primary-hover: #ccc;
+    --button-secondary-hover: #1a1a1a;
+    --button-secondary-border: #1a1a1a;
+  }
+}
+
+
+=== FILE: ./src/app/layout.tsx ===
+import React from "react";
+import "@/app/globals.css";
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="id">
+      <body className="antialiased bg-white text-gray-900 min-h-screen flex flex-col justify-between">
+        
+        {/* Konten Utama Aplikasi */}
+        <div className="grow">
+          {children}
+        </div>
+
+        {/* Footer Global Jajaran Nasional */}
+        <footer className="py-6 text-center text-3xs text-gray-400 bg-gray-50 border-t border-gray-200">
+          &copy; {new Date().getFullYear()} LBH SIKAP Jajaran Nasional. All Rights Reserved.
+        </footer>
+      </body>
+    </html>
+  );
+}
+
+=== FILE: ./src/app/berita/[id]/page.tsx ===
+// src/app/berita/[id]/page.tsx
+import React from "react";
+import { BerandaData } from "@/data/data"; 
+
+interface Berita {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  category?: string;
+  color?: string;
+}
+
+interface DetailBeritaProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function DetailBeritaPage({ params }: DetailBeritaProps) {
+  // Ambil ID dari URL rute dinamis secara asynchronous
+  const { id } = await params;
+
+  // Tegaskan data pusat sebagai array Berita
+  const daftarBerita = BerandaData as unknown as Berita[];
+
+  // Cari berita yang spesifik berdasarkan ID dari URL
+  const berita = daftarBerita.find((item) => item.id === id);
+
+  // 1. TAMPILAN JIKA BERITA TIDAK DITEMUKAN
+  if (!berita) {
+    return (
+      <main className="w-full min-h-[60vh] flex flex-col items-center justify-center bg-white px-4 pt-32 pb-16 text-center">
+        <div className="max-w-md">
+          <h2 className="text-2xl font-black uppercase tracking-wide text-red-700 md:text-3xl">
+            Berita Tidak Ditemukan
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-gray-500 sm:text-base">
+            Maaf, artikel atau publikasi advokasi yang Anda cari tidak tersedia, salah tautan, atau telah diarsipkan oleh lembaga.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  // 2. TAMPILAN HALAMAN DETAIL BERITA RESMI
+  return (
+    // pt-32 memberikan jarak aman dari navbar, pb-24 memberikan ruang sebelum footer
+    <main className="w-full bg-white px-4 pt-32 pb-24">
+      {/* mx-auto max-w-200 mengunci lebar bacaan ideal artikel setara 800px */}
+      <article className="mx-auto w-full max-w-200">
+        
+        {/* Kategori Berita */}
+        <span 
+          style={{ backgroundColor: berita.color || "#111111" }} 
+          className="inline-block rounded-xs px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs"
+        >
+          {berita.category || "Advokasi"}
+        </span>
+        
+        {/* Judul Utama Artikel */}
+        <h1 className="mt-5 mb-3 text-2xl font-black leading-tight text-gray-950 sm:text-3xl md:text-4xl">
+          {berita.title}
+        </h1>
+        
+        {/* Tanggal Rilis */}
+        <p className="mb-8 text-xs font-medium text-gray-400 sm:text-sm">
+          Dipublikasikan pada: {berita.date}
+        </p>
+        
+        {/* Batas Garis Tipis Estetik */}
+        <hr className="mb-8 border-0 border-t border-gray-150" />
+        
+        {/* Isi Teks Berita / Konten Advokasi */}
+        {/* text-justify membuat tulisan rata kanan-kiri khas rilis pers resmi, leading-relaxed (1.75) sangat nyaman dibaca */}
+        <div className="text-sm leading-relaxed text-gray-800 text-justify sm:text-base md:leading-loose">
+          {berita.excerpt}
+          {/* Di masa depan, Anda tinggal memanggil {berita.isiKonten} di sini jika strukturnya ditambahkan */}
+        </div>
+        
+      </article>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(cabang)/[cabang]/publikasi/[id]/page.tsx ===
+
+
+=== FILE: ./src/app/(cabang)/[cabang]/publikasi/page.tsx ===
+// src/app/publikasi/page.tsx
+import React from "react";
+import Image from "next/image";
+import PublikasiCard from "@/components/features/publikasi/PublikasiCard"; 
+import { DokumenCard } from "@/components/DokumenCard"; 
+import { publikasiData, publikasiDokumen, asetGambar, AsetGambarType } from "@/data/data"; 
+
+interface PublikasiItem {
+  id: string;
+  title: string;
+  date: string;
+  category: string;
+  tagColor: string;
+  excerpt: string;
+}
+
+interface DokumenItem {
+  id: string;
+  tagColor: string;
+  tag: string;
+  judul: string;
+  deskripsi: string;
+  link: string;
+  tombolLabel: string;
+}
+
+export default function Publikasi() {
+  const gambar = asetGambar as AsetGambarType;
+  const daftarArtikel = publikasiData as unknown as PublikasiItem[];
+  const daftarDokumen = publikasiDokumen as unknown as DokumenItem[];
+
+  return (
+    <main className="w-full bg-white">
+      {/* BANNER UTAMA - HERO SUB */}
+      <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]"> 
+        
+        {/* 1. Pembungkus Gambar Background Khusus (Solusi Error Position) */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.publikasi} 
+            alt="Publikasi LBH SIKAP" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        
+        {/* 2. Overlay Gelap */}
+        <div className="absolute inset-0 z-10 bg-black/70"></div>
+        
+        {/* 3. Konten Teks Hero Sub */}
+        <div className="relative z-20 w-11/12 max-w-300 text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Publikasi & Riset Hukum
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-medium text-gray-300 sm:text-base">
+            Suara Gerakan, Hasil Analisis Kebijakan, dan Pernyataan Sikap Resmi Lembaga
+          </p>
+        </div>
+      </section>
+
+      {/* 1. BAGIAN ARTIKEL (Siaran Pers, Opini, Riset) */}
+      <section className="w-full py-16 bg-white">
+        <div className="mx-auto w-11/12 max-w-300">
+          
+          {/* Header Rilis Terbaru */}
+          <div className="mb-10 flex items-center justify-between border-b-2 border-gray-950 pb-4">
+            <h2 className="text-xl font-bold uppercase tracking-wide text-gray-950 md:text-2xl">
+              Rilis Terbaru
+            </h2>
+          </div>
+          
+          {/* Grid Sistem Responsif Tailwind v4 (Menggantikan grid-3) */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {daftarArtikel.map((item) => (
+              <PublikasiCard key={item.id} item={item} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 2. BAGIAN DOKUMEN (Laporan Tahunan & Modul) */}
+      {/* bg-gray-50 memberikan kontras abu-abu yang sangat tipis dan elegan */}
+      <section className="w-full py-16 bg-gray-50">
+        <div className="mx-auto w-11/12 max-w-300">
+          
+          {/* Header Dokumen */}
+          <h2 className="mb-8 text-xl font-bold uppercase tracking-wide text-gray-950 md:text-2xl">
+            Dokumen & Modul Resmi
+          </h2>
+          
+          {/* Grid Sistem Dokumen (Menggantikan grid-3 kustom) */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {daftarDokumen.map((doc) => (
+              <DokumenCard key={doc.id} doc={doc} />
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(cabang)/[cabang]/layout.tsx ===
+"use client";
+
+import React, { use } from "react";
+import Link from "next/link";
+import { dataSeluruhCabang } from "@/data/data";
+
+interface CabangLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ cabang: string }>;
+}
+
+export default function CabangLayout({ children, params }: CabangLayoutProps) {
+  // 🗺️ Menangkap parameter nama cabang secara aman dari URL saat ini
+  const resolvedParams = use(params);
+  const slugCabang = resolvedParams.cabang;
+
+  // Ambil data spesifik cabang ini untuk menampilkan nama daerahnya di logo navbar
+  const dataCabang = dataSeluruhCabang[slugCabang];
+  const namaKota = dataCabang?.info?.kota || slugCabang;
+
+  return (
+    <>
+      {/* Header Khusus Terisolasi Wilayah Cabang */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 text-gray-900 shadow-xs">
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          
+          {/* Brand Logo Dinamis Cabang */}
+          <Link href={`/${slugCabang}`} className="font-black text-gray-950 tracking-wider text-base uppercase group">
+            LBH SIKAP <span className="text-amber-600 text-xs font-extrabold bg-amber-50 border border-amber-200 px-2 py-0.5 rounded ml-2 group-hover:bg-amber-600 group-hover:text-white transition-all">{namaKota}</span>
+          </Link>
+
+          {/* Menu Navigasi Khusus yang Mengunci Rute Internal Cabang Ini */}
+          <nav className="flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
+            <Link href={`/${slugCabang}`} className="hover:text-amber-600 transition-colors">Beranda</Link>
+            <Link href={`/${slugCabang}/tentang`} className="hover:text-amber-600 transition-colors">Tentang Kami</Link>
+            <Link href={`/${slugCabang}/layanan`} className="hover:text-amber-600 transition-colors">Layanan Hukum</Link>
+            <Link href={`/${slugCabang}/kontak`} className="hover:text-amber-600 transition-colors">Kontak Posko</Link>
+            
+            {/* Tombol darurat kembali ke Portal Pusat nasional */}
+            <Link href="/" className="ml-2 text-3xs font-extrabold bg-gray-950 text-white px-2.5 py-1.5 rounded-md hover:bg-amber-600 transition-all">
+              Portal Pusat &rarr;
+            </Link>
+          </nav>
+
+        </div>
+      </header>
+
+      {/* Jarak padding-top 16 (64px) disesuaikan agar konten cabang tidak tertutup header fixed */}
+      <div className="pt-16">{children}</div>
+    </>
+  );
+}
+
+=== FILE: ./src/app/(cabang)/[cabang]/tentang/page.tsx ===
+// src/app/tentang/page.tsx
+import React from "react";
+import Image from "next/image";
+import { OrganogramTree } from "@/components/features/tentang/OrganogramTree";
+import { MemberList } from "@/components/features/tentang/MemberList";
+// 💡 PERBAIKAN 1: Mengambil AnggotaType langsung dari pusat data agar sinkron (String id)
+import { asetGambar, strukturOrganisasi, daftarAnggota, AnggotaType } from "@/data/data";
+
+interface OrganisasiType {
+  pimpinan: { nama: string; jabatan: string };
+  direktur: { nama: string; jabatan: string };
+  divisi: { nama: string; jabatan: string }[];
+}
+
+export default function Tentang() {
+  // 💡 PERBAIKAN 2: Next.js sudah tahu tipe gambar secara otomatis, tidak perlu 'as AsetGambarType'
+  const gambar = asetGambar; 
+  const treeOrga = strukturOrganisasi as OrganisasiType;
+  const anggotaList = daftarAnggota as AnggotaType[];
+
+  return (
+    <main className="w-full bg-white">
+      {/* HERO SUB - Banner Atas Halaman */}
+      <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]">
+        
+        {/* 1. Pembungkus Gambar Background Khusus */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.tentangkami} 
+            alt="Tentang LBH SIKAP" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        
+        {/* 2. Overlay Gelap Premium */}
+        <div className="absolute inset-0 z-10 bg-black/70"></div>
+        
+        {/* 3. Konten Teks Hero Sub */}
+        <div className="relative z-20 w-11/12 max-w-5xl text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Tentang LBH SIKAP
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-sm font-medium text-gray-300 sm:text-base">
+            Mengenal Visi, Misi, dan Spirit Gerakan Advokasi Kami
+          </p>
+        </div>
+      </section>
+
+      {/* SEKSI KONTEN UTAMA */}
+      <section className="w-full py-16 bg-white">
+        {/* 💡 TIPS: Mengubah max-w-300 menjadi max-w-5xl (standard lebar container Tailwind v4) */}
+        <div className="mx-auto w-11/12 max-w-5xl">
+          
+          {/* Komponen Bagan Pohon Struktur Organisasi */}
+          <OrganogramTree treeOrga={treeOrga} />
+
+          {/* Garis Pembatas (Horizontal Rule) versi Tailwind v4 */}
+          <hr className="my-16 border-0 border-t border-gray-200" />
+
+          {/* Komponen Daftar Anggota Bersambung */}
+          <MemberList anggotaList={anggotaList} />
+
+        </div>
+      </section>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(cabang)/[cabang]/page.tsx ===
+// src/app/page.tsx
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { FeaturedNews } from "@/components/features/berita/FeaturedNews";
+import { BerandaData, asetGambar, AsetGambarType } from "@/data/data"; 
+
+interface Berita {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  category?: string;
+  color?: string;
+  gambarKunci?: keyof AsetGambarType;
+}
+
+export default function Home() {
+  const gambar = asetGambar as AsetGambarType;
+  const latestNews: Berita[] = BerandaData ? (BerandaData as Berita[]).slice(0, 3) : [];
+
+  return (
+    <main className="w-full bg-white">
+      {/* BANNER UTAMA (Hero Section Tailwind Version) */}
+      <section className="relative flex h-[80vh] min-h-125 w-full items-center justify-center overflow-hidden lg:h-[90vh]">
+        
+        {/* 1. Pembungkus Gambar Background Khusus (Solusi Permanen Error Position) */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.bannerUtama} 
+            alt="Interior LBH SIKAP" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        
+        {/* 2. Overlay Gelap (Premium Monochrome) */}
+        <div className="absolute inset-0 z-10 bg-black/65"></div>
+        
+        {/* 3. Konten Teks */}
+        <div className="relative z-20 w-11/12 max-w-300 text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider leading-tight sm:text-4xl md:text-5xl lg:text-6xl uppercase">
+            LEMBAGA BANTUAN HUKUM SIKAP YOGYAKARTA
+          </h1>
+          
+          <p className="mx-auto mt-6 max-w-2xl text-sm font-medium leading-relaxed text-gray-300 sm:text-base md:text-lg">
+            Membela hak konstitusional masyarakat miskin, buta hukum, dan korban kesewenang-wenangan secara pro bono.
+          </p>
+          
+          {/* Tombol CTA */}
+          <div className="mt-8">
+            <Link 
+              href="/layanan" 
+              className="inline-block rounded-md bg-white px-8 py-3.5 text-sm font-bold uppercase tracking-wider text-gray-950 shadow-lg transition-all duration-300 hover:scale-[1.03] hover:bg-gray-100 sm:text-base"
+            >
+              Ajukan Bantuan Hukum
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* SECTION BERITA TERBARU */}
+      <FeaturedNews latestNews={latestNews} gambar={gambar} />
+      
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(cabang)/[cabang]/kontak/page.tsx ===
+// src/app/kontak/page.tsx
+import React from "react";
+import Image from "next/image";
+import { kontakInfo, asetGambar, AsetGambarType } from "@/data/data"; 
+import { ContactCard } from "@/components/features/kontak/ContactsCard";
+import { MapBox } from "@/components/features/kontak/MapBox";
+
+interface KontakInfoType {
+  alamat: string;
+  jamOperasional: string;
+  whatsapp: string;
+  email: string;
+  mapsEmbed: string;
+}
+
+export default function Kontak() {
+  const info = kontakInfo as KontakInfoType;
+  const gambar = asetGambar as AsetGambarType;
+
+  return (
+    <main className="w-full bg-white">
+      {/* SEKSI HERO - Banner Atas */}
+      <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]">
+        
+        {/* 1. Pembungkus Gambar Background Khusus (Solusi Error Position) */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.kontak} 
+            alt="Sekretariat LBH SIKAP" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        
+        {/* 2. Overlay Gelap Premium */}
+        <div className="absolute inset-0 z-10 bg-black/70"></div>
+        
+        {/* 3. Konten Teks Hero Sub */}
+        <div className="relative z-20 w-11/12 max-w-300 text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Hubungi Sekretariat Kami
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-medium text-gray-300 sm:text-base">
+            Akses Komunikasi Resmi, Alamat Kantor, dan Peta Navigasi Lembaga
+          </p>
+        </div>
+      </section>
+
+      {/* SEKSI KONTEN UTAMA */}
+      <section className="w-full py-16 bg-white">
+        <div className="mx-auto w-11/12 max-w-300">
+          
+          {/* Grid Layout Pengganti contact-grid-layout */}
+          {/* Di mobile bertumpuk (grid-cols-1), di desktop berjejer seimbang (md:grid-cols-2) */}
+          <div className="grid grid-cols-1 gap-10 items-stretch md:grid-cols-2 lg:gap-14">
+            
+            {/* Kolom Kiri: Kartu Informasi Kontak */}
+            <div className="w-full flex">
+              <ContactCard 
+                alamat={info.alamat}
+                jamOperasional={info.jamOperasional}
+                whatsapp={info.whatsapp}
+                email={info.email}
+              />
+            </div>
+
+            {/* Kolom Kanan: Google Maps Embed Box */}
+            <div className="w-full min-h-87.5 md:min-h-full flex">
+              <MapBox src={info.mapsEmbed} />
+            </div>
+
+          </div>
+          
+        </div>
+      </section>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(cabang)/[cabang]/layanan/page.tsx ===
+// src/app/layanan/page.tsx
+import React from "react";
+import Image from "next/image";
+import { kriteriaLayanan, asetGambar, daftarPosbakum } from "@/data/data"; 
+import { ServiceCriteria } from "@/components/features/layanan/ServiceCriteria";
+import { ComplaintForm } from "@/components/features/layanan/ComplaintForm";
+import PosbakumList from "@/components/features/layanan/PosbakumList";
+
+// =========================================================================
+// 🤖 OTOMASI METADATA & SKEMA (Cara Resmi Next.js)
+// =========================================================================
+export async function generateMetadata() {
+  // Otomatis membentuk skema multi-lokasi berdasarkan array data posbakum Anda
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": "LBH SIKAP",
+    "url": "https://lbhsikap.org/layanan",
+    "telephone": "021-1234567",
+    "subOrganization": daftarPosbakum.map((cabang) => ({
+      "@type": "LegalService",
+      "name": cabang.nama,
+      "address": { "@type": "PostalAddress", "streetAddress": cabang.alamat, "addressCountry": "ID" },
+      "telephone": cabang.telepon,
+      "hasMap": cabang.gmapsUrl,
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": cabang.latitude,
+        "longitude": cabang.longitude
+      }
+    }))
+  };
+
+  return {
+    title: "Layanan Bantuan Hukum & Posbakum Resmi | LBH SIKAP",
+    description: "Ajukan bantuan hukum gratis dan temukan titik lokasi jaringan Posbakum resmi LBH SIKAP.",
+    // 💡 Di sini keajaiban otomasi Next.js terjadi: 
+    // Menginjeksi skema langsung ke dalam tag <head> dokumen secara otomatis bersih
+    other: {
+      "type": "application/ld+json",
+      "innerHTML": JSON.stringify(jsonLd)
+    }
+  };
+}
+
+export default function Layanan() {
+  const gambar = asetGambar;
+  const daftarKriteria = kriteriaLayanan as any[];
+
+  // 💡 Komponen Anda bersih dari urusan script robot, murni mengurusi visual tampilan!
+  return (
+    <main className="w-full bg-white">
+      {/* SEKSI BANNER HERO */}
+      <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]"> 
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image src={gambar.layananBawah} alt="Layanan LBH SIKAP" fill priority sizes="100vw" className="object-cover" />
+        </div>
+        <div className="absolute inset-0 z-10 bg-black/70"></div>
+        <div className="relative z-25 w-11/12 max-w-5xl text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Ajukan Bantuan Hukum Gratis
+          </h1>
+        </div>
+      </section>
+
+      {/* ZONA 1: KRITERIA & FORM */}
+      <section style={{ backgroundImage: `url(${gambar.publikasi || ''})` }} className="relative w-full bg-cover bg-center bg-no-repeat py-24">
+        <div className="absolute inset-0 z-0 bg-white/90 backdrop-blur-xs"></div>
+        <div className="relative z-10 mx-auto w-11/12 max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          <div className="w-full rounded-2xl border border-gray-200 bg-white p-6 shadow-md sm:p-8">
+            <ServiceCriteria daftarKriteria={daftarKriteria} /> 
+          </div>
+          <div className="w-full drop-shadow-md">
+            <ComplaintForm />
+          </div>
+        </div>
+      </section>
+
+      {/* ZONA 2: DAFTAR POSBAKUM */}
+      <section style={{ backgroundImage: `url(${gambar.kontak || ''})` }} className="relative w-full bg-cover bg-center bg-no-repeat py-24 pb-32">
+        <div className="absolute inset-0 z-0 bg-gray-950/95 backdrop-blur-xs"></div>
+        <div className="relative z-10 mx-auto w-11/12 max-w-7xl text-white">
+          <div className="mb-12 text-center md:text-left border-b border-gray-800 pb-5">
+            <h2 className="text-2xl font-black uppercase tracking-wide text-white md:text-3xl">
+              Wilayah Kerja Posbakum Resmi
+            </h2>
+          </div>
+          <div className="w-full bg-transparent">
+            <PosbakumList />
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(pusat)/publikasi/page.tsx ===
+
+
+=== FILE: ./src/app/(pusat)/layout.tsx ===
+import React from "react";
+import Link from "next/link";
+
+// Komponen Navbar internal khusus Kantor Pusat
+function NavbarPusat() {
+  return (
+    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950 border-b border-gray-800 text-white shadow-md">
+      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        {/* Brand / Logo Pusat */}
+        <Link href="/" className="font-black text-amber-500 tracking-wider text-base uppercase">
+          LBH SIKAP <span className="text-white text-xs font-normal border-l border-gray-700 pl-2 ml-2">PUSAT</span>
+        </Link>
+
+        {/* Menu Navigasi Khusus Pusat */}
+        <nav className="flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
+          <Link href="/" className="hover:text-amber-500 transition-colors">Beranda</Link>
+          <Link href="/tentang" className="hover:text-amber-500 transition-colors">Profil & Cabang</Link>
+          <Link href="/layanan" className="hover:text-amber-500 transition-colors">Layanan Pengaduan</Link>
+          <Link href="/publikasi" className="hover:text-amber-500 transition-colors">Publikasi</Link>
+        </nav>
+      </div>
+    </header>
+  );
+}
+
+export default function PusatLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <NavbarPusat />
+      {/* Jarak padding-top 16 (64px) disesuaikan dengan tinggi navbar fixed */}
+      <div className="pt-16">{children}</div>
+    </>
+  );
+}
+
+=== FILE: ./src/app/(pusat)/tentang/page.tsx ===
+// src/app/(pusat)/tentang/page.tsx
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { asetGambar, dataKantorPusat, dataSeluruhCabang } from "@/data/data";
+
+export const metadata = {
+  title: "Profil & Jaringan Cabang | LBH SIKAP Pusat",
+  description: "Mengenal struktur organisasi LBH SIKAP Pusat beserta seluruh daftar jaringan kantor cabang bantuan hukum di Indonesia.",
+};
+
+export default function TentangPusatPage() {
+  const gambar = asetGambar;
+  const { struktur, info } = dataKantorPusat;
+
+  // 🗺️ Mengambil daftar kunci slug cabang (contoh: ['yogyakarta'])
+  const listSlugCabang = Object.keys(dataSeluruhCabang);
+
+  return (
+    <main className="w-full bg-white">
+      {/* =========================================================================
+          HERO BANNER
+          ========================================================================= */}
+      <section className="relative flex h-[35vh] min-h-72 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[45vh]">
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.tentangkami} 
+            alt="Tentang LBH SIKAP" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        <div className="absolute inset-0 z-10 bg-black/75"></div>
+        <div className="relative z-25 w-11/12 max-w-5xl text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Profil & Jaringan
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-medium text-gray-300 sm:text-base">
+            Struktur Kepemimpinan Pusat dan Peta Sebaran Kantor Bantuan Hukum Jajaran Nasional
+          </p>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ZONA 1: STRUKTUR ANGGOTA & PIMPINAN PUSAT
+          ========================================================================= */}
+      <section className="w-full py-20 bg-gray-50 border-b border-gray-200">
+        <div className="mx-auto w-11/12 max-w-4xl">
+          <div className="mb-12 text-center">
+            <span className="inline-block rounded-xs bg-gray-950 px-3 py-1 text-2xs font-extrabold uppercase tracking-widest text-white">
+              Struktur Organisasi
+            </span>
+            <h2 className="text-2xl font-black uppercase tracking-wide text-gray-950 mt-4 md:text-3xl">
+              Pucuk Pimpinan Kolektif Pusat
+            </h2>
+          </div>
+
+          {/* Pengurus Inti */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto items-stretch mb-8">
+            <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-xs text-center">
+              <span className="text-2xs font-bold text-amber-600 uppercase tracking-wider block mb-1">
+                {struktur.pimpinan.jabatan}
+              </span>
+              <h3 className="text-lg font-black text-gray-950 uppercase tracking-wide">
+                {struktur.pimpinan.nama}
+              </h3>
+            </div>
+
+            <div className="p-6 bg-white rounded-xl border border-gray-200 shadow-xs text-center">
+              <span className="text-2xs font-bold text-amber-600 uppercase tracking-wider block mb-1">
+                {struktur.direktur.jabatan}
+              </span>
+              <h3 className="text-lg font-black text-gray-950 uppercase tracking-wide">
+                {struktur.direktur.nama}
+              </h3>
+            </div>
+          </div>
+
+          {/* Divisi-Divisi Pusat */}
+          <div className="pt-6 border-t border-gray-200 max-w-2xl mx-auto">
+            <h4 className="text-center text-xs font-black uppercase tracking-widest text-gray-400 mb-4">
+              Divisi Operasional Nasional
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {struktur.divisi.map((div, idx) => (
+                <div key={idx} className="px-4 py-3 bg-white rounded-lg border border-gray-200 flex justify-between items-center shadow-2xs">
+                  <span className="font-bold text-sm text-gray-900">{div.nama}</span>
+                  <span className="text-3xs font-extrabold uppercase bg-gray-100 text-gray-600 px-2 py-0.5 rounded-sm">
+                    {div.jabatan}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ZONA 2: SEBARAN JARINGAN KANTOR CABANG (OTOMATIS DI-MAP)
+          ========================================================================= */}
+      <section className="w-full py-20 pb-32 bg-white">
+        <div className="mx-auto w-11/12 max-w-5xl">
+          <div className="mb-12 text-center md:text-left border-b border-gray-200 pb-5">
+            <h2 className="text-2xl font-black uppercase tracking-wide text-gray-950 md:text-3xl">
+              Jaringan Kantor Cabang
+            </h2>
+            <p className="mt-2 text-sm text-gray-500">
+              Temukan pos bantuan hukum dan sekretariat LBH SIKAP terdekat di wilayah Anda.
+            </p>
+          </div>
+
+          {/* Grid Jaringan Cabang Dinamis */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {listSlugCabang.map((slug) => {
+              const cabang = dataSeluruhCabang[slug];
+              return (
+                <div 
+                  key={slug} 
+                  className="flex flex-col justify-between p-6 rounded-2xl border border-gray-200 bg-gray-50 hover:bg-white hover:border-amber-500 hover:shadow-lg transition-all group"
+                >
+                  <div>
+                    <span className="text-3xs font-extrabold uppercase tracking-widest text-amber-600 bg-amber-50 px-2 py-0.5 rounded-xs">
+                      Kota {cabang.info.kota}
+                    </span>
+                    <h3 className="text-lg font-black text-gray-950 mt-2 uppercase tracking-wide group-hover:text-amber-600 transition-colors">
+                      {cabang.info.nama}
+                    </h3>
+                    <p className="text-gray-500 text-xs mt-2 leading-relaxed line-clamp-3">
+                      📍 {cabang.info.alamat}
+                    </p>
+                    <div className="mt-4 pt-3 border-t border-gray-200/60 text-2xs font-medium text-gray-400 space-y-1">
+                      <p>📞 Telp: {cabang.info.telepon}</p>
+                      <p>✉ Email: {cabang.info.email}</p>
+                    </div>
+                  </div>
+
+                  {/* Tombol Menuju Halaman Cabang Dinamis */}
+                  <div className="mt-6 pt-2">
+                    <Link 
+                      href={`/${slug}`} 
+                      className="inline-flex w-full justify-center items-center rounded-lg bg-gray-950 py-2.5 text-xs font-bold uppercase tracking-wider text-white hover:bg-amber-600 transition-all shadow-xs"
+                    >
+                      Kunjungi Situs Cabang &rarr;
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(pusat)/page.tsx ===
+// src/app/(1-pusat)/page.tsx
+import React from "react";
+import Image from "next/image";
+import { kriteriaLayananGlobal, asetGambar, dataKantorPusat } from "@/data/data"; 
+// Mengimpor komponen dari kotak perkakas global (wilayah netral)
+import { ServiceCriteria } from "@/components/features/layanan/ServiceCriteria";
+import { ComplaintForm } from "@/components/features/layanan/ComplaintForm";
+
+// 🤖 METADATA & SKEMA SEO KANTOR PUSAT INDUK
+export async function generateMetadata() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": dataKantorPusat.info.nama,
+    "url": "https://lbhsikap.org",
+    "telephone": dataKantorPusat.info.telepon,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": dataKantorPusat.info.alamat,
+      "addressLocality": dataKantorPusat.info.kota,
+      "addressCountry": "ID"
+    }
+  };
+
+  return {
+    title: "LBH SIKAP | Lembaga Bantuan Hukum & Advokasi Masyarakat",
+    description: "Pusat komando bantuan hukum gratis untuk kasus struktural dan pelanggaran HAM berskala nasional.",
+    other: {
+      "type": "application/ld+json",
+      "innerHTML": JSON.stringify(jsonLd)
+    }
+  };
+}
+
+export default function BerandaPusatPage() {
+  const gambar = asetGambar;
+  // Membaca kriteria khusus milik pusat yang sudah kita setel di database
+  const daftarKriteriaPusat = dataKantorPusat.kriteria;
+
+  return (
+    <main className="w-full bg-white">
+      {/* SEKSI BANNER HERO - KANTOR PUSAT */}
+      <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]"> 
+        
+        {/* Pembungkus Gambar Background */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.layananBawah} 
+            alt={dataKantorPusat.info.nama} 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        
+        {/* Overlay Gelap */}
+        <div className="absolute inset-0 z-10 bg-black/70"></div>
+        
+        {/* Konten Teks Hero Pusat */}
+        <div className="relative z-25 w-11/12 max-w-5xl text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            {dataKantorPusat.info.nama}
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-medium text-gray-300 sm:text-base">
+            Pusat Komando Advokasi Hukum dan Pengaduan Kasus Struktural Nasional
+          </p>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ZONA 1: ZONA ATAS (Kriteria Hukum Pusat & Form Aduan Sejajar Kiri-Kanan)
+          💡 Menggunakan Background Foto dengan Overlay Putih Transparan
+          ========================================================================= */}
+      <section 
+        style={{ backgroundImage: `url(${gambar.tentangkami || ''})` }} 
+        className="relative w-full bg-cover bg-center bg-no-repeat py-24"
+      >
+        {/* Lapisan filter putih agar foto melatarbelakangi komponen dengan lembut */}
+        <div className="absolute inset-0 z-0 bg-white/90 backdrop-blur-xs"></div>
+
+        {/* Kontainer Grid Utama Konten */}
+        <div className="relative z-10 mx-auto w-11/12 max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          
+          {/* Kolom Kiri: Kriteria Penerimaan Kasus Tingkat Pusat */}
+          <div className="w-full rounded-2xl border border-gray-200 bg-white p-6 shadow-md sm:p-8">
+            <ServiceCriteria daftarKriteria={daftarKriteriaPusat} /> 
+          </div>
+
+          {/* Kolom Kanan: Formulir Kontak Aduan Pusat */}
+          <div className="w-full drop-shadow-md">
+            <ComplaintForm />
+          </div>
+
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ZONA 2: ZONA BAWAH (Informasi Kontak & Sekretariat Pusat)
+          💡 Menggunakan Background Foto Berbeda dengan Overlay Gelap Premium
+          ========================================================================= */}
+      <section 
+        style={{ backgroundImage: `url(${gambar.kontak || ''})` }} 
+        className="relative w-full bg-cover bg-center bg-no-repeat py-24 pb-32"
+      >
+        {/* Lapisan filter gelap arang */}
+        <div className="absolute inset-0 z-0 bg-gray-950/95 backdrop-blur-xs"></div>
+
+        {/* Kontainer Tunggal Memanjang */}
+        <div className="relative z-10 mx-auto w-11/12 max-w-7xl text-white">
+          
+          {/* Judul Seksi Kontak Pusat */}
+          <div className="mb-12 text-center md:text-left border-b border-gray-800 pb-5">
+            <h2 className="text-2xl font-black uppercase tracking-wide text-white md:text-3xl">
+              Sekretariat Utama Kantor Pusat
+            </h2>
+            <p className="mt-2 text-sm text-gray-400">
+              Koordinasi nasional, kemitraan strategis, dan administrasi umum organisasi.
+            </p>
+          </div>
+          
+          {/* Box Detail Informasi Kontak Pusat */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+              <h4 className="font-bold text-amber-500 uppercase tracking-wide mb-2">Alamat Kantor</h4>
+              <p className="text-gray-300 leading-relaxed">{dataKantorPusat.info.alamat}</p>
+            </div>
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+              <h4 className="font-bold text-amber-500 uppercase tracking-wide mb-2">Kontak Admistrasi</h4>
+              <p className="text-gray-300">📞 Telp: {dataKantorPusat.info.telepon}</p>
+              <p className="text-gray-300 mt-1">✉ Email: {dataKantorPusat.info.email}</p>
+            </div>
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10">
+              <h4 className="font-bold text-amber-500 uppercase tracking-wide mb-2">Waktu Operasional</h4>
+              <p className="text-gray-300">{dataKantorPusat.info.jamOperasional}</p>
+            </div>
+          </div>
+          
+        </div>
+      </section>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/(pusat)/layanan/page.tsx ===
+// src/app/(pusat)/layanan/page.tsx
+import React from "react";
+import Image from "next/image";
+import { asetGambar, dataKantorPusat } from "@/data/data"; 
+// Mengimpor komponen dari kotak perkakas global (wilayah netral)
+import { ServiceCriteria } from "@/components/features/layanan/ServiceCriteria";
+import { ComplaintForm } from "@/components/features/layanan/ComplaintForm";
+
+// 🤖 METADATA & SKEMA SEO LAYANAN INDUK PUSAT
+export async function generateMetadata() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "LegalService",
+    "name": dataKantorPusat.info.nama,
+    "url": "https://lbhsikap.org/layanan",
+    "telephone": dataKantorPusat.info.telepon,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": dataKantorPusat.info.alamat,
+      "addressLocality": dataKantorPusat.info.kota,
+      "addressCountry": "ID"
+    }
+  };
+
+  return {
+    title: "Layanan Bantuan Hukum Nasional | LBH SIKAP Pusat",
+    description: `Pusat komando pengaduan kasus, kriteria penerimaan perkara, dan konsultasi hukum gratis berskala nasional bersama ${dataKantorPusat.info.nama}.`,
+    other: {
+      "type": "application/ld+json",
+      "innerHTML": JSON.stringify(jsonLd)
+    }
+  };
+}
+
+export default function LayananPusatPage() {
+  const gambar = asetGambar;
+  const { kriteria, info } = dataKantorPusat;
+
+  return (
+    <main className="w-full bg-white">
+      {/* SEKSI BANNER HERO LAYANAN PUSAT */}
+      <section className="relative flex h-[35vh] min-h-72 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[45vh]">
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.layananBawah} 
+            alt="Layanan Hukum LBH SIKAP Pusat" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        <div className="absolute inset-0 z-10 bg-black/75"></div>
+        <div className="relative z-25 w-11/12 max-w-5xl text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Layanan Hukum Pusat
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-medium text-gray-300 sm:text-base">
+            Mekanisme Pengaduan Kasus Struktural dan Standar Operasional Bantuan Hukum Gratis {info.nama}
+          </p>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ZONA 1: SEKSI UTAMA (Kriteria Penerimaan Kasus & Form Aduan Mandiri)
+          💡 Menggunakan Background Foto dengan Overlay Putih Cerah Transparan
+          ========================================================================= */}
+      <section 
+        style={{ backgroundImage: `url(${gambar.tentangkami || ''})` }} 
+        className="relative w-full bg-cover bg-center bg-no-repeat py-24 border-b border-gray-200"
+      >
+        <div className="absolute inset-0 z-0 bg-white/90 backdrop-blur-xs"></div>
+
+        {/* Kontainer Grid Sejajar Kiri-Kanan */}
+        <div className="relative z-10 mx-auto w-11/12 max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+          
+          {/* Kolom Kiri: Memanggil Komponen Kriteria dengan Data Pusat */}
+          <div className="w-full rounded-2xl border border-gray-200 bg-white p-6 shadow-md sm:p-8">
+            <ServiceCriteria daftarKriteria={kriteria} /> 
+          </div>
+
+          {/* Kolom Kanan: Memanggil Komponen Formulir Pengaduan Pusat */}
+          <div className="w-full drop-shadow-md">
+            <ComplaintForm />
+          </div>
+
+        </div>
+      </section>
+
+      {/* =========================================================================
+          ZONA 2: ALUR & STANDAR AJUAN (Informasi Transparansi Prosedur)
+          💡 Menggunakan Background Premium Gelap Pekat Arang
+          ========================================================================= */}
+      <section 
+        style={{ backgroundImage: `url(${gambar.kontak || ''})` }} 
+        className="relative w-full bg-cover bg-center bg-no-repeat py-20 pb-28"
+      >
+        <div className="absolute inset-0 z-0 bg-gray-950/95 backdrop-blur-xs"></div>
+
+        <div className="relative z-10 mx-auto w-11/12 max-w-5xl">
+          <div className="mb-12 text-center md:text-left border-b border-gray-800 pb-5">
+            <h2 className="text-2xl font-black uppercase tracking-wide text-white md:text-3xl">
+              Prosedur Penanganan Perkara
+            </h2>
+            <p className="mt-2 text-sm text-gray-400">
+              Tahapan taktis dan sistematis LBH SIKAP Pusat dalam merespons aduan serta melakukan advokasi publik.
+            </p>
+          </div>
+
+          {/* Grid Langkah Alur Prosedur */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-white">
+            {/* Langkah 1 */}
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black text-amber-500 uppercase tracking-widest">Langkah 01</span>
+                <h4 className="font-bold text-lg mt-2 uppercase tracking-wide">Analisis Berkas & Wawancara</h4>
+                <p className="text-gray-400 mt-3 leading-relaxed">
+                  Tim paralegal dan pengacara publik melakukan verifikasi bukti materiil, kronologi peristiwa, serta memeriksa kelayakan dokumen administratif pendaftar.
+                </p>
+              </div>
+            </div>
+
+            {/* Langkah 2 */}
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black text-amber-500 uppercase tracking-widest">Langkah 02</span>
+                <h4 className="font-bold text-lg mt-2 uppercase tracking-wide">Gelar Perkara Struktural</h4>
+                <p className="text-gray-400 mt-3 leading-relaxed">
+                  Kasus yang lolos verifikasi awal dibawa ke forum internal untuk memetakan aktor pelanggar, merumuskan dampak sosial, serta menyusun strategi hukum litigasi maupun non-litigasi.
+                </p>
+              </div>
+            </div>
+
+            {/* Langkah 3 */}
+            <div className="p-6 bg-white/5 rounded-xl border border-white/10 flex flex-col justify-between">
+              <div>
+                <span className="text-xs font-black text-amber-500 uppercase tracking-widest">Langkah 03</span>
+                <h4 className="font-bold text-lg mt-2 uppercase tracking-wide">Pendampingan Taktis</h4>
+                <p className="text-gray-400 mt-3 leading-relaxed">
+                  Melaksanakan pembelaan hukum penuh, mengorganisir komunitas terdampak, menyebarkan rilis kampanye publik, hingga melakukan gugatan hukum di peradilan.
+                </p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </main>
+  );
+}
+
+=== FILE: ./src/app/output.css ===
+/*! tailwindcss v4.3.1 | MIT License | https://tailwindcss.com */
+@layer properties;
+@layer theme, base, components, utilities;
+@layer theme {
+  :root, :host {
+    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+      "Courier New", monospace;
+    --color-red-700: oklch(50.5% 0.213 27.518);
+    --color-amber-50: oklch(98.7% 0.022 95.277);
+    --color-amber-200: oklch(92.4% 0.12 95.746);
+    --color-amber-500: oklch(76.9% 0.188 70.08);
+    --color-amber-600: oklch(66.6% 0.179 58.318);
+    --color-amber-700: oklch(55.5% 0.163 48.998);
+    --color-gray-50: oklch(98.5% 0.002 247.839);
+    --color-gray-100: oklch(96.7% 0.003 264.542);
+    --color-gray-200: oklch(92.8% 0.006 264.531);
+    --color-gray-300: oklch(87.2% 0.01 258.338);
+    --color-gray-400: oklch(70.7% 0.022 261.325);
+    --color-gray-500: oklch(55.1% 0.027 264.364);
+    --color-gray-600: oklch(44.6% 0.03 256.802);
+    --color-gray-700: oklch(37.3% 0.034 259.733);
+    --color-gray-800: oklch(27.8% 0.033 256.848);
+    --color-gray-900: oklch(21% 0.034 264.665);
+    --color-gray-950: oklch(13% 0.028 261.692);
+    --color-black: #000;
+    --color-white: #fff;
+    --spacing: 0.25rem;
+    --container-md: 28rem;
+    --container-xl: 36rem;
+    --container-2xl: 42rem;
+    --container-4xl: 56rem;
+    --container-5xl: 64rem;
+    --container-6xl: 72rem;
+    --container-7xl: 80rem;
+    --text-xs: 0.75rem;
+    --text-xs--line-height: calc(1 / 0.75);
+    --text-sm: 0.875rem;
+    --text-sm--line-height: calc(1.25 / 0.875);
+    --text-base: 1rem;
+    --text-base--line-height: calc(1.5 / 1);
+    --text-lg: 1.125rem;
+    --text-lg--line-height: calc(1.75 / 1.125);
+    --text-xl: 1.25rem;
+    --text-xl--line-height: calc(1.75 / 1.25);
+    --text-2xl: 1.5rem;
+    --text-2xl--line-height: calc(2 / 1.5);
+    --text-3xl: 1.875rem;
+    --text-3xl--line-height: calc(2.25 / 1.875);
+    --text-4xl: 2.25rem;
+    --text-4xl--line-height: calc(2.5 / 2.25);
+    --text-5xl: 3rem;
+    --text-5xl--line-height: 1;
+    --text-6xl: 3.75rem;
+    --text-6xl--line-height: 1;
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    --font-weight-extrabold: 800;
+    --font-weight-black: 900;
+    --tracking-wide: 0.025em;
+    --tracking-wider: 0.05em;
+    --tracking-widest: 0.1em;
+    --leading-tight: 1.25;
+    --leading-snug: 1.375;
+    --leading-relaxed: 1.625;
+    --leading-loose: 2;
+    --radius-xs: 0.125rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
+    --radius-2xl: 1rem;
+    --drop-shadow-md: 0 3px 3px rgb(0 0 0 / 0.12);
+    --ease-out: cubic-bezier(0, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+    --blur-xs: 4px;
+    --blur-md: 12px;
+    --default-transition-duration: 150ms;
+    --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    --default-font-family: var(--font-sans);
+    --default-mono-font-family: var(--font-mono);
+  }
+}
+@layer base {
+  *, ::after, ::before, ::backdrop, ::file-selector-button {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0 solid;
+  }
+  html, :host {
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    tab-size: 4;
+    font-family: var(--default-font-family, ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji");
+    font-feature-settings: var(--default-font-feature-settings, normal);
+    font-variation-settings: var(--default-font-variation-settings, normal);
+    -webkit-tap-highlight-color: transparent;
+  }
+  hr {
+    height: 0;
+    color: inherit;
+    border-top-width: 1px;
+  }
+  abbr:where([title]) {
+    -webkit-text-decoration: underline dotted;
+    text-decoration: underline dotted;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+  }
+  a {
+    color: inherit;
+    -webkit-text-decoration: inherit;
+    text-decoration: inherit;
+  }
+  b, strong {
+    font-weight: bolder;
+  }
+  code, kbd, samp, pre {
+    font-family: var(--default-mono-font-family, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+    font-feature-settings: var(--default-mono-font-feature-settings, normal);
+    font-variation-settings: var(--default-mono-font-variation-settings, normal);
+    font-size: 1em;
+  }
+  small {
+    font-size: 80%;
+  }
+  sub, sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+  }
+  sub {
+    bottom: -0.25em;
+  }
+  sup {
+    top: -0.5em;
+  }
+  table {
+    text-indent: 0;
+    border-color: inherit;
+    border-collapse: collapse;
+  }
+  :-moz-focusring {
+    outline: auto;
+  }
+  progress {
+    vertical-align: baseline;
+  }
+  summary {
+    display: list-item;
+  }
+  ol, ul, menu {
+    list-style: none;
+  }
+  img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+  }
+  img, video {
+    max-width: 100%;
+    height: auto;
+  }
+  button, input, select, optgroup, textarea, ::file-selector-button {
+    font: inherit;
+    font-feature-settings: inherit;
+    font-variation-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    border-radius: 0;
+    background-color: transparent;
+    opacity: 1;
+  }
+  :where(select:is([multiple], [size])) optgroup {
+    font-weight: bolder;
+  }
+  :where(select:is([multiple], [size])) optgroup option {
+    padding-inline-start: 20px;
+  }
+  ::file-selector-button {
+    margin-inline-end: 4px;
+  }
+  ::placeholder {
+    opacity: 1;
+  }
+  @supports (not (-webkit-appearance: -apple-pay-button))  or (contain-intrinsic-size: 1px) {
+    ::placeholder {
+      color: currentcolor;
+      @supports (color: color-mix(in lab, red, red)) {
+        color: color-mix(in oklab, currentcolor 50%, transparent);
+      }
+    }
+  }
+  textarea {
+    resize: vertical;
+  }
+  ::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  ::-webkit-date-and-time-value {
+    min-height: 1lh;
+    text-align: inherit;
+  }
+  ::-webkit-datetime-edit {
+    display: inline-flex;
+  }
+  ::-webkit-datetime-edit-fields-wrapper {
+    padding: 0;
+  }
+  ::-webkit-datetime-edit, ::-webkit-datetime-edit-year-field, ::-webkit-datetime-edit-month-field, ::-webkit-datetime-edit-day-field, ::-webkit-datetime-edit-hour-field, ::-webkit-datetime-edit-minute-field, ::-webkit-datetime-edit-second-field, ::-webkit-datetime-edit-millisecond-field, ::-webkit-datetime-edit-meridiem-field {
+    padding-block: 0;
+  }
+  ::-webkit-calendar-picker-indicator {
+    line-height: 1;
+  }
+  :-moz-ui-invalid {
+    box-shadow: none;
+  }
+  button, input:where([type="button"], [type="reset"], [type="submit"]), ::file-selector-button {
+    appearance: button;
+  }
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button {
+    height: auto;
+  }
+  [hidden]:where(:not([hidden="until-found"])) {
+    display: none !important;
+  }
+}
+@layer utilities {
+  .pointer-events-none {
+    pointer-events: none;
+  }
+  .invisible {
+    visibility: hidden;
+  }
+  .absolute {
+    position: absolute;
+  }
+  .fixed {
+    position: fixed;
+  }
+  .relative {
+    position: relative;
+  }
+  .inset-0 {
+    inset: 0;
+  }
+  .top-0 {
+    top: 0;
+  }
+  .top-10 {
+    top: calc(var(--spacing) * 10);
+  }
+  .right-0 {
+    right: 0;
+  }
+  .bottom-24 {
+    bottom: calc(var(--spacing) * 24);
+  }
+  .left-0 {
+    left: 0;
+  }
+  .left-1\/2 {
+    left: calc(1 / 2 * 100%);
+  }
+  .-z-10 {
+    z-index: calc(10 * -1);
+  }
+  .z-0 {
+    z-index: 0;
+  }
+  .z-10 {
+    z-index: 10;
+  }
+  .z-20 {
+    z-index: 20;
+  }
+  .z-25 {
+    z-index: 25;
+  }
+  .z-50 {
+    z-index: 50;
+  }
+  .container {
+    width: 100%;
+    @media (width >= 40rem) {
+      max-width: 40rem;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem;
+    }
+  }
+  .mx-auto {
+    margin-inline: auto;
+  }
+  .my-2 {
+    margin-block: calc(var(--spacing) * 2);
+  }
+  .my-10 {
+    margin-block: calc(var(--spacing) * 10);
+  }
+  .my-16 {
+    margin-block: calc(var(--spacing) * 16);
+  }
+  .-mt-1 {
+    margin-top: calc(var(--spacing) * -1);
+  }
+  .mt-1 {
+    margin-top: var(--spacing);
+  }
+  .mt-1\.5 {
+    margin-top: calc(var(--spacing) * 1.5);
+  }
+  .mt-2 {
+    margin-top: calc(var(--spacing) * 2);
+  }
+  .mt-3 {
+    margin-top: calc(var(--spacing) * 3);
+  }
+  .mt-4 {
+    margin-top: calc(var(--spacing) * 4);
+  }
+  .mt-5 {
+    margin-top: calc(var(--spacing) * 5);
+  }
+  .mt-6 {
+    margin-top: calc(var(--spacing) * 6);
+  }
+  .mt-8 {
+    margin-top: calc(var(--spacing) * 8);
+  }
+  .mt-12 {
+    margin-top: calc(var(--spacing) * 12);
+  }
+  .mt-16 {
+    margin-top: calc(var(--spacing) * 16);
+  }
+  .mb-1 {
+    margin-bottom: var(--spacing);
+  }
+  .mb-2 {
+    margin-bottom: calc(var(--spacing) * 2);
+  }
+  .mb-3 {
+    margin-bottom: calc(var(--spacing) * 3);
+  }
+  .mb-4 {
+    margin-bottom: calc(var(--spacing) * 4);
+  }
+  .mb-6 {
+    margin-bottom: calc(var(--spacing) * 6);
+  }
+  .mb-8 {
+    margin-bottom: calc(var(--spacing) * 8);
+  }
+  .mb-10 {
+    margin-bottom: calc(var(--spacing) * 10);
+  }
+  .mb-12 {
+    margin-bottom: calc(var(--spacing) * 12);
+  }
+  .mb-14 {
+    margin-bottom: calc(var(--spacing) * 14);
+  }
+  .ml-2 {
+    margin-left: calc(var(--spacing) * 2);
+  }
+  .line-clamp-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .line-clamp-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+  .block {
+    display: block;
+  }
+  .flex {
+    display: flex;
+  }
+  .grid {
+    display: grid;
+  }
+  .hidden {
+    display: none;
+  }
+  .inline-block {
+    display: inline-block;
+  }
+  .inline-flex {
+    display: inline-flex;
+  }
+  .h-0\.5 {
+    height: calc(var(--spacing) * 0.5);
+  }
+  .h-10 {
+    height: calc(var(--spacing) * 10);
+  }
+  .h-16 {
+    height: calc(var(--spacing) * 16);
+  }
+  .h-\[35vh\] {
+    height: 35vh;
+  }
+  .h-\[40vh\] {
+    height: 40vh;
+  }
+  .h-\[80vh\] {
+    height: 80vh;
+  }
+  .h-full {
+    height: 100%;
+  }
+  .h-screen {
+    height: 100vh;
+  }
+  .min-h-30 {
+    min-height: calc(var(--spacing) * 30);
+  }
+  .min-h-72 {
+    min-height: calc(var(--spacing) * 72);
+  }
+  .min-h-75 {
+    min-height: calc(var(--spacing) * 75);
+  }
+  .min-h-80 {
+    min-height: calc(var(--spacing) * 80);
+  }
+  .min-h-87\.5 {
+    min-height: calc(var(--spacing) * 87.5);
+  }
+  .min-h-125 {
+    min-height: calc(var(--spacing) * 125);
+  }
+  .min-h-\[60vh\] {
+    min-height: 60vh;
+  }
+  .min-h-\[350px\] {
+    min-height: 350px;
+  }
+  .min-h-screen {
+    min-height: 100vh;
+  }
+  .w-0\.5 {
+    width: calc(var(--spacing) * 0.5);
+  }
+  .w-6 {
+    width: calc(var(--spacing) * 6);
+  }
+  .w-10 {
+    width: calc(var(--spacing) * 10);
+  }
+  .w-11\/12 {
+    width: calc(11 / 12 * 100%);
+  }
+  .w-full {
+    width: 100%;
+  }
+  .w-screen {
+    width: 100vw;
+  }
+  .max-w-2xl {
+    max-width: var(--container-2xl);
+  }
+  .max-w-4xl {
+    max-width: var(--container-4xl);
+  }
+  .max-w-5xl {
+    max-width: var(--container-5xl);
+  }
+  .max-w-6xl {
+    max-width: var(--container-6xl);
+  }
+  .max-w-7xl {
+    max-width: var(--container-7xl);
+  }
+  .max-w-75 {
+    max-width: calc(var(--spacing) * 75);
+  }
+  .max-w-200 {
+    max-width: calc(var(--spacing) * 200);
+  }
+  .max-w-300 {
+    max-width: calc(var(--spacing) * 300);
+  }
+  .max-w-md {
+    max-width: var(--container-md);
+  }
+  .max-w-xl {
+    max-width: var(--container-xl);
+  }
+  .min-w-45 {
+    min-width: calc(var(--spacing) * 45);
+  }
+  .min-w-60 {
+    min-width: calc(var(--spacing) * 60);
+  }
+  .flex-1 {
+    flex: 1;
+  }
+  .shrink-0 {
+    flex-shrink: 0;
+  }
+  .grow {
+    flex-grow: 1;
+  }
+  .-translate-x-1\/2 {
+    --tw-translate-x: calc(calc(1 / 2 * 100%) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-x-0 {
+    --tw-translate-x: 0;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-x-full {
+    --tw-translate-x: 100%;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .-translate-y-2 {
+    --tw-translate-y: calc(var(--spacing) * -2);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-0 {
+    --tw-translate-y: 0;
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-2 {
+    --tw-translate-y: calc(var(--spacing) * 2);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-8 {
+    --tw-translate-y: calc(var(--spacing) * 8);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .scale-102 {
+    --tw-scale-x: 102%;
+    --tw-scale-y: 102%;
+    --tw-scale-z: 102%;
+    scale: var(--tw-scale-x) var(--tw-scale-y);
+  }
+  .-rotate-45 {
+    rotate: calc(45deg * -1);
+  }
+  .rotate-45 {
+    rotate: 45deg;
+  }
+  .cursor-pointer {
+    cursor: pointer;
+  }
+  .resize-y {
+    resize: vertical;
+  }
+  .appearance-none {
+    appearance: none;
+  }
+  .grid-cols-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .flex-col {
+    flex-direction: column;
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+  .items-center {
+    align-items: center;
+  }
+  .items-start {
+    align-items: flex-start;
+  }
+  .items-stretch {
+    align-items: stretch;
+  }
+  .justify-between {
+    justify-content: space-between;
+  }
+  .justify-center {
+    justify-content: center;
+  }
+  .justify-end {
+    justify-content: flex-end;
+  }
+  .justify-start {
+    justify-content: flex-start;
+  }
+  .gap-1 {
+    gap: var(--spacing);
+  }
+  .gap-1\.5 {
+    gap: calc(var(--spacing) * 1.5);
+  }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
+  }
+  .gap-3 {
+    gap: calc(var(--spacing) * 3);
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
+  }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5);
+  }
+  .gap-6 {
+    gap: calc(var(--spacing) * 6);
+  }
+  .gap-8 {
+    gap: calc(var(--spacing) * 8);
+  }
+  .gap-10 {
+    gap: calc(var(--spacing) * 10);
+  }
+  .gap-12 {
+    gap: calc(var(--spacing) * 12);
+  }
+  .space-y-1 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(var(--spacing) * var(--tw-space-y-reverse));
+      margin-block-end: calc(var(--spacing) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .overflow-hidden {
+    overflow: hidden;
+  }
+  .rounded {
+    border-radius: 0.25rem;
+  }
+  .rounded-2xl {
+    border-radius: var(--radius-2xl);
+  }
+  .rounded-full {
+    border-radius: calc(infinity * 1px);
+  }
+  .rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+  .rounded-md {
+    border-radius: var(--radius-md);
+  }
+  .rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+  .rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+  .rounded-xs {
+    border-radius: var(--radius-xs);
+  }
+  .border {
+    border-style: var(--tw-border-style);
+    border-width: 1px;
+  }
+  .border-0 {
+    border-style: var(--tw-border-style);
+    border-width: 0px;
+  }
+  .border-2 {
+    border-style: var(--tw-border-style);
+    border-width: 2px;
+  }
+  .border-t {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 1px;
+  }
+  .border-b {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 1px;
+  }
+  .border-b-2 {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 2px;
+  }
+  .border-l {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 1px;
+  }
+  .border-l-4 {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 4px;
+  }
+  .border-amber-200 {
+    border-color: var(--color-amber-200);
+  }
+  .border-gray-50 {
+    border-color: var(--color-gray-50);
+  }
+  .border-gray-100 {
+    border-color: var(--color-gray-100);
+  }
+  .border-gray-200 {
+    border-color: var(--color-gray-200);
+  }
+  .border-gray-200\/60 {
+    border-color: color-mix(in srgb, oklch(92.8% 0.006 264.531) 60%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-gray-200) 60%, transparent);
+    }
+  }
+  .border-gray-300 {
+    border-color: var(--color-gray-300);
+  }
+  .border-gray-700 {
+    border-color: var(--color-gray-700);
+  }
+  .border-gray-800 {
+    border-color: var(--color-gray-800);
+  }
+  .border-gray-950 {
+    border-color: var(--color-gray-950);
+  }
+  .border-transparent {
+    border-color: transparent;
+  }
+  .border-white {
+    border-color: var(--color-white);
+  }
+  .border-white\/10 {
+    border-color: color-mix(in srgb, #fff 10%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      border-color: color-mix(in oklab, var(--color-white) 10%, transparent);
+    }
+  }
+  .bg-amber-50 {
+    background-color: var(--color-amber-50);
+  }
+  .bg-black\/65 {
+    background-color: color-mix(in srgb, #000 65%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-black) 65%, transparent);
+    }
+  }
+  .bg-black\/70 {
+    background-color: color-mix(in srgb, #000 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-black) 70%, transparent);
+    }
+  }
+  .bg-black\/75 {
+    background-color: color-mix(in srgb, #000 75%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-black) 75%, transparent);
+    }
+  }
+  .bg-gray-50 {
+    background-color: var(--color-gray-50);
+  }
+  .bg-gray-100 {
+    background-color: var(--color-gray-100);
+  }
+  .bg-gray-200 {
+    background-color: var(--color-gray-200);
+  }
+  .bg-gray-900 {
+    background-color: var(--color-gray-900);
+  }
+  .bg-gray-950 {
+    background-color: var(--color-gray-950);
+  }
+  .bg-gray-950\/95 {
+    background-color: color-mix(in srgb, oklch(13% 0.028 261.692) 95%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-gray-950) 95%, transparent);
+    }
+  }
+  .bg-transparent {
+    background-color: transparent;
+  }
+  .bg-white {
+    background-color: var(--color-white);
+  }
+  .bg-white\/5 {
+    background-color: color-mix(in srgb, #fff 5%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 5%, transparent);
+    }
+  }
+  .bg-white\/90 {
+    background-color: color-mix(in srgb, #fff 90%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 90%, transparent);
+    }
+  }
+  .bg-white\/95 {
+    background-color: color-mix(in srgb, #fff 95%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-white) 95%, transparent);
+    }
+  }
+  .bg-linear-to-b {
+    --tw-gradient-position: to bottom;
+    @supports (background-image: linear-gradient(in lab, red, red)) {
+      --tw-gradient-position: to bottom in oklab;
+    }
+    background-image: linear-gradient(var(--tw-gradient-stops));
+  }
+  .bg-linear-to-t {
+    --tw-gradient-position: to top;
+    @supports (background-image: linear-gradient(in lab, red, red)) {
+      --tw-gradient-position: to top in oklab;
+    }
+    background-image: linear-gradient(var(--tw-gradient-stops));
+  }
+  .from-black {
+    --tw-gradient-from: var(--color-black);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-black\/60 {
+    --tw-gradient-from: color-mix(in srgb, #000 60%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-from: color-mix(in oklab, var(--color-black) 60%, transparent);
+    }
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-white {
+    --tw-gradient-from: var(--color-white);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .via-black\/40 {
+    --tw-gradient-via: color-mix(in srgb, #000 40%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-via: color-mix(in oklab, var(--color-black) 40%, transparent);
+    }
+    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-via-stops);
+  }
+  .via-black\/90 {
+    --tw-gradient-via: color-mix(in srgb, #000 90%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-via: color-mix(in oklab, var(--color-black) 90%, transparent);
+    }
+    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-via-stops);
+  }
+  .via-white\/10 {
+    --tw-gradient-via: color-mix(in srgb, #fff 10%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-via: color-mix(in oklab, var(--color-white) 10%, transparent);
+    }
+    --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
+    --tw-gradient-stops: var(--tw-gradient-via-stops);
+  }
+  .to-gray-950 {
+    --tw-gradient-to: var(--color-gray-950);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .to-transparent {
+    --tw-gradient-to: transparent;
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .bg-cover {
+    background-size: cover;
+  }
+  .bg-center {
+    background-position: center;
+  }
+  .bg-no-repeat {
+    background-repeat: no-repeat;
+  }
+  .object-contain {
+    object-fit: contain;
+  }
+  .object-cover {
+    object-fit: cover;
+  }
+  .object-center {
+    object-position: center;
+  }
+  .p-2 {
+    padding: calc(var(--spacing) * 2);
+  }
+  .p-5 {
+    padding: calc(var(--spacing) * 5);
+  }
+  .p-6 {
+    padding: calc(var(--spacing) * 6);
+  }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
+  }
+  .px-2\.5 {
+    padding-inline: calc(var(--spacing) * 2.5);
+  }
+  .px-3 {
+    padding-inline: calc(var(--spacing) * 3);
+  }
+  .px-4 {
+    padding-inline: calc(var(--spacing) * 4);
+  }
+  .px-5 {
+    padding-inline: calc(var(--spacing) * 5);
+  }
+  .px-6 {
+    padding-inline: calc(var(--spacing) * 6);
+  }
+  .px-8 {
+    padding-inline: calc(var(--spacing) * 8);
+  }
+  .py-0\.5 {
+    padding-block: calc(var(--spacing) * 0.5);
+  }
+  .py-1 {
+    padding-block: var(--spacing);
+  }
+  .py-1\.5 {
+    padding-block: calc(var(--spacing) * 1.5);
+  }
+  .py-2\.5 {
+    padding-block: calc(var(--spacing) * 2.5);
+  }
+  .py-3 {
+    padding-block: calc(var(--spacing) * 3);
+  }
+  .py-3\.5 {
+    padding-block: calc(var(--spacing) * 3.5);
+  }
+  .py-5 {
+    padding-block: calc(var(--spacing) * 5);
+  }
+  .py-6 {
+    padding-block: calc(var(--spacing) * 6);
+  }
+  .py-12 {
+    padding-block: calc(var(--spacing) * 12);
+  }
+  .py-16 {
+    padding-block: calc(var(--spacing) * 16);
+  }
+  .py-20 {
+    padding-block: calc(var(--spacing) * 20);
+  }
+  .py-24 {
+    padding-block: calc(var(--spacing) * 24);
+  }
+  .pt-0 {
+    padding-top: 0;
+  }
+  .pt-2 {
+    padding-top: calc(var(--spacing) * 2);
+  }
+  .pt-3 {
+    padding-top: calc(var(--spacing) * 3);
+  }
+  .pt-4 {
+    padding-top: calc(var(--spacing) * 4);
+  }
+  .pt-6 {
+    padding-top: calc(var(--spacing) * 6);
+  }
+  .pt-16 {
+    padding-top: calc(var(--spacing) * 16);
+  }
+  .pt-28 {
+    padding-top: calc(var(--spacing) * 28);
+  }
+  .pt-32 {
+    padding-top: calc(var(--spacing) * 32);
+  }
+  .pb-1 {
+    padding-bottom: var(--spacing);
+  }
+  .pb-3 {
+    padding-bottom: calc(var(--spacing) * 3);
+  }
+  .pb-4 {
+    padding-bottom: calc(var(--spacing) * 4);
+  }
+  .pb-5 {
+    padding-bottom: calc(var(--spacing) * 5);
+  }
+  .pb-16 {
+    padding-bottom: calc(var(--spacing) * 16);
+  }
+  .pb-20 {
+    padding-bottom: calc(var(--spacing) * 20);
+  }
+  .pb-24 {
+    padding-bottom: calc(var(--spacing) * 24);
+  }
+  .pb-28 {
+    padding-bottom: calc(var(--spacing) * 28);
+  }
+  .pb-32 {
+    padding-bottom: calc(var(--spacing) * 32);
+  }
+  .pl-2 {
+    padding-left: calc(var(--spacing) * 2);
+  }
+  .text-center {
+    text-align: center;
+  }
+  .text-justify {
+    text-align: justify;
+  }
+  .text-2xl {
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
+  }
+  .text-3xl {
+    font-size: var(--text-3xl);
+    line-height: var(--tw-leading, var(--text-3xl--line-height));
+  }
+  .text-base {
+    font-size: var(--text-base);
+    line-height: var(--tw-leading, var(--text-base--line-height));
+  }
+  .text-lg {
+    font-size: var(--text-lg);
+    line-height: var(--tw-leading, var(--text-lg--line-height));
+  }
+  .text-sm {
+    font-size: var(--text-sm);
+    line-height: var(--tw-leading, var(--text-sm--line-height));
+  }
+  .text-xl {
+    font-size: var(--text-xl);
+    line-height: var(--tw-leading, var(--text-xl--line-height));
+  }
+  .text-xs {
+    font-size: var(--text-xs);
+    line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+  .text-\[10px\] {
+    font-size: 10px;
+  }
+  .leading-relaxed {
+    --tw-leading: var(--leading-relaxed);
+    line-height: var(--leading-relaxed);
+  }
+  .leading-snug {
+    --tw-leading: var(--leading-snug);
+    line-height: var(--leading-snug);
+  }
+  .leading-tight {
+    --tw-leading: var(--leading-tight);
+    line-height: var(--leading-tight);
+  }
+  .font-black {
+    --tw-font-weight: var(--font-weight-black);
+    font-weight: var(--font-weight-black);
+  }
+  .font-bold {
+    --tw-font-weight: var(--font-weight-bold);
+    font-weight: var(--font-weight-bold);
+  }
+  .font-extrabold {
+    --tw-font-weight: var(--font-weight-extrabold);
+    font-weight: var(--font-weight-extrabold);
+  }
+  .font-medium {
+    --tw-font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-medium);
+  }
+  .font-normal {
+    --tw-font-weight: var(--font-weight-normal);
+    font-weight: var(--font-weight-normal);
+  }
+  .font-semibold {
+    --tw-font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-semibold);
+  }
+  .tracking-wide {
+    --tw-tracking: var(--tracking-wide);
+    letter-spacing: var(--tracking-wide);
+  }
+  .tracking-wider {
+    --tw-tracking: var(--tracking-wider);
+    letter-spacing: var(--tracking-wider);
+  }
+  .tracking-widest {
+    --tw-tracking: var(--tracking-widest);
+    letter-spacing: var(--tracking-widest);
+  }
+  .break-all {
+    word-break: break-all;
+  }
+  .text-amber-500 {
+    color: var(--color-amber-500);
+  }
+  .text-amber-600 {
+    color: var(--color-amber-600);
+  }
+  .text-amber-700 {
+    color: var(--color-amber-700);
+  }
+  .text-gray-200 {
+    color: var(--color-gray-200);
+  }
+  .text-gray-300 {
+    color: var(--color-gray-300);
+  }
+  .text-gray-400 {
+    color: var(--color-gray-400);
+  }
+  .text-gray-500 {
+    color: var(--color-gray-500);
+  }
+  .text-gray-600 {
+    color: var(--color-gray-600);
+  }
+  .text-gray-700 {
+    color: var(--color-gray-700);
+  }
+  .text-gray-800 {
+    color: var(--color-gray-800);
+  }
+  .text-gray-900 {
+    color: var(--color-gray-900);
+  }
+  .text-gray-950 {
+    color: var(--color-gray-950);
+  }
+  .text-red-700 {
+    color: var(--color-red-700);
+  }
+  .text-white {
+    color: var(--color-white);
+  }
+  .uppercase {
+    text-transform: uppercase;
+  }
+  .antialiased {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .placeholder-gray-400 {
+    &::placeholder {
+      color: var(--color-gray-400);
+    }
+  }
+  .opacity-0 {
+    opacity: 0%;
+  }
+  .opacity-40 {
+    opacity: 40%;
+  }
+  .opacity-100 {
+    opacity: 100%;
+  }
+  .shadow {
+    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-2xs {
+    --tw-shadow: 0 1px var(--tw-shadow-color, rgb(0 0 0 / 0.05));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-lg {
+    --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-md {
+    --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-sm {
+    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-xs {
+    --tw-shadow: 0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .ring-4 {
+    --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .ring-gray-950\/10 {
+    --tw-ring-color: color-mix(in srgb, oklch(13% 0.028 261.692) 10%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-ring-color: color-mix(in oklab, var(--color-gray-950) 10%, transparent);
+    }
+  }
+  .outline-hidden {
+    --tw-outline-style: none;
+    outline-style: none;
+    @media (forced-colors: active) {
+      outline: 2px solid transparent;
+      outline-offset: 2px;
+    }
+  }
+  .blur-xs {
+    --tw-blur: blur(var(--blur-xs));
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .drop-shadow-md {
+    --tw-drop-shadow-size: drop-shadow(0 3px 3px var(--tw-drop-shadow-color, rgb(0 0 0 / 0.12)));
+    --tw-drop-shadow: drop-shadow(var(--drop-shadow-md));
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .filter {
+    filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
+  }
+  .backdrop-blur-md {
+    --tw-backdrop-blur: blur(var(--blur-md));
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  }
+  .backdrop-blur-xs {
+    --tw-backdrop-blur: blur(var(--blur-xs));
+    -webkit-backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+    backdrop-filter: var(--tw-backdrop-blur,) var(--tw-backdrop-brightness,) var(--tw-backdrop-contrast,) var(--tw-backdrop-grayscale,) var(--tw-backdrop-hue-rotate,) var(--tw-backdrop-invert,) var(--tw-backdrop-opacity,) var(--tw-backdrop-saturate,) var(--tw-backdrop-sepia,);
+  }
+  .transition-all {
+    transition-property: all;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-colors {
+    transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, --tw-gradient-from, --tw-gradient-via, --tw-gradient-to;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-opacity {
+    transition-property: opacity;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .transition-transform {
+    transition-property: transform, translate, scale, rotate;
+    transition-timing-function: var(--tw-ease, var(--default-transition-timing-function));
+    transition-duration: var(--tw-duration, var(--default-transition-duration));
+  }
+  .duration-200 {
+    --tw-duration: 200ms;
+    transition-duration: 200ms;
+  }
+  .duration-300 {
+    --tw-duration: 300ms;
+    transition-duration: 300ms;
+  }
+  .duration-500 {
+    --tw-duration: 500ms;
+    transition-duration: 500ms;
+  }
+  .duration-700 {
+    --tw-duration: 700ms;
+    transition-duration: 700ms;
+  }
+  .duration-1000 {
+    --tw-duration: 1000ms;
+    transition-duration: 1000ms;
+  }
+  .ease-in-out {
+    --tw-ease: var(--ease-in-out);
+    transition-timing-function: var(--ease-in-out);
+  }
+  .ease-out {
+    --tw-ease: var(--ease-out);
+    transition-timing-function: var(--ease-out);
+  }
+  .will-change-transform {
+    will-change: transform;
+  }
+  .group-hover\:scale-105 {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        --tw-scale-x: 105%;
+        --tw-scale-y: 105%;
+        --tw-scale-z: 105%;
+        scale: var(--tw-scale-x) var(--tw-scale-y);
+      }
+    }
+  }
+  .group-hover\:bg-amber-600 {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        background-color: var(--color-amber-600);
+      }
+    }
+  }
+  .group-hover\:text-amber-600 {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        color: var(--color-amber-600);
+      }
+    }
+  }
+  .group-hover\:text-amber-700 {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        color: var(--color-amber-700);
+      }
+    }
+  }
+  .group-hover\:text-gray-900 {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        color: var(--color-gray-900);
+      }
+    }
+  }
+  .group-hover\:text-white {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        color: var(--color-white);
+      }
+    }
+  }
+  .hover\:-translate-y-1\.5 {
+    &:hover {
+      @media (hover: hover) {
+        --tw-translate-y: calc(var(--spacing) * -1.5);
+        translate: var(--tw-translate-x) var(--tw-translate-y);
+      }
+    }
+  }
+  .hover\:scale-\[1\.03\] {
+    &:hover {
+      @media (hover: hover) {
+        scale: 1.03;
+      }
+    }
+  }
+  .hover\:gap-3\.5 {
+    &:hover {
+      @media (hover: hover) {
+        gap: calc(var(--spacing) * 3.5);
+      }
+    }
+  }
+  .hover\:gap-4 {
+    &:hover {
+      @media (hover: hover) {
+        gap: calc(var(--spacing) * 4);
+      }
+    }
+  }
+  .hover\:border-amber-500 {
+    &:hover {
+      @media (hover: hover) {
+        border-color: var(--color-amber-500);
+      }
+    }
+  }
+  .hover\:border-gray-300 {
+    &:hover {
+      @media (hover: hover) {
+        border-color: var(--color-gray-300);
+      }
+    }
+  }
+  .hover\:border-gray-900 {
+    &:hover {
+      @media (hover: hover) {
+        border-color: var(--color-gray-900);
+      }
+    }
+  }
+  .hover\:bg-amber-600 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-amber-600);
+      }
+    }
+  }
+  .hover\:bg-gray-100 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-100);
+      }
+    }
+  }
+  .hover\:bg-gray-100\/70 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in srgb, oklch(96.7% 0.003 264.542) 70%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-gray-100) 70%, transparent);
+        }
+      }
+    }
+  }
+  .hover\:bg-gray-800 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-800);
+      }
+    }
+  }
+  .hover\:bg-gray-950 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-gray-950);
+      }
+    }
+  }
+  .hover\:bg-white {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-white);
+      }
+    }
+  }
+  .hover\:text-amber-500 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-amber-500);
+      }
+    }
+  }
+  .hover\:text-amber-600 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-amber-600);
+      }
+    }
+  }
+  .hover\:text-gray-700 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-gray-700);
+      }
+    }
+  }
+  .hover\:text-gray-800 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-gray-800);
+      }
+    }
+  }
+  .hover\:text-gray-950 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-gray-950);
+      }
+    }
+  }
+  .hover\:text-white {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-white);
+      }
+    }
+  }
+  .hover\:shadow-lg {
+    &:hover {
+      @media (hover: hover) {
+        --tw-shadow: 0 10px 15px -3px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 4px 6px -4px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .hover\:shadow-md {
+    &:hover {
+      @media (hover: hover) {
+        --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .hover\:shadow-sm {
+    &:hover {
+      @media (hover: hover) {
+        --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .hover\:shadow-xl {
+    &:hover {
+      @media (hover: hover) {
+        --tw-shadow: 0 20px 25px -5px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 8px 10px -6px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+        box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+      }
+    }
+  }
+  .focus\:border-gray-950 {
+    &:focus {
+      border-color: var(--color-gray-950);
+    }
+  }
+  .focus\:ring-2 {
+    &:focus {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+  .focus\:ring-4 {
+    &:focus {
+      --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(4px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+  .focus\:ring-gray-950\/10 {
+    &:focus {
+      --tw-ring-color: color-mix(in srgb, oklch(13% 0.028 261.692) 10%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--color-gray-950) 10%, transparent);
+      }
+    }
+  }
+  .focus\:ring-gray-950\/20 {
+    &:focus {
+      --tw-ring-color: color-mix(in srgb, oklch(13% 0.028 261.692) 20%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-ring-color: color-mix(in oklab, var(--color-gray-950) 20%, transparent);
+      }
+    }
+  }
+  .focus\:outline-hidden {
+    &:focus {
+      --tw-outline-style: none;
+      outline-style: none;
+      @media (forced-colors: active) {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+    }
+  }
+  .active\:scale-\[0\.99\] {
+    &:active {
+      scale: 0.99;
+    }
+  }
+  .sm\:inline {
+    @media (width >= 40rem) {
+      display: inline;
+    }
+  }
+  .sm\:w-\[calc\(50\%-12px\)\] {
+    @media (width >= 40rem) {
+      width: calc(50% - 12px);
+    }
+  }
+  .sm\:grid-cols-2 {
+    @media (width >= 40rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .sm\:flex-row {
+    @media (width >= 40rem) {
+      flex-direction: row;
+    }
+  }
+  .sm\:items-center {
+    @media (width >= 40rem) {
+      align-items: center;
+    }
+  }
+  .sm\:items-start {
+    @media (width >= 40rem) {
+      align-items: flex-start;
+    }
+  }
+  .sm\:justify-between {
+    @media (width >= 40rem) {
+      justify-content: space-between;
+    }
+  }
+  .sm\:gap-3 {
+    @media (width >= 40rem) {
+      gap: calc(var(--spacing) * 3);
+    }
+  }
+  .sm\:p-8 {
+    @media (width >= 40rem) {
+      padding: calc(var(--spacing) * 8);
+    }
+  }
+  .sm\:text-2xl {
+    @media (width >= 40rem) {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
+  }
+  .sm\:text-3xl {
+    @media (width >= 40rem) {
+      font-size: var(--text-3xl);
+      line-height: var(--tw-leading, var(--text-3xl--line-height));
+    }
+  }
+  .sm\:text-4xl {
+    @media (width >= 40rem) {
+      font-size: var(--text-4xl);
+      line-height: var(--tw-leading, var(--text-4xl--line-height));
+    }
+  }
+  .sm\:text-base {
+    @media (width >= 40rem) {
+      font-size: var(--text-base);
+      line-height: var(--tw-leading, var(--text-base--line-height));
+    }
+  }
+  .sm\:text-sm {
+    @media (width >= 40rem) {
+      font-size: var(--text-sm);
+      line-height: var(--tw-leading, var(--text-sm--line-height));
+    }
+  }
+  .md\:static {
+    @media (width >= 48rem) {
+      position: static;
+    }
+  }
+  .md\:right-0 {
+    @media (width >= 48rem) {
+      right: 0;
+    }
+  }
+  .md\:left-0 {
+    @media (width >= 48rem) {
+      left: 0;
+    }
+  }
+  .md\:left-auto {
+    @media (width >= 48rem) {
+      left: auto;
+    }
+  }
+  .md\:order-1 {
+    @media (width >= 48rem) {
+      order: 1;
+    }
+  }
+  .md\:order-2 {
+    @media (width >= 48rem) {
+      order: 2;
+    }
+  }
+  .md\:mt-0 {
+    @media (width >= 48rem) {
+      margin-top: 0;
+    }
+  }
+  .md\:block {
+    @media (width >= 48rem) {
+      display: block;
+    }
+  }
+  .md\:grid {
+    @media (width >= 48rem) {
+      display: grid;
+    }
+  }
+  .md\:hidden {
+    @media (width >= 48rem) {
+      display: none;
+    }
+  }
+  .md\:inline {
+    @media (width >= 48rem) {
+      display: inline;
+    }
+  }
+  .md\:h-\[45vh\] {
+    @media (width >= 48rem) {
+      height: 45vh;
+    }
+  }
+  .md\:h-\[50vh\] {
+    @media (width >= 48rem) {
+      height: 50vh;
+    }
+  }
+  .md\:h-auto {
+    @media (width >= 48rem) {
+      height: auto;
+    }
+  }
+  .md\:h-full {
+    @media (width >= 48rem) {
+      height: 100%;
+    }
+  }
+  .md\:min-h-95 {
+    @media (width >= 48rem) {
+      min-height: calc(var(--spacing) * 95);
+    }
+  }
+  .md\:min-h-145 {
+    @media (width >= 48rem) {
+      min-height: calc(var(--spacing) * 145);
+    }
+  }
+  .md\:min-h-full {
+    @media (width >= 48rem) {
+      min-height: 100%;
+    }
+  }
+  .md\:w-1\/4 {
+    @media (width >= 48rem) {
+      width: calc(1 / 4 * 100%);
+    }
+  }
+  .md\:w-60 {
+    @media (width >= 48rem) {
+      width: calc(var(--spacing) * 60);
+    }
+  }
+  .md\:w-auto {
+    @media (width >= 48rem) {
+      width: auto;
+    }
+  }
+  .md\:max-w-137\.5 {
+    @media (width >= 48rem) {
+      max-width: calc(var(--spacing) * 137.5);
+    }
+  }
+  .md\:translate-x-0 {
+    @media (width >= 48rem) {
+      --tw-translate-x: 0;
+      translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .md\:grid-cols-2 {
+    @media (width >= 48rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .md\:grid-cols-3 {
+    @media (width >= 48rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .md\:flex-row {
+    @media (width >= 48rem) {
+      flex-direction: row;
+    }
+  }
+  .md\:items-center {
+    @media (width >= 48rem) {
+      align-items: center;
+    }
+  }
+  .md\:gap-6 {
+    @media (width >= 48rem) {
+      gap: calc(var(--spacing) * 6);
+    }
+  }
+  .md\:border-none {
+    @media (width >= 48rem) {
+      --tw-border-style: none;
+      border-style: none;
+    }
+  }
+  .md\:bg-transparent {
+    @media (width >= 48rem) {
+      background-color: transparent;
+    }
+  }
+  .md\:bg-linear-to-l {
+    @media (width >= 48rem) {
+      --tw-gradient-position: to left;
+      @supports (background-image: linear-gradient(in lab, red, red)) {
+        --tw-gradient-position: to left in oklab;
+      }
+      background-image: linear-gradient(var(--tw-gradient-stops));
+    }
+  }
+  .md\:bg-linear-to-r {
+    @media (width >= 48rem) {
+      --tw-gradient-position: to right;
+      @supports (background-image: linear-gradient(in lab, red, red)) {
+        --tw-gradient-position: to right in oklab;
+      }
+      background-image: linear-gradient(var(--tw-gradient-stops));
+    }
+  }
+  .md\:from-black {
+    @media (width >= 48rem) {
+      --tw-gradient-from: var(--color-black);
+      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    }
+  }
+  .md\:from-white {
+    @media (width >= 48rem) {
+      --tw-gradient-from: var(--color-white);
+      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    }
+  }
+  .md\:via-black\/85 {
+    @media (width >= 48rem) {
+      --tw-gradient-via: color-mix(in srgb, #000 85%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-gradient-via: color-mix(in oklab, var(--color-black) 85%, transparent);
+      }
+      --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
+      --tw-gradient-stops: var(--tw-gradient-via-stops);
+    }
+  }
+  .md\:via-white\/20 {
+    @media (width >= 48rem) {
+      --tw-gradient-via: color-mix(in srgb, #fff 20%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        --tw-gradient-via: color-mix(in oklab, var(--color-white) 20%, transparent);
+      }
+      --tw-gradient-via-stops: var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-via) var(--tw-gradient-via-position), var(--tw-gradient-to) var(--tw-gradient-to-position);
+      --tw-gradient-stops: var(--tw-gradient-via-stops);
+    }
+  }
+  .md\:to-transparent {
+    @media (width >= 48rem) {
+      --tw-gradient-to: transparent;
+      --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+    }
+  }
+  .md\:p-0 {
+    @media (width >= 48rem) {
+      padding: 0;
+    }
+  }
+  .md\:p-12 {
+    @media (width >= 48rem) {
+      padding: calc(var(--spacing) * 12);
+    }
+  }
+  .md\:px-10 {
+    @media (width >= 48rem) {
+      padding-inline: calc(var(--spacing) * 10);
+    }
+  }
+  .md\:pt-0 {
+    @media (width >= 48rem) {
+      padding-top: 0;
+    }
+  }
+  .md\:text-left {
+    @media (width >= 48rem) {
+      text-align: left;
+    }
+  }
+  .md\:text-2xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
+  }
+  .md\:text-3xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-3xl);
+      line-height: var(--tw-leading, var(--text-3xl--line-height));
+    }
+  }
+  .md\:text-4xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-4xl);
+      line-height: var(--tw-leading, var(--text-4xl--line-height));
+    }
+  }
+  .md\:text-5xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-5xl);
+      line-height: var(--tw-leading, var(--text-5xl--line-height));
+    }
+  }
+  .md\:text-lg {
+    @media (width >= 48rem) {
+      font-size: var(--text-lg);
+      line-height: var(--tw-leading, var(--text-lg--line-height));
+    }
+  }
+  .md\:text-xl {
+    @media (width >= 48rem) {
+      font-size: var(--text-xl);
+      line-height: var(--tw-leading, var(--text-xl--line-height));
+    }
+  }
+  .md\:text-xs {
+    @media (width >= 48rem) {
+      font-size: var(--text-xs);
+      line-height: var(--tw-leading, var(--text-xs--line-height));
+    }
+  }
+  .md\:leading-loose {
+    @media (width >= 48rem) {
+      --tw-leading: var(--leading-loose);
+      line-height: var(--leading-loose);
+    }
+  }
+  .md\:transition-none {
+    @media (width >= 48rem) {
+      transition-property: none;
+    }
+  }
+  .lg\:h-\[90vh\] {
+    @media (width >= 64rem) {
+      height: 90vh;
+    }
+  }
+  .lg\:min-h-110 {
+    @media (width >= 64rem) {
+      min-height: calc(var(--spacing) * 110);
+    }
+  }
+  .lg\:min-h-160 {
+    @media (width >= 64rem) {
+      min-height: calc(var(--spacing) * 160);
+    }
+  }
+  .lg\:max-w-162\.5 {
+    @media (width >= 64rem) {
+      max-width: calc(var(--spacing) * 162.5);
+    }
+  }
+  .lg\:grid-cols-2 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .lg\:grid-cols-3 {
+    @media (width >= 64rem) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .lg\:gap-8 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 8);
+    }
+  }
+  .lg\:gap-14 {
+    @media (width >= 64rem) {
+      gap: calc(var(--spacing) * 14);
+    }
+  }
+  .lg\:p-16 {
+    @media (width >= 64rem) {
+      padding: calc(var(--spacing) * 16);
+    }
+  }
+  .lg\:p-20 {
+    @media (width >= 64rem) {
+      padding: calc(var(--spacing) * 20);
+    }
+  }
+  .lg\:text-2xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
+  }
+  .lg\:text-4xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-4xl);
+      line-height: var(--tw-leading, var(--text-4xl--line-height));
+    }
+  }
+  .lg\:text-6xl {
+    @media (width >= 64rem) {
+      font-size: var(--text-6xl);
+      line-height: var(--tw-leading, var(--text-6xl--line-height));
+    }
+  }
+}
+@property --tw-translate-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-translate-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-scale-x {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-y {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-scale-z {
+  syntax: "*";
+  inherits: false;
+  initial-value: 1;
+}
+@property --tw-space-y-reverse {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0;
+}
+@property --tw-border-style {
+  syntax: "*";
+  inherits: false;
+  initial-value: solid;
+}
+@property --tw-gradient-position {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-via {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-to {
+  syntax: "<color>";
+  inherits: false;
+  initial-value: #0000;
+}
+@property --tw-gradient-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-via-stops {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-gradient-from-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+@property --tw-gradient-via-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 50%;
+}
+@property --tw-gradient-to-position {
+  syntax: "<length-percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-leading {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-font-weight {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-inset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-inset-ring-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-inset-ring-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-ring-inset {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ring-offset-width {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+@property --tw-ring-offset-color {
+  syntax: "*";
+  inherits: false;
+  initial-value: #fff;
+}
+@property --tw-ring-offset-shadow {
+  syntax: "*";
+  inherits: false;
+  initial-value: 0 0 #0000;
+}
+@property --tw-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-color {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow-alpha {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%;
+}
+@property --tw-drop-shadow-size {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-blur {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-brightness {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-contrast {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-grayscale {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-hue-rotate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-invert {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-opacity {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-saturate {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-backdrop-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-duration {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ease {
+  syntax: "*";
+  inherits: false;
+}
+@layer properties {
+  @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
+    *, ::before, ::after, ::backdrop {
+      --tw-translate-x: 0;
+      --tw-translate-y: 0;
+      --tw-translate-z: 0;
+      --tw-scale-x: 1;
+      --tw-scale-y: 1;
+      --tw-scale-z: 1;
+      --tw-space-y-reverse: 0;
+      --tw-border-style: solid;
+      --tw-gradient-position: initial;
+      --tw-gradient-from: #0000;
+      --tw-gradient-via: #0000;
+      --tw-gradient-to: #0000;
+      --tw-gradient-stops: initial;
+      --tw-gradient-via-stops: initial;
+      --tw-gradient-from-position: 0%;
+      --tw-gradient-via-position: 50%;
+      --tw-gradient-to-position: 100%;
+      --tw-leading: initial;
+      --tw-font-weight: initial;
+      --tw-tracking: initial;
+      --tw-shadow: 0 0 #0000;
+      --tw-shadow-color: initial;
+      --tw-shadow-alpha: 100%;
+      --tw-inset-shadow: 0 0 #0000;
+      --tw-inset-shadow-color: initial;
+      --tw-inset-shadow-alpha: 100%;
+      --tw-ring-color: initial;
+      --tw-ring-shadow: 0 0 #0000;
+      --tw-inset-ring-color: initial;
+      --tw-inset-ring-shadow: 0 0 #0000;
+      --tw-ring-inset: initial;
+      --tw-ring-offset-width: 0px;
+      --tw-ring-offset-color: #fff;
+      --tw-ring-offset-shadow: 0 0 #0000;
+      --tw-blur: initial;
+      --tw-brightness: initial;
+      --tw-contrast: initial;
+      --tw-grayscale: initial;
+      --tw-hue-rotate: initial;
+      --tw-invert: initial;
+      --tw-opacity: initial;
+      --tw-saturate: initial;
+      --tw-sepia: initial;
+      --tw-drop-shadow: initial;
+      --tw-drop-shadow-color: initial;
+      --tw-drop-shadow-alpha: 100%;
+      --tw-drop-shadow-size: initial;
+      --tw-backdrop-blur: initial;
+      --tw-backdrop-brightness: initial;
+      --tw-backdrop-contrast: initial;
+      --tw-backdrop-grayscale: initial;
+      --tw-backdrop-hue-rotate: initial;
+      --tw-backdrop-invert: initial;
+      --tw-backdrop-opacity: initial;
+      --tw-backdrop-saturate: initial;
+      --tw-backdrop-sepia: initial;
+      --tw-duration: initial;
+      --tw-ease: initial;
+    }
+  }
+}
+
+
+=== FILE: ./src/app/globals.css ===
+/* globals.css */
+@import "tailwindcss";
+
+/* Jangan masukkan css manual lama di sini agar tidak bentrok dengan v4 */
+
+=== FILE: ./src/components/ui/ScrollReveal.tsx ===
+"use client";
+import { useEffect, useRef, ReactNode } from "react";
+
+interface ScrollRevealProps {
+  children: ReactNode;
+}
+
+export default function ScrollReveal({ children }: ScrollRevealProps) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // 💡 SOLUSI TAILWIND v4:
+          // Menghapus kelas 'invisible & tergeser' lalu menyuntikkan efek 'muncul & tegak lurus'
+          entry.target.classList.remove("opacity-0", "translate-y-8");
+          entry.target.classList.add("opacity-100", "translate-y-0");
+        }
+      },
+      {
+        threshold: 0.15, // Elemen terpicu jika 15% areanya sudah masuk layar
+        rootMargin: "0px 0px -50px 0px" // Terpicu sedikit sebelum menyentuh batas pandang dasar
+      }
+    );
+
+    const currentRef = ref.current;
+    if (currentRef) observer.observe(currentRef);
+    
+    return () => {
+      if (currentRef) observer.unobserve(currentRef);
+    };
+  }, []);
+
+  return (
+    // Kondisi Awal: Transparan (opacity-0) dan amblas ke bawah sejauh 32px (translate-y-8)
+    // transition-all duration-700 ease-out memastikan animasi bergeser naik ke atas berjalan sangat halus saat di-scroll
+    <div 
+      ref={ref} 
+      className="opacity-0 translate-y-8 transition-all duration-1000 ease-out will-change-transform"
+    >
+      {children}
+    </div>
+  );
+}
+
+=== FILE: ./src/components/ui/PageBackground.tsx ===
+// src/components/PageBackground.tsx
+import React from 'react';
+import Image from 'next/image';
+
+interface PageBackgroundProps {
+  src: string;
+  alt?: string;
+}
+
+export default function PageBackground({ src, alt = "Latar Belakang Halaman" }: PageBackgroundProps) {
+  return (
+    // WADAH UTAMA: Mengunci posisi fixed melayang di seluruh layar di balik semua konten (z-[-1])
+    <div className="fixed inset-0 -z-10 h-screen w-screen overflow-hidden bg-gray-950">
+      
+      {/* 💡 DIV PENYELAMAT: Menjadi direct parent absolute yang valid untuk Next.js Image fill */}
+      <div className="absolute inset-0 z-0 h-full w-full">
+        <Image
+          src={src} // Berubah dinamis sesuai halaman yang memanggilnya
+          alt={alt}
+          fill
+          sizes="100vw"
+          className="object-cover object-center scale-102 blur-xs opacity-40 transition-all duration-700"
+          priority
+        />
+      </div>
+      
+      {/* OVERLAY GELAP GRADASI PREMIUM */}
+      {/* Menggunakan kombinasi opacity hitam arang agar teks putih di atasnya terlihat sangat tajam */}
+      <div className="absolute inset-0 z-10 h-full w-full bg-linear-to-b from-black/60 via-black/40 to-gray-950"></div>
+      
+    </div>
+  );
+}
+
+=== FILE: ./src/components/layout/navbar.tsx ===
+"use client"; 
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const handleScroll = (): void => {
+      if (window.scrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); 
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleMenu = (): void => setIsOpen(!isOpen);
+  const closeMenu = (): void => setIsOpen(false);
+
+  return (
+    // HEADER: Posisi tetap melayang (fixed). Menggunakan sintaksis modern v4 untuk opasitas dan blur.
+    <header 
+      className={`fixed top-0 left-0 z-50 w-full transition-all duration-300 border-b
+        ${isScrolled 
+          ? "bg-white/95 backdrop-blur-md shadow-xs border-gray-100 py-3" 
+          : "bg-transparent border-transparent py-5"}`}
+    >
+      {/* KOREKSI: Mengganti max-w-300 menjadi max-w-7xl standar industri */}
+      <div className="mx-auto w-11/12 max-w-7xl flex items-center justify-between">
+        
+        {/* LOGO & BRANDING */}
+        <div className="flex items-center z-50">
+          <Link href="/" className="flex items-center gap-3 group" onClick={closeMenu}>
+            {/* 💡 SOLUSI AMAN NEXT.JS IMAGE: Ukuran diikat pasti, menjamin logo tidak merusak tata letak */}
+            <Image 
+              src="/assets/images/logo-lbh.png" 
+              alt="Logo LBH SIKAP YOGYAKARTA" 
+              width={42} 
+              height={42} 
+              className="object-contain transition-transform duration-200 group-hover:scale-105"
+              priority 
+            />
+            <div className="flex flex-col">
+              <span className={`text-base font-black tracking-wider transition-colors duration-300
+                ${isScrolled || isOpen ? "text-gray-950" : "text-white"}`}>
+                LBH SIKAP
+              </span>
+              <span className={`text-[10px] font-bold tracking-widest -mt-1 transition-colors duration-300
+                ${isScrolled || isOpen ? "text-gray-500" : "text-gray-300"}`}>
+                YOGYAKARTA
+              </span>
+            </div>
+          </Link>
+        </div>
+        
+        {/* HAMBURGER BUTTON (MOBILE ONLY) */}
+        <button
+          className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-md border border-transparent bg-transparent md:hidden focus:outline-hidden"
+          aria-label="Buka Menu Navigasi"
+          aria-expanded={isOpen}
+          onClick={toggleMenu}
+        >
+          {/* Garis-garis Hamburger dengan Efek Animasi Menjadi Silang (X) */}
+          <span className={`h-0.5 w-6 rounded-full transition-all duration-300 
+            ${isScrolled || isOpen ? "bg-gray-950" : "bg-white"}
+            ${isOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`h-0.5 w-6 rounded-full transition-all duration-300 
+            ${isScrolled || isOpen ? "bg-gray-950" : "bg-white"}
+            ${isOpen ? "opacity-0" : ""}`} />
+          <span className={`h-0.5 w-6 rounded-full transition-all duration-300 
+            ${isScrolled || isOpen ? "bg-gray-950" : "bg-white"}
+            ${isOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+        </button>
+
+        {/* CONTAINER MENU UTAMA */}
+        {/* Di Mobile: Berubah menjadi menu overlay tirai penuh (Full Overlay Dropdown) */}
+        <nav className={`fixed inset-0 flex h-screen w-full flex-col bg-white px-8 pt-28 transition-transform duration-300 ease-in-out md:static md:h-auto md:w-auto md:flex-row md:bg-transparent md:p-0 md:transition-none
+          ${isOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"}`}>
+          
+          <ul className="flex flex-col gap-8 text-lg font-bold tracking-wide md:flex-row md:items-center md:gap-6 md:text-xs lg:gap-8">
+            
+            {[
+              { path: "/", label: "BERANDA" },
+              { path: "/tentang", label: "TENTANG KAMI" },
+              { path: "/publikasi", label: "PUBLIKASI" },
+              { path: "/layanan", label: "LAYANAN HUKUM" },
+              { path: "/kontak", label: "KONTAK" },
+            ].map((menu) => {
+              const isActive = pathname === menu.path;
+              return (
+                <li key={menu.path}>
+                  <Link 
+                    href={menu.path} 
+                    onClick={closeMenu}
+                    className={`transition-colors duration-200 border-b-2 pb-1 block md:inline
+                      ${isOpen 
+                        ? isActive ? "text-gray-950 border-gray-950" : "text-gray-500 border-transparent hover:text-gray-950"
+                        : isScrolled
+                          ? isActive ? "text-gray-950 border-gray-950" : "text-gray-600 border-transparent hover:text-gray-950"
+                          : isActive ? "text-white border-white" : "text-gray-300 border-transparent hover:text-white"
+                      }`}
+                  >
+                    {menu.label}
+                  </Link>
+                </li>
+              );
+            })}
+
+            {/* TOMBOL UTILITAS: AJUKAN ADUAN */}
+            <li className="mt-4 border-t border-gray-100 pt-6 md:mt-0 md:border-none md:pt-0">
+              <Link 
+                href="/layanan" 
+                onClick={closeMenu}
+                className={`inline-block rounded-lg px-5 py-2.5 text-center text-sm font-black tracking-wider uppercase transition-all duration-300 w-full md:w-auto md:text-xs
+                  ${isScrolled || isOpen
+                    ? "bg-gray-950 text-white hover:bg-gray-800 shadow-xs"
+                    : "bg-white text-gray-950 hover:bg-gray-100 shadow-sm"
+                  }`}
+              >
+                AJUKAN ADUAN
+              </Link>
+            </li>
+
+          </ul>
+        </nav>
+        
+      </div>
+    </header>
+  );
+}
+
+
+=== FILE: ./src/components/features/publikasi/PublikasiCard.tsx ===
+import React from "react";
+import Link from "next/link";
+
+// 1. Definisi tipe data untuk objek 'item' publikasi (Dukungan penuh ID string/number)
+interface PublikasiItem {
+  id: number | string; 
+  date: string;
+  category: string;
+  tagColor: string;    
+  title: string;
+  excerpt: string;
+}
+
+// 2. Properti komponen (Props)
+interface PublikasiCardProps {
+  item: PublikasiItem;
+}
+
+export default function PublikasiCard({ item }: PublikasiCardProps) {
+  return (
+    // Wadah Utama Kartu (Card Layout)
+    // flex flex-col justify-between menjamin posisi tombol baca selalu presisi sejajar di dasar grid
+    <div className="flex flex-col justify-between w-full rounded-xl border border-gray-200 bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:border-gray-300">
+      
+      {/* Bagian Atas: Metadata, Judul, dan Isi Ringkasan */}
+      <div>
+        {/* Baris Atas: Tanggal & Tag Kategori */}
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <span className="text-xs font-semibold tracking-wide text-gray-400">
+            {item.date}
+          </span>
+          
+          {/* Tag Kategori Dinamis dengan Background Color dari Database */}
+          <span 
+            style={{ backgroundColor: item.tagColor || "#111111" }} 
+            className="inline-block rounded-xs px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs"
+          >
+            {item.category}
+          </span>
+        </div>
+        
+        {/* Judul Publikasi / Isu Advokasi */}
+        <h3 className="text-lg font-black leading-snug text-gray-950 md:text-xl line-clamp-2 hover:text-gray-800 transition-colors">
+          <Link href={`/publikasi/${item.id}`}>
+            {item.title}
+          </Link>
+        </h3>
+        
+        {/* Ringkasan Masalah (Excerpt) */}
+        {/* line-clamp-3 mengunci tinggi paragraf maksimal 3 baris agar tinggi antar-kartu konsisten */}
+        <p className="mt-3 text-sm leading-relaxed text-gray-600 text-justify line-clamp-3">
+          {item.excerpt}
+        </p>
+      </div>
+      
+      {/* Bagian Bawah: Tombol Navigasi Menuju Detail */}
+      <div className="mt-6 pt-4 border-t border-gray-100">
+        <Link 
+          href={`/publikasi/${item.id}`} 
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-950 transition-all duration-300 hover:gap-3.5 hover:text-gray-700"
+        >
+          Baca Selengkapnya <span className="text-sm">&rarr;</span>
+        </Link>
+      </div>
+      
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/berita/NewsCard.tsx ===
+import React from "react";
+import Link from "next/link";
+
+// 1. Definisi tipe data untuk objek 'item' (Sinkron dengan tipe string ID Anda)
+interface BeritaItem {
+  id: string;      
+  title: string;   
+  excerpt: string; 
+  date?: string;   
+}
+
+// 2. Definisi properti (props) komponen
+interface NewsCardProps {
+  item: BeritaItem;
+}
+
+// 3. Komponen Utama dengan standar kelas utilitas Tailwind CSS v4
+export default function NewsCard({ item }: NewsCardProps) {
+  return (
+    // Wadah Utama Kartu Berita (Card)
+    // flex flex-col justify-between memastikan tombol link baca selalu sejajar di bawah meskipun panjang teks berbeda
+    <article className="flex flex-col justify-between w-full rounded-xl border border-gray-200 bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:border-gray-300">
+      
+      {/* Bagian Atas: Tanggal, Judul, dan Ringkasan */}
+      <div>
+        {/* Tanggal terbit (Hanya muncul jika data item.date tersedia) */}
+        {item.date && (
+          <span className="inline-block text-xs font-bold uppercase tracking-wider text-gray-400 mb-3">
+            {item.date}
+          </span>
+        )}
+        
+        {/* Judul Berita */}
+        <h3 className="text-lg font-black leading-snug text-gray-950 md:text-xl line-clamp-2 hover:text-gray-800 transition-colors">
+          <Link href={`/berita/${item.id}`}>
+            {item.title}
+          </Link>
+        </h3>
+        
+        {/* Ringkasan Konten (Excerpt) */}
+        <p className="mt-3 mb-6 text-sm leading-relaxed text-gray-600 text-justify line-clamp-3">
+          {item.excerpt}
+        </p>
+      </div>
+
+      {/* Bagian Bawah: Link Navigasi Detail */}
+      <div className="border-t border-gray-100 pt-4">
+        <Link 
+          href={`/berita/${item.id}`} 
+          className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-gray-900 transition-all duration-300 hover:gap-4 hover:text-gray-700"
+        >
+          Baca Selengkapnya <span className="text-sm">&rarr;</span>
+        </Link>
+      </div>
+      
+    </article>
+  );
+}
+
+=== FILE: ./src/components/features/berita/NewsRowCard.tsx ===
+// src/components/features/berita/NewsRowCard.tsx
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { AsetGambarType } from "@/data/data";
+
+interface BeritaItem {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  category?: string;
+  color?: string;
+  gambarKunci?: keyof AsetGambarType;
+}
+
+interface NewsRowCardProps {
+  item: BeritaItem;
+  gambarTerpilih: string;
+  isRightText: boolean;
+  isPriority: boolean;
+}
+
+export default function NewsRowCard({ item, gambarTerpilih, isRightText, isPriority }: NewsRowCardProps) {
+  return (
+    <div className={`relative flex min-h-125 w-full items-center overflow-hidden rounded-xl border border-gray-200 bg-gray-950 shadow-md transition-all duration-500 hover:shadow-xl md:min-h-145 lg:min-h-160 ${isRightText ? "justify-end" : "justify-start"}`}>
+      {/* LAYER GAMBAR */}
+      <div className="absolute inset-0 z-0 h-full w-full">
+        <Image 
+          src={gambarTerpilih} 
+          alt={item.title}
+          fill
+          priority={isPriority}
+          loading={isPriority ? undefined : "lazy"}
+          sizes="(max-width: 1440px) 100vw, 1440px"
+          className="object-cover"
+        />
+      </div>
+
+      {/* OVERLAY GRADASI */}
+      <div className={`absolute inset-0 z-10 h-full w-full transition-opacity duration-300 ${isRightText ? "bg-linear-to-t from-black via-black/90 to-transparent md:bg-linear-to-l md:from-black md:via-black/85 md:to-transparent" : "bg-linear-to-t from-black via-black/90 to-transparent md:bg-linear-to-r md:from-black md:via-black/85 md:to-transparent"}`}></div>
+      
+      {/* KONTEN TEKS */}
+      <div className="relative z-20 w-full p-6 text-white md:max-w-137.5 md:p-12 lg:max-w-162.5 lg:p-20">
+        <span style={{ backgroundColor: item.color || "#111111" }} className="inline-block rounded-xs px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white shadow-sm">
+          {item.category || "Advokasi"}
+        </span>
+        <h3 className="mb-4 mt-6 text-xl font-black leading-tight text-white sm:text-2xl md:text-3xl lg:text-4xl">
+          {item.title}
+        </h3>
+        <p className="mb-4 text-xs font-semibold tracking-wide text-gray-400">{item.date}</p>
+        <p className="mb-8 text-justify text-sm leading-relaxed text-gray-200 sm:text-base">{item.excerpt}</p>
+        <Link href={`/berita/${item.id}`} className="inline-flex items-center gap-2 border-b-2 border-white pb-1 text-sm font-bold text-white transition-all hover:gap-4 sm:text-base">
+          Baca Selengkapnya ➔
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/berita/FeaturedNews.tsx ===
+// src/components/features/berita/FeaturedNews.tsx
+import React from "react";
+import Link from "next/link";
+import { AsetGambarType } from "@/data/data";
+import NewsRowCard from "./NewsRowCard"; // 💡 Hubungkan dengan komponen kartu baris yang baru
+
+interface Berita {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  category?: string;
+  color?: string;
+  gambarKunci?: keyof AsetGambarType;
+}
+
+interface FeaturedNewsProps {
+  latestNews: Berita[];
+  gambar: AsetGambarType;
+}
+
+export function FeaturedNews({ latestNews, gambar }: FeaturedNewsProps) {
+  return (
+    <section className="w-full bg-white overflow-hidden py-12 pb-20">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
+        
+        <h2 className="mb-14 text-center text-3xl font-black uppercase tracking-wider text-gray-950 md:text-4xl">
+          Berita & Advokasi Terbaru
+        </h2>
+
+        {/* 💡 KODE MENJADI SANGAT RINGKAS */}
+        <div className="flex flex-col gap-12">
+          {latestNews.map((item, index) => (
+            <NewsRowCard 
+              key={item.id}
+              item={item}
+              gambarTerpilih={gambar[item.gambarKunci as keyof typeof gambar]}
+              isRightText={index % 2 === 1}
+              isPriority={index === 0}
+            />
+          ))}
+        </div>
+
+        <div className="mt-16 text-center">
+          <Link href="/publikasi" className="inline-block rounded-lg border-2 border-gray-950 bg-transparent px-8 py-3.5 text-base font-bold text-gray-950 transition-all duration-300 hover:bg-gray-950 hover:text-white">
+            Lihat Semua Publikasi
+          </Link>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+=== FILE: ./src/components/features/tentang/OrganogramTree.tsx ===
+// src/components/OrganogramTree.tsx
+import React from "react";
+
+interface OrganisasiType {
+  pimpinan: { nama: string; jabatan: string };
+  direktur: { nama: string; jabatan: string };
+  divisi: { nama: string; jabatan: string }[];
+}
+
+interface OrganogramTreeProps {
+  treeOrga: OrganisasiType;
+}
+
+export function OrganogramTree({ treeOrga }: OrganogramTreeProps) {
+  return (
+    <div className="mt-16 w-full bg-white">
+      {/* Header Judul */}
+      <h2 className="text-center text-2xl font-black uppercase tracking-wider text-gray-950 md:text-3xl">
+        Struktur Kepengurusan
+      </h2>
+      <p className="mb-12 text-center text-sm font-medium uppercase tracking-widest text-gray-400 mt-1">
+        Garis Komando dan Sinergi Operasional LBH SIKAP
+      </p>
+      
+      {/* Kontainer Utama Pohon Struktur */}
+      <div className="relative flex flex-col items-center gap-12 my-10 max-w-4xl mx-auto">
+        
+        {/* Line Alur Komando Tengah Tradisional (Hanya muncul di desktop/tablet) */}
+        <div className="absolute top-10 bottom-24 left-1/2 -translate-x-1/2 w-0.5 bg-gray-200 hidden md:block z-0" />
+
+        {/* --- TINGKAT 1: PEMBINA / PIMPINAN --- */}
+        <div className="relative flex w-full justify-center z-10">
+          <div className="w-full min-w-60 max-w-75 rounded-xl border-2 border-gray-950 bg-gray-950 p-5 text-center shadow-md ring-4 ring-gray-950/10">
+            <h3 className="text-xs font-black uppercase tracking-widest text-amber-500">
+              {treeOrga.pimpinan.jabatan}
+            </h3>
+            <p className="mt-2 text-sm font-bold text-white">
+              {treeOrga.pimpinan.nama}
+            </p>
+          </div>
+        </div>
+
+        {/* --- TINGKAT 2: DIREKTUR --- */}
+        <div className="relative flex w-full justify-center z-10">
+          <div className="w-full min-w-60 max-w-75 rounded-xl border border-gray-800 bg-gray-900 p-5 text-center shadow-md">
+            <h3 className="text-xs font-black uppercase tracking-widest text-gray-300">
+              {treeOrga.direktur.jabatan}
+            </h3>
+            <p className="mt-2 text-sm font-bold text-white">
+              {treeOrga.direktur.nama}
+            </p>
+          </div>
+        </div>
+
+        {/* --- TINGKAT 3: JAJARAN DIVISI OPERASIONAL --- */}
+        {/* Menggunakan grid responsif: 1 kolom di HP, otomatis membesar hingga 3 kolom di desktop */}
+        <div className="relative flex w-full flex-wrap justify-center gap-6 z-10 px-4">
+          {treeOrga.divisi.map((div, index) => (
+            <div 
+              key={index} 
+              className="w-full sm:w-[calc(50%-12px)] md:w-60 rounded-xl border border-gray-200 bg-white p-5 text-center shadow-xs transition-all duration-300 hover:-translate-y-1.5 hover:border-gray-900 hover:shadow-md group"
+            >
+              <h3 className="text-xs font-extrabold uppercase tracking-widest text-gray-950 group-hover:text-amber-700 transition-colors">
+                {div.jabatan}
+              </h3>
+              <p className="mt-2 text-sm font-medium text-gray-500 group-hover:text-gray-900 transition-colors">
+                {div.nama}
+              </p>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/tentang/MemberList.tsx ===
+// src/components/MemberList.tsx
+import React from "react";
+import Image from "next/image";
+
+interface AnggotaType {
+  id: string;
+  nama: string;
+  jabatan: string;
+  deskripsi: string;
+  foto: string;
+}
+
+interface MemberListProps {
+  anggotaList: AnggotaType[];
+}
+
+export function MemberList({ anggotaList }: MemberListProps) {
+  return (
+    <div className="mt-12 w-full bg-white">
+      {/* Judul Seksi Pengurus */}
+      <h2 className="text-center text-2xl font-black uppercase tracking-wider text-gray-950 md:text-3xl">
+        Profil Advokat & Anggota Lembaga
+      </h2>
+      <p className="mb-12 text-center text-sm font-medium text-gray-400 uppercase tracking-widest mt-1">
+        Mengenal Lebih Dekat Penegak Keadilan Kami
+      </p>
+
+      {/* List Anggota */}
+      <div className="flex flex-col gap-12">
+        {anggotaList.map((member, index) => {
+          const isEven = index % 2 === 1;
+
+          return (
+            <div 
+              key={member.id} 
+              className="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white shadow-xs md:grid md:grid-cols-2 md:min-h-95 lg:min-h-110"
+            >
+              {/* Kolom 1: Keterangan Profil */}
+              <div className={`flex flex-col justify-center p-6 sm:p-8 md:p-12 lg:p-16 bg-white z-10
+                ${isEven ? "md:order-2" : "md:order-1"}`}
+              >
+                <h3 className="text-xl font-black text-gray-950 lg:text-2xl">
+                  {member.nama}
+                </h3>
+                <span className="mb-4 mt-1.5 inline-block text-xs font-bold uppercase tracking-widest text-amber-700">
+                  {member.jabatan}
+                </span>
+                <p className="text-justify text-sm leading-relaxed text-gray-600 sm:text-base md:leading-loose">
+                  {member.deskripsi}
+                </p>
+              </div>
+
+              {/* Kolom 2: Area Wadah Foto */}
+              <div className={`relative min-h-75 w-full bg-gray-50 md:min-h-full
+                ${isEven ? "md:order-1" : "md:order-2"}`}
+              >
+                {/* 💡 DIV PENYELAMAT: Memastikan direct parent dari Image fill berposisi absolute */}
+                <div className="relative inset-0 z-0 h-full w-full">
+                  <Image
+                    src={member.foto}
+                    alt={member.nama}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="object-cover object-center"
+                    loading="lazy"
+                  />
+                </div>
+                
+                {/* Efek Sambungan Gradasi menggunakan Utilitas Tailwind v4 */}
+                <div 
+                  className={`absolute inset-0 z-20 h-full w-full pointer-events-none bg-linear-to-b from-white via-white/10 to-transparent
+                    md:h-full md:w-1/4 md:from-white md:via-white/20 md:to-transparent
+                    ${isEven ? "md:right-0 md:left-auto md:bg-linear-to-l" : "md:left-0 md:bg-linear-to-r"}`}
+                ></div>
+              </div>
+
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/kontak/ContactsCard.tsx ===
+// src/app/components/ContactCard.tsx
+import React from "react";
+
+interface ContactCardProps {
+  alamat: string;
+  jamOperasional: string;
+  whatsapp: string;
+  email: string;
+}
+
+export function ContactCard({ alamat, jamOperasional, whatsapp, email }: ContactCardProps) {
+  // Logika pembersihan regex nomor WhatsApp agar page.tsx tetap bersih
+  const waLink = `https://wa.me/${whatsapp.replace(/^0/, '62')}`;
+
+  return (
+    // Wadah Utama Kartu Informasi (Card)
+    // flex flex-col justify-between + w-full memastikan tingginya seimbang dengan komponen MapBox di sebelahnya
+    <div className="w-full rounded-xl border border-gray-200 bg-white p-6 shadow-xs sm:p-8 flex flex-col justify-between">
+      
+      {/* Bagian Atas: Judul dan Detail Alamat */}
+      <div className="flex flex-col gap-4">
+        <h2 className="text-xl font-bold uppercase tracking-wide text-gray-950 md:text-2xl">
+          Informasi Kontak Utama
+        </h2>
+        <p className="text-sm leading-relaxed text-gray-600 text-justify">
+          {alamat}
+        </p>
+
+        {/* Batas Garis Tipis Pembatas */}
+        <hr className="my-2 border-0 border-t border-gray-150" />
+
+        {/* Daftar Informasi Detail (Pengganti Struktur Tabel Lama agar Lebih Responsif) */}
+        <div className="flex flex-col gap-4">
+          
+          {/* Baris 1: Jam Operasional */}
+          <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center border-b border-gray-50 pb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              Jam Operasional
+            </span>
+            <span className="text-sm font-semibold text-gray-800">
+              {jamOperasional}
+            </span>
+          </div>
+
+          {/* Baris 2: WhatsApp Hotline */}
+          <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center border-b border-gray-50 pb-3">
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              WhatsApp Hotline
+            </span>
+            <span className="text-sm font-black text-gray-950">
+              {whatsapp}
+            </span>
+          </div>
+
+          {/* Baris 3: Email Resmi */}
+          <div className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center pb-1">
+            <span className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              Email Resmi
+            </span>
+            <span className="text-sm font-semibold text-gray-800 break-all">
+              {email}
+            </span>
+          </div>
+
+        </div>
+      </div>
+      
+      {/* Bagian Bawah: Tombol Hubungi WhatsApp */}
+      <div className="mt-8">
+        <a 
+          href={waLink} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="block w-full rounded-lg bg-gray-950 py-3.5 text-center text-sm font-bold tracking-wider uppercase text-white shadow-xs transition-all duration-300 hover:bg-gray-800 focus:ring-4 focus:ring-gray-950/20 active:scale-[0.99]"
+        >
+          Hubungi Melalui WhatsApp
+        </a>
+      </div>
+
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/kontak/MapBox.tsx ===
+// src/components/MapBox.tsx
+import React from "react";
+
+export function MapBox({ src }: { src: string }) {
+  return (
+    // w-full = Lebar penuh, bg-white = Background putih bersih
+    // border & rounded-xl = Memberikan bingkai halus dengan shadow tipis khas tema monokrom
+    <div className="w-full flex flex-col rounded-xl border border-gray-200 bg-white p-6 shadow-xs sm:p-8">
+      
+      {/* Judul Sub-Seksi */}
+      <h2 className="mb-4 text-xl font-bold uppercase tracking-wide text-gray-950 md:text-2xl">
+        Peta Lokasi Resmi
+      </h2>
+      
+      {/* Bingkai Peta Interaktif */}
+      {/* flex-1 = Memaksa peta mengisi sisa ruang kotak agar tingginya otomatis sama rata dengan ContactCard */}
+      {/* min-h-[350px] = Menggantikan min-h-87.5 dengan nilai piksel pasti agar aman di Tailwind v4 */}
+      <div className="relative flex-1 w-full min-h-87.5 overflow-hidden rounded-lg border border-gray-100 bg-gray-50">
+        <iframe 
+          src={src} 
+          width="100%" 
+          height="100%" 
+          style={{ border: 0 }} 
+          title="Peta Lokasi Kantor LBH SIKAP Yogyakarta" 
+          allowFullScreen 
+          loading="lazy"
+          className="absolute inset-0 h-full w-full"
+        ></iframe>
+      </div>
+      
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/layanan/PosbakumList.tsx ===
+// src/app/components/features/layanan/PosbakumList.tsx
+import React from "react";
+import { daftarPosbakum } from "@/data/data";
+
+export default function PosbakumList() {
+  return (
+    <div className="w-full">
+      {/* Grid Utama: Menampilkan 2 kolom di desktop agar memanjang rapi */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {daftarPosbakum.map((pos) => (
+          <div 
+            key={pos.id} 
+            className="flex flex-col justify-between p-6 bg-white rounded-xl border border-gray-200/60 shadow-xs hover:shadow-md transition-all duration-300"
+          >
+            {/* Bagian Atas: Informasi Kantor */}
+            <div>
+              {/* Menampilkan pos.nama sesuai data sumber */}
+              <h4 className="font-black text-gray-950 text-xl tracking-wide uppercase">
+                {pos.nama}
+              </h4>
+              
+              {/* Menampilkan pos.alamat */}
+              <p className="text-gray-600 text-sm mt-3 leading-relaxed">
+                📍 {pos.alamat}
+              </p>
+              
+              {/* Menampilkan pos.telepon */}
+              <p className="text-gray-500 text-xs font-semibold mt-2">
+                📞 Hubungi: {pos.telepon}
+              </p>
+            </div>
+
+            {/* Bagian Bawah: Tombol Navigasi Google Maps (Penting untuk SEO Brand) */}
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <a 
+                href={pos.gmapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-gray-950 px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-gray-800"
+              >
+                Lihat Rute Lokasi ➔
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/layanan/ServiceCriteria.tsx ===
+// src/components/ServiceCriteria.tsx
+import React from "react";
+
+interface KriteriaItem {
+  judul: string;
+  deskripsi: string;
+  borderLeft: string; // Menyimpan data warna border kiri (misal: "#b45309" atau "#111111")
+}
+
+interface ServiceCriteriaProps {
+  daftarKriteria: KriteriaItem[];
+}
+
+export function ServiceCriteria({ daftarKriteria }: ServiceCriteriaProps) {
+  return (
+    <div className="mt-12 w-full max-w-4xl mx-auto bg-white p-2">
+      {/* Judul Seksi dengan Garis Pembatas Bawah Khas LBH */}
+      <div className="border-b-2 border-gray-950 pb-3 mb-8">
+        <h2 className="text-xl font-black uppercase tracking-wider text-gray-950 md:text-2xl">
+          Kriteria Penerimaan Kasus
+        </h2>
+      </div>
+
+      {/* Daftar Kriteria Menggunakan List Elemen Blok */}
+      <ul className="flex flex-col gap-4">
+        {daftarKriteria.map((item, index) => (
+          <li 
+            key={index} 
+            style={{ borderLeftColor: item.borderLeft || "#111111" }} 
+            className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-3 bg-gray-50 p-5 rounded-lg border-l-4 shadow-xs transition-all duration-300 hover:bg-gray-100/70 hover:shadow-sm"
+          >
+            {/* Judul Kriteria (Bagian Kiri) */}
+            <strong className="text-sm font-black uppercase tracking-wide text-gray-950 min-w-45 shrink-0">
+              {item.judul}
+            </strong>
+            
+            {/* Titik Dua Pembatas (Hanya Muncul di Layar Lebar) */}
+            <span className="hidden sm:inline font-bold text-gray-400">:</span>
+
+            {/* Deskripsi Penjelasan (Bagian Kanan) */}
+            <p className="text-sm leading-relaxed text-gray-700 text-justify">
+              {item.deskripsi}
+            </p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+=== FILE: ./src/components/features/layanan/ComplaintForm.tsx ===
+"use client";
+
+import React from "react";
+
+export function ComplaintForm() {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    e.preventDefault();
+    alert("Sistem Keamanan LBH SIKAP: Berkas pengaduan Anda telah berhasil dienkripsi...");
+    
+    const target = e.target as HTMLFormElement;
+    target.reset();
+  };
+
+  return (
+    // Wadah Utama Formulir (Card)
+    <div className="w-full rounded-xl border border-gray-200 bg-white p-6 shadow-xs sm:p-8">
+      {/* Judul Formulir */}
+      <h2 className="mb-6 text-xl font-bold uppercase tracking-wide text-gray-950 md:text-2xl">
+        Formulir Kontak Aduan
+      </h2>
+      
+      <form onSubmit={handleFormSubmit} className="flex flex-col gap-5">
+        
+        {/* INPUT NAMA */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="nama" className="text-xs font-bold uppercase tracking-wider text-gray-700">
+            Nama Lengkap Sesuai KTP
+          </label>
+          <input 
+            type="text" 
+            id="nama" 
+            name="nama" 
+            required 
+            placeholder="Contoh: Ahmad Fauzi"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-hidden transition-all focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
+          />
+        </div>
+
+        {/* INPUT WHATSAPP */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="whatsapp" className="text-xs font-bold uppercase tracking-wider text-gray-700">
+            Nomor WhatsApp / HP
+          </label>
+          <input 
+            type="tel" 
+            id="whatsapp" 
+            name="whatsapp" 
+            required 
+            placeholder="Contoh: 081234567890"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-hidden transition-all focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10"
+          />
+        </div>
+
+        {/* PILIHAN JENIS KASUS */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="jenisKasus" className="text-xs font-bold uppercase tracking-wider text-gray-700">
+            Jenis Masalah Hukum
+          </label>
+          <select 
+            id="jenisKasus" 
+            name="jenisKasus" 
+            required
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 outline-hidden transition-all focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10 appearance-none"
+            style={{ backgroundImage: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234b5563' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>\")", backgroundPosition: "right 1rem center", backgroundSize: "1.25rem", backgroundRepeat: "no-repeat" }}
+          >
+            <option value="" className="text-gray-400">-- Pilih Kategori Kasus --</option>
+            <option value="Perburuhan">Ketenagakerjaan / Perburuhan</option>
+            <option value="Pertanahan">Sengketa Tanah / Rumah</option>
+            <option value="Pidana">Kriminal / Pidana (Korban Kriminalisasi)</option>
+            <option value="Keluarga">Hukum Keluarga / Waris</option>
+            <option value="Lainnya">Lain-lain / Hak Sipil</option>
+          </select>
+        </div>
+
+        {/* KRONOLOGI KASUS */}
+        <div className="flex flex-col gap-2">
+          <label htmlFor="kronologi" className="text-xs font-bold uppercase tracking-wider text-gray-700">
+            Ringkasan Kronologi Kasus
+          </label>
+          <textarea 
+            id="kronologi" 
+            name="kronologi" 
+            rows={5} 
+            required 
+            placeholder="Ceritakan singkat kronologi masalah hukum yang sedang Anda hadapi..."
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 outline-hidden transition-all focus:border-gray-950 focus:ring-2 focus:ring-gray-950/10 resize-y min-h-30"
+          ></textarea>
+        </div>
+
+        {/* TOMBOL SUBMIT */}
+        <button 
+          type="submit" 
+          className="mt-2 w-full rounded-lg bg-gray-950 py-3.5 text-sm font-bold tracking-wider uppercase text-white shadow-xs transition-all duration-300 hover:bg-gray-800 focus:ring-4 focus:ring-gray-950/20 active:scale-[0.99] cursor-pointer"
+        >
+          Kirim Berkas Aduan Resmi
+        </button>
+      </form>
+    </div>
+  );
+}
+
+=== FILE: ./src/components/DokumenCard.tsx ===
+// src/app/components/DokumenCard.tsx
+import React from "react";
+
+interface DokumenItem {
+  id: string; // Mengikuti tipe string agar sinkron dengan struktur id data pusat
+  tagColor: string;
+  tag: string;
+  judul: string;
+  deskripsi: string;
+  link: string;
+  tombolLabel: string;
+}
+
+interface DokumenCardProps {
+  doc: DokumenItem;
+}
+
+export function DokumenCard({ doc }: DokumenCardProps) {
+  return (
+    // Wadah Utama Kartu (Card)
+    // flex flex-col justify-between memastikan tombol unduh selalu sejajar di bagian bawah kartu meskipun panjang teks deskripsi berbeda
+    <div className="flex flex-col justify-between w-full rounded-xl border border-gray-200 bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:border-gray-300">
+      
+      {/* Bagian Atas: Tag Kategori, Judul, dan Deskripsi */}
+      <div>
+        {/* Tag Kategori Dinamis */}
+        <span 
+          style={{ backgroundColor: doc.tagColor || "#111111" }} 
+          className="inline-block rounded-xs px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs"
+        >
+          {doc.tag}
+        </span>
+        
+        {/* Judul Dokumen */}
+        <h3 className="mt-4 mb-3 text-lg font-bold leading-snug text-gray-950 md:text-xl">
+          {doc.judul}
+        </h3>
+        
+        {/* Deskripsi Dokumen */}
+        <p className="text-sm leading-relaxed text-gray-600 text-justify">
+          {doc.deskripsi}
+        </p>
+      </div>
+
+      {/* Bagian Bawah: Tombol Aksi Unduh/Buka Berkas */}
+      <div className="mt-6">
+        <a 
+          href={doc.link} 
+          className="block w-full rounded-lg bg-gray-950 py-3 text-center text-xs font-bold tracking-wider uppercase text-white shadow-xs transition-all duration-300 hover:bg-gray-800 focus:ring-4 focus:ring-gray-950/20 active:scale-[0.99]"
+        >
+          {doc.tombolLabel}
+        </a>
+      </div>
+      
+    </div>
+  );
+}
+
+=== FILE: ./src/data/data.ts ===
+// src/data/data.ts
+
+// =========================================================================
+// 1. STRUKTUR PROTOKOL IDENTITAS WARNA & ASET GAMBAR GLOBAL
+// =========================================================================
+export interface AsetGambarType {
+  bannerUtama: string;
+  kantorSekretariat: string;
+  logoResmi: string;
+  tentangkami: string;
+  kontak: string;
+  layananBawah: string;
+  publikasi: string; 
+  dokumentasiKasus: string;
+}
+
+export const asetGambar: AsetGambarType = {
+  bannerUtama: "/assets/images/ruangan10.jpg",
+  kantorSekretariat: "/assets/images/ruangan1.jpg", 
+  logoResmi: "/assets/images/logo-lbh.png",
+  tentangkami: "/assets/images/ruangan2.jpg",
+  kontak: "/assets/images/ruangan.jpg",
+  layananBawah: "/assets/images/ruangan10.jpg",
+  publikasi: "/assets/images/ruangan10.jpg",
+  dokumentasiKasus: "/assets/images/ruangan10.jpg"
+};
+
+// =========================================================================
+// 2. KONTRAK GLOBAL (INTERFACE) UNTUK TATA KELOLA DATA
+// =========================================================================
+export interface KontakInfoType {
+  alamat: string;
+  jamOperasional: string;
+  whatsapp: string;
+  email: string;
+  mapsEmbed: string;
+}
+
+export interface Berita {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+  category: string;
+  color: string;
+  gambarKunci: keyof AsetGambarType;
+}
+
+export interface AnggotaType {
+  id: string;
+  nama: string;
+  jabatan: string;
+  deskripsi: string;
+  foto: string;
+}
+
+export const kriteriaLayananGlobal = [
+  { judul: "Faktor Ekonomi", deskripsi: "Diutamakan bagi masyarakat marjinal/miskin yang dibuktikan dengan melampirkan Surat Keterangan Tidak Mampu (SKTM).", borderLeft: "#09090b" },
+  { judul: "Kasus Dimensi Publik", deskripsi: "Kasus atau perkara yang dihadapi berdampak luas bagi komunitas, lingkungan hidup, atau hak-hak dasar kelompok (bukan murni sengketa privat antarelite).", borderLeft: "#4b5563" },
+  { judul: "Pembatasan Kasus", deskripsi: "Secara ideologis, LBH SIKAP berkomitmen tidak akan bertindak sebagai pendamping bagi pelaku korupsi maupun pelaku kekerasan seksual.", borderLeft: "#dc2626" }
+];
+
+export const kriteriaLayanan = kriteriaLayananGlobal; // Fallback jika komponen lama memanggil variabel ini
+
+// =========================================================================
+// 📞 DATA KONTAK UTAMA (Untuk src/app/kontak/page.tsx)
+// =========================================================================
+export const kontakInfo: KontakInfoType = {
+  alamat: "Pondok Condongcatur, Blok G No.10, Gorongan, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55283.",
+  jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+  whatsapp: "+62 819-0615-7620",
+  email: "yogyakarta@ylbhsikap.or.id",
+  mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m12!1m3!1m2!1s0x2e7a599bdf99bf77%3A0x6bdaaa82d6da8!2sCondongcatur%2C%20Sleman%20Regency%2C%20Special%20Region%20of%20Yogyakarta!5e0!3m2!1sid!2sid!4v1718520000000!5m2!1sid!2sid"
+};
+
+// =========================================================================
+// 🏢 ZONA A: DATA KHUSUS KANTOR PUSAT ( lbhsikap.org/ )
+// =========================================================================
+export const dataKantorPusat = {
+  info: {
+    nama: "LBH SIKAP Pusat",
+    kota: "Jakarta",
+    alamat: "Jl. Utama No. 12, Kav 3, Kota Jakarta",
+    telepon: "021-1234567",
+    gmapsUrl: "https://maps.google.com/?cid=ID_MAPS_PUSAT",
+    mapsEmbed: "https://maps.google.com/?cid=ID_MAPS_PUSAT",
+    jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+    email: "pusat@ylbhsikap.or.id"
+  },
+  kriteria: kriteriaLayananGlobal,
+  berita: [
+    { id: "p1", date: "14 Juni 2026", title: "Pernyataan Sikap Pusat: Menolak Tindakan Represif Terhadap Hak Sipil", excerpt: "LBH SIKAP Pusat mengecam keras segala bentuk tindakan intimidasi dan represi aparat terhadap kebebasan berpendapat di muka umum...", category: "SIARAN PERS", color: "#09090b", gambarKunci: "bannerUtama" as keyof AsetGambarType }
+  ],
+  publikasi: [
+    { id: "p-doc-1", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja Pusat (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP Pusat kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan nasional.", tombolLabel: "Unduh Laporan Pusat (PDF)", link: "#" }
+  ],
+  struktur: {
+    pimpinan: { nama: "Prof. Dr. Ahmad Sodikin, S.H.", jabatan: "Ketua Dewan Pembina Pusat" },
+    direktur: { nama: "Budi Santoso, S.H., M.H.", jabatan: "Direktur Eksekutif Pusat" },
+    divisi: [
+      { nama: "Siti Rahma, S.H.", jabatan: "Kepala Divisi Litigasi Nasional" },
+      { nama: "Andi Wijaya, S.H.", jabatan: "Kepala Divisi Non-Litigasi Nasional" }
+    ]
+  },
+  anggota: [
+    { id: "center-member-1", nama: "Prof. Dr. Ahmad Sodikin, S.H.", jabatan: "Ketua Dewan Pembina", deskripsi: "Memimpin perumusan kebijakan strategis bantuan hukum nasional LBH SIKAP.", foto: "/assets/images/ruangan10.jpg" }
+  ]
+};
+
+// Logika fallback komponen utama lama agar Beranda Pusat tidak error sebelum diredirect
+export const BerandaData = dataKantorPusat.berita;
+export const publikasiData = dataKantorPusat.berita;
+export const publikasiDokumen = dataKantorPusat.publikasi;
+
+// =========================================================================
+// 🗺️ ZONA B: DATA KOLEKTIF SELURUH CABANG DINAMIS ( lbhsikap.org/[cabang] )
+// =========================================================================
+export const dataSeluruhCabang: Record<string, {
+  info: { nama: string; kota: string; alamat: string; telepon: string; email: string; jamOperasional: string; mapsEmbed: string };
+  kriteria: typeof kriteriaLayananGlobal;
+  berita: Berita[];
+  publikasi: typeof dataKantorPusat.publikasi;
+  
+  // ✨ PERBAIKAN TS2502: Deklarasi objek mandiri agar lingkaran referensi terputus
+  sectionBackup: {
+    pers: Array<{ id: string; date: string; title: string; excerpt: string }>;
+    edukasi: Array<{ id: string; title: string; excerpt: string }>;
+  };
+  
+  // ✨ PERBAIKAN TS2502: Deklarasi pengetikan struktur organisasi secara independen
+  struktur: {
+    pimpinan: { nama: string; jabatan: string };
+    direktur: { nama: string; jabatan: string };
+    divisi: Array<{ nama: string; jabatan: string }>;
+  };
+  
+  anggota: AnggotaType[];
+  posbakum: Array<{ id: string; nama: string; kelurahan: string; kapanewon: string; alamat: string; telepon: string; gmapsUrl: string; latitude: number; longitude: number }>;
+}> = {
+  
+  // 📍 1. CABANG YOGYAKARTA (Sub-folder: /yogyakarta)
+  yogyakarta: {
+    info: {
+      nama: "LBH SIKAP Cabang Yogyakarta",
+      kota: "Yogyakarta",
+      alamat: "Pondok Condongcatur, Blok G No.10, Gorongan, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55283.",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "081906157620",
+      email: "yogyakarta@ylbhsikap.or.id",
+      mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m12!1m3!1m2!1s0x2e7a599bdf99bf77%3A0x6bdaaa82d6da8!2sCondongcatur%2C%20Sleman%20Regency%2C%20Special%20Region%20of%20Yogyakarta!5e0!3m2!1sid!2sid!4v1718520000000!5m2!1sid!2sid"
+    },
+    kriteria: kriteriaLayananGlobal,
+    berita: [
+      { id: "y1", date: "14 Juni 2026", title: "Pernyataan Sikap: Menolak Tindakan Represif Terhadap Hak Sipil", excerpt: "LBH SIKAP Yogyakarta mengecam keras segala bentuk tindakan intimidasi dan represi aparat terhadap kebebasan berpendapat di muka umum...", category: "SIARAN PERS", color: "#09090b", gambarKunci: "bannerUtama" },
+      { id: "y2", date: "28 Mei 2026", title: "Menggugat Posisi Paralegal dalam Sistem Peradilan Pidana", excerpt: "Menganalisis urgensi penguatan payung hukum bagi gerakan aktor lini depan bantuan hukum di akar rumput demi menjamin akses keadilan yang merata...", category: "OPINI HUKUM", color: "#4b5563", gambarKunci: "kantorSekretariat" },
+      { id: "y3", date: "12 April 2026", title: "Catatan Krisis: Laporan Pemetaan Sengketa Tanah", excerpt: "Hasil riset kolaboratif mengenai potret buram sengketa agraria, tumpang tindih regulasi pertanahan, serta dampaknya terhadap hak ruang hidup warga...", category: "RISET & DATA", color: "#9ca3af", gambarKunci: "dokumentasiKasus" }
+    ],
+    publikasi: [
+      { id: "doc-1", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan masyarakat, persentase penyelesaian perkara litigasi maupun non-litigasi, serta transparansi tata kelola keuangan internal lembaga secara berkala.", tombolLabel: "Unduh Laporan Tahunan (PDF)", link: "#" },
+      { id: "doc-2", tag: "EDUKASI PUBLIK", tagColor: "#4b5563", judul: "Kertas Kebijakan & Modul Paralegal", deskripsi: "Akses gratis ke modul hukum praktis untuk kader di akar rumput (community paralegal), panduan taktis menghadapi sengketa ruang hidup, draf perlindungan hak-hak pekerja, serta hasil riset advokasi kebijakan publik lainnya.", tombolLabel: "Buka Berkas Modul", link: "#" }
+    ],
+    sectionBackup: {
+      pers: [
+        { id: "pers-1", date: "12 Juni 2026", title: "Desakan Hentikan Intimidasi Warga", excerpt: "Ringkasan rilis pers terbaru mengenai situasi eskalasi konflik di lapangan..." },
+        { id: "pers-2", date: "08 Juni 2026", title: "Catatan Kebijakan Publik Daerah", excerpt: "Isi analisa hukum LBH SIKAP terhadap draf rancangan regulasi daerah..." },
+        { id: "pers-3", date: "24 Mei 2026", title: "Keberhasilan Advokasi Buruh", excerpt: "Tuliskan rekam jejak penyelesaian kasus pemutusan hubungan kerja sepihak..." },
+      ],
+      edukasi: [
+        { id: "edu-1", title: "Klinik Hukum Gratis", excerpt: "Jadwal konsultasi mingguan tatap muka langsung di sekretariat LBH SIKAP." },
+        { id: "edu-2", title: "Panduan Hak Buruh", excerpt: "Mengenal hak-hak dasar tenaga kerja serta jaminan sosial sesuai undang-undang." },
+        { id: "edu-3", title: "Seminar Hukum Agraria", excerpt: "Edukasi mengenai pencegahan konflik pertanahan dan prosedur hukumnya." },
+      ]
+    },
+    struktur: {
+      pimpinan: { nama: "Prof. Dr. Ahmad Sodikin, S.H.", jabatan: "Ketua Dewan Pembina" },
+      direktur: { nama: "Budi Santoso, S.H., M.H.", jabatan: "Direktur Eksekutif" },
+      divisi: [
+        { nama: "Siti Rahma, S.H.", jabatan: "Kepala Divisi Litigasi" },
+        { nama: "Andi Wijaya, S.H.", jabatan: "Kepala Divisi Non-Litigasi" },
+        { nama: "Rian Hidayat, S.Sos.", jabatan: "Sekretaris & Umum" }
+      ]
+    },
+    anggota: [
+      { id: "member-1", nama: "Budi Santoso, S.H., M.H.", jabatan: "Direktur Executif", deskripsi: "Budi Santoso memiliki pengalaman lebih dari 15 tahun di bidang advokasi hukum publik dan penanganan hak asasi manusia. Menyelesaikan studi magister hukum di Universitas Gadjah Mada, beliau aktif memimpin reformasi bantuan hukum gratis bagi masyarakat marjinal di Yogyakarta.", foto: "/assets/images/ruangan10.jpg" },
+      { id: "member-2", nama: "Siti Rahma, S.H.", jabatan: "Kepala Divisi Litigasi", deskripsi: "Siti berspesialisasi dalam hukum pidana dan perlindungan perempuan & anak. Rekam jejaknya mencakup penyelesaian berbagai kasus struktural besar. Dedikasinya terhadap keadilan menjadikannya pilar utama dalam pergerakan bantuan hukum di LBH SIKAP.", foto: "/assets/images/ruangan3.jpg" },
+      { id: "member-3", nama: "Andi Wijaya, S.H.", jabatan: "Kepala Divisi Non-Litigasi", deskripsi: "Andi fokus pada edukasi hukum masyarakat, penyuluhan paralegal, dan mediasi sengketa di luar pengadilan. Memiliki komitmen tinggi dalam memberdayakan masyarakat agar sadar dan melek hukum secara mandiri.", foto: "/assets/images/ruangan1.jpg" },
+      { id: "member-4", nama: "Rian Hidayat, S.Sos.", jabatan: "Sekretaris & Umum", deskripsi: "Rian memiliki pengalaman luas dalam manajemen organisasi organisasi bantuan hukum and koordinasi kegiatan eksternal. Dedikasinya terhadap pelayanan publik menjadikannya aset berharga bagi tata kelola administrasi LBH SIKAP.", foto: "/assets/images/ruangan2.jpg" }
+    ],
+    posbakum: [
+      {
+        id: "posbakum-cabang-yogyakarta",
+        nama: "LBH SIKAP Cabang Yogyakarta (Kantor Utama)",
+        kelurahan: "Condongcatur",
+        kapanewon: "Depok",
+        alamat: "Jl. Malioboro No. 45, Yogyakarta",
+        telepon: "0274-567890",
+        gmapsUrl: "https://maps.google.com/?cid=ID_MAPS_YOGYAKARTA",
+        latitude: -7.7956,
+        longitude: 110.3695
+      }
+    ]
+  }
+};
+
+// Backup model lama agar tidak memicu breaking error pada halaman statis lama
+export const sectionData = dataSeluruhCabang.yogyakarta.sectionBackup;
+export const strukturOrganisasi = dataSeluruhCabang.yogyakarta.struktur;
+export const daftarAnggota = dataSeluruhCabang.yogyakarta.anggota;
+export const daftarPosbakum = dataSeluruhCabang.yogyakarta.posbakum;
+
