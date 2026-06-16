@@ -1,43 +1,68 @@
 import React from "react";
 import Link from "next/link";
 
-// 1. Definisikan tipe data untuk objek 'item' publikasi
+// 1. Definisi tipe data untuk objek 'item' publikasi (Dukungan penuh ID string/number)
 interface PublikasiItem {
-  id: number | string; // ID aman berupa angka atau teks
+  id: number | string; 
   date: string;
   category: string;
-  tagColor: string;    // Warna background untuk tag kategori (misal: "#ff0000")
+  tagColor: string;    
   title: string;
   excerpt: string;
 }
 
-// 2. Bungkus ke dalam properti komponen (Props)
+// 2. Properti komponen (Props)
 interface PublikasiCardProps {
   item: PublikasiItem;
 }
 
 export default function PublikasiCard({ item }: PublikasiCardProps) {
   return (
-    <div className="card" style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}>
+    // Wadah Utama Kartu (Card Layout)
+    // flex flex-col justify-between menjamin posisi tombol baca selalu presisi sejajar di dasar grid
+    <div className="flex flex-col justify-between w-full rounded-xl border border-gray-200 bg-white p-6 shadow-xs transition-all duration-300 hover:shadow-md hover:border-gray-300">
+      
+      {/* Bagian Atas: Metadata, Judul, dan Isi Ringkasan */}
       <div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px" }}>
-          <span className="card-date">{item.date}</span>
+        {/* Baris Atas: Tanggal & Tag Kategori */}
+        <div className="flex items-center justify-between gap-4 mb-4">
+          <span className="text-xs font-semibold tracking-wide text-gray-400">
+            {item.date}
+          </span>
           
-          {/* Tag kategori dengan warna background dinamis dari data */}
-          <span style={{ backgroundColor: item.tagColor, color: "#ffffff", fontSize: "10px", fontWeight: "700", padding: "2px 8px", borderRadius: "3px", letterSpacing: "0.5px" }}>
+          {/* Tag Kategori Dinamis dengan Background Color dari Database */}
+          <span 
+            style={{ backgroundColor: item.tagColor || "#111111" }} 
+            className="inline-block rounded-xs px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-xs"
+          >
             {item.category}
           </span>
         </div>
-        <h3>{item.title}</h3>
-        <p style={{ fontSize: "14px", color: "#444", marginTop: "10px", textAlign: "justify", lineHeight: "1.6" }}>
+        
+        {/* Judul Publikasi / Isu Advokasi */}
+        <h3 className="text-lg font-black leading-snug text-gray-950 md:text-xl line-clamp-2 hover:text-gray-800 transition-colors">
+          <Link href={`/publikasi/${item.id}`}>
+            {item.title}
+          </Link>
+        </h3>
+        
+        {/* Ringkasan Masalah (Excerpt) */}
+        {/* line-clamp-3 mengunci tinggi paragraf maksimal 3 baris agar tinggi antar-kartu konsisten */}
+        <p className="mt-3 text-sm leading-relaxed text-gray-600 text-justify line-clamp-3">
           {item.excerpt}
         </p>
       </div>
       
-      {/* Menggunakan Link Next.js agar perpindahan halaman instan tanpa reload */}
-      <Link href={`/publikasi/${item.id}`} style={{ display: "inline-block", marginTop: "20px", fontSize: "13px", fontWeight: "700", borderBottom: "1px solid #111111", width: "fit-content", paddingBottom: "2px" }}>
-        BACA SELENGKAPNYA →
-      </Link>
+      {/* Bagian Bawah: Tombol Navigasi Menuju Detail */}
+      <div className="mt-6 pt-4 border-t border-gray-100">
+        <Link 
+          href={`/publikasi/${item.id}`} 
+          className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-widest text-gray-950 transition-all duration-300 hover:gap-3.5 hover:text-gray-700"
+        >
+          Baca Selengkapnya <span className="text-sm">&rarr;</span>
+        </Link>
+      </div>
+      
     </div>
   );
 }

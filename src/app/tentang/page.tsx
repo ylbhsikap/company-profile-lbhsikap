@@ -1,9 +1,10 @@
+// src/app/tentang/page.tsx
 import React from "react";
 import Image from "next/image";
-// Tambahkan import 'strukturOrganisasi' dan 'daftarAnggota' dari data pusat Anda
+import { OrganogramTree } from "@/app/components/OrganogramTree";
+import { MemberList } from "@/app/components/MemberList";
 import { asetGambar, AsetGambarType, strukturOrganisasi, daftarAnggota } from "@/data/data"; 
 
-// Definisikan Interface baru untuk Struktur & Anggota
 interface OrganisasiType {
   pimpinan: { nama: string; jabatan: string };
   direktur: { nama: string; jabatan: string };
@@ -20,112 +21,58 @@ interface AnggotaType {
 
 export default function Tentang() {
   const gambar = asetGambar as AsetGambarType;
-  
-  // Type assertion untuk data organisasi dan anggota baru
   const treeOrga = strukturOrganisasi as OrganisasiType;
   const anggotaList = daftarAnggota as AnggotaType[];
 
   return (
-    <main>
-      {/* HERO SUB */}
-      <section className="hero-sub">
-        <Image 
-          src={gambar.tentangkami} 
-          alt="Tentang LBH SIKAP" 
-          fill 
-          priority 
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" 
-          style={{ objectFit: "cover" }} 
-        />
-        <div className="hero-overlay"></div>
-        <div className="hero-content container">
-          <h1>Tentang LBH SIKAP</h1>
-          <p>Mengenal Visi, Misi, dan Spirit Gerakan Advokasi Kami</p>
+    <main className="w-full bg-white">
+      {/* HERO SUB - Banner Atas Halaman */}
+      {/* pt-16 digunakan untuk memberi ruang agar tidak tertutup Navbar Anda */}
+      <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]">
+        
+        {/* 1. Pembungkus Gambar Background Khusus (Solusi Error Position) */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.tentangkami} 
+            alt="Tentang LBH SIKAP" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        
+        {/* 2. Overlay Gelap Premium */}
+        <div className="absolute inset-0 z-10 bg-black/70"></div>
+        
+        {/* 3. Konten Teks Hero Sub */}
+        <div className="relative z-20 w-11/12 max-w-300 text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Tentang LBH SIKAP
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-sm font-medium text-gray-300 sm:text-base">
+            Mengenal Visi, Misi, dan Spirit Gerakan Advokasi Kami
+          </p>
         </div>
       </section>
 
       {/* SEKSI KONTEN UTAMA */}
-      <section className="section-padding">
-        <div className="container" style={{ maxWidth: "1200px" }}>
+      {/* py-16 = Padding atas-bawah 64px menggantikan section-padding */}
+      <section className="w-full py-16 bg-white">
+        {/* max-w-300 = Lebar maksimal 1200px, mx-auto = Otomatis ke tengah */}
+        <div className="mx-auto w-11/12 max-w-300">
           
-          {/* ==========================================================
-             TAMBAHAN SEKSI 1: STRUKTUR BAGAN POHON (TREE)
-             ========================================================== */}
-          <div className="organogram-section">
-            <h2 style={{ fontSize: "24px", fontWeight: "700", textAlign: "center", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "1px" }}>
-              Struktur Kepengurusan
-            </h2>
-            <p style={{ color: "#666", textAlign: "center", marginBottom: "40px", fontSize: "14px" }}>Garis Komando dan Sinergi Operasional LBH SIKAP</p>
-            
-            <div className="organogram-tree">
-              {/* Tingkat 1: Pembina / Pimpinan */}
-              <div className="tree-level">
-                <div className="tree-node">
-                  <h3>{treeOrga.pimpinan.jabatan}</h3>
-                  <p>{treeOrga.pimpinan.nama}</p>
-                </div>
-              </div>
+          {/* Komponen Bagan Pohon Struktur Organisasi */}
+          <OrganogramTree treeOrga={treeOrga} />
 
-              {/* Tingkat 2: Direktur */}
-              <div className="tree-level">
-                <div className="tree-node" style={{ borderColor: "#111" }}>
-                  <h3>{treeOrga.direktur.jabatan}</h3>
-                  <p>{treeOrga.direktur.nama}</p>
-                </div>
-              </div>
+          {/* Garis Pembatas (Horizontal Rule) versi Tailwind v4 */}
+          {/* my-16 = Margin atas-bawah 64px penggantikan margin 70px manual */}
+          <hr className="my-16 border-0 border-t border-gray-200" />
 
-              {/* Tingkat 3: Jajaran Divisi */}
-              <div className="tree-level">
-                {treeOrga.divisi.map((div, index) => (
-                  <div className="tree-node" key={index} style={{ background: "#ffffff", color: "#111111", border: "1px solid #e5e5e5" }}>
-                    <h3 style={{ color: "#111111" }}>{div.jabatan}</h3>
-                    <p style={{ color: "#666666" }}>{div.nama}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+          {/* Komponen Daftar Anggota Bersambung */}
+          <MemberList anggotaList={anggotaList} />
 
-          <hr style={{ border: 0, borderTop: "1px solid #e5e5e5", margin: "70px 0" }} />
-
-          {/* ==========================================================
-             TAMBAHAN SEKSI 2: DAFTAR ANGGOTA (BERSAMBUNG)
-             ========================================================== */}
-          <div>
-            <h2 style={{ fontSize: "24px", fontWeight: "700", textAlign: "center", marginBottom: "10px", textTransform: "uppercase", letterSpacing: "1px" }}>
-              Profil Advokat & Anggota Lembaga
-            </h2>
-            <p style={{ color: "#666", textAlign: "center", marginBottom: "40px", fontSize: "14px" }}>Mengenal Lebih Dekat Penegak Keadilan Kami</p>
-
-            <div className="member-list">
-              {anggotaList.map((member) => (
-                <div className="member-row" key={member.id}>
-                  
-                  {/* Kolom Keterangan / Deskripsi */}
-                  <div className="member-info">
-                    <h3>{member.nama}</h3>
-                    <span className="role-tag">{member.jabatan}</span>
-                    <p>{member.deskripsi}</p>
-                  </div>
-
-                  {/* Kolom Foto Bersambung Seimbang */}
-                  <div className="member-photo-wrapper">
-                    <Image
-                      src={member.foto}
-                      alt={member.nama}
-                      fill
-                      sizes="(max-width: 900px) 100vw, 50vw"
-                      style={{ objectFit: "cover", objectPosition: "center" }}
-                      loading="lazy"
-                    />
-                  </div>
-
-                </div>
-              ))}
-            </div>
-          </div> {/* <-- PERBAIKAN: Menutup tag <div> pembungkus TAMBAHAN SEKSI 2 */}
-
-        </div> {/* <-- PERBAIKAN: Menutup tag <div className="container"> */}
+        </div>
       </section>
     </main>
   );

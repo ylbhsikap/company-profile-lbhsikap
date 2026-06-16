@@ -1,7 +1,7 @@
+// src/app/berita/[id]/page.tsx
 import React from "react";
-import { BerandaData } from "@/data/data"; //  Diubah dari newsData ke BerandaData agar sesuai dengan pusat data
+import { BerandaData } from "@/data/data"; 
 
-// 1. Definisikan struktur data Berita (Gunakan string pada ID agar sinkron)
 interface Berita {
   id: string;
   title: string;
@@ -11,13 +11,12 @@ interface Berita {
   color?: string;
 }
 
-// 2. Tipe data untuk parameter rute dinamis [id] di Next.js App Router
 interface DetailBeritaProps {
   params: Promise<{ id: string }>;
 }
 
 export default async function DetailBeritaPage({ params }: DetailBeritaProps) {
-  // Ambil ID dari URL rute dinamis
+  // Ambil ID dari URL rute dinamis secara asynchronous
   const { id } = await params;
 
   // Tegaskan data pusat sebagai array Berita
@@ -26,32 +25,57 @@ export default async function DetailBeritaPage({ params }: DetailBeritaProps) {
   // Cari berita yang spesifik berdasarkan ID dari URL
   const berita = daftarBerita.find((item) => item.id === id);
 
-  // Jika data berita tidak ditemukan di data.ts
+  // 1. TAMPILAN JIKA BERITA TIDAK DITEMUKAN
   if (!berita) {
     return (
-      <main className="container section-padding" style={{ paddingTop: "120px", textAlign: "center" }}>
-        <h2>Berita Tidak Ditemukan</h2>
-        <p>Maaf, artikel atau publikasi advokasi yang Anda cari tidak tersedia atau telah dihapus.</p>
+      <main className="w-full min-h-[60vh] flex flex-col items-center justify-center bg-white px-4 pt-32 pb-16 text-center">
+        <div className="max-w-md">
+          <h2 className="text-2xl font-black uppercase tracking-wide text-red-700 md:text-3xl">
+            Berita Tidak Ditemukan
+          </h2>
+          <p className="mt-4 text-sm leading-relaxed text-gray-500 sm:text-base">
+            Maaf, artikel atau publikasi advokasi yang Anda cari tidak tersedia, salah tautan, atau telah diarsipkan oleh lembaga.
+          </p>
+        </div>
       </main>
     );
   }
 
-  // Tampilan halaman detail berita yang berhasil ditemukan
+  // 2. TAMPILAN HALAMAN DETAIL BERITA RESMI
   return (
-    <main className="container section-padding" style={{ paddingTop: "120px" }}>
-      <article style={{ maxWidth: "800px", margin: "0 auto" }}>
-        <span style={{ background: berita.color || "#111111", color: "#fff", fontSize: "12px", padding: "4px 10px", borderRadius: "2px" }}>
+    // pt-32 memberikan jarak aman dari navbar, pb-24 memberikan ruang sebelum footer
+    <main className="w-full bg-white px-4 pt-32 pb-24">
+      {/* mx-auto max-w-200 mengunci lebar bacaan ideal artikel setara 800px */}
+      <article className="mx-auto w-full max-w-200">
+        
+        {/* Kategori Berita */}
+        <span 
+          style={{ backgroundColor: berita.color || "#111111" }} 
+          className="inline-block rounded-xs px-3 py-1 text-xs font-bold uppercase tracking-wider text-white shadow-xs"
+        >
           {berita.category || "Advokasi"}
         </span>
-        <h1 style={{ fontSize: "32px", fontWeight: "700", marginTop: "15px", marginBottom: "10px", lineHeight: "1.3" }}>
+        
+        {/* Judul Utama Artikel */}
+        <h1 className="mt-5 mb-3 text-2xl font-black leading-tight text-gray-950 sm:text-3xl md:text-4xl">
           {berita.title}
         </h1>
-        <p style={{ color: "#777777", fontSize: "14px", marginBottom: "30px" }}>Dipublikasikan pada: {berita.date}</p>
         
-        <div style={{ lineHeight: "1.8", color: "#333333", textAlign: "justify", fontSize: "16px" }}>
+        {/* Tanggal Rilis */}
+        <p className="mb-8 text-xs font-medium text-gray-400 sm:text-sm">
+          Dipublikasikan pada: {berita.date}
+        </p>
+        
+        {/* Batas Garis Tipis Estetik */}
+        <hr className="mb-8 border-0 border-t border-gray-150" />
+        
+        {/* Isi Teks Berita / Konten Advokasi */}
+        {/* text-justify membuat tulisan rata kanan-kiri khas rilis pers resmi, leading-relaxed (1.75) sangat nyaman dibaca */}
+        <div className="text-sm leading-relaxed text-gray-800 text-justify sm:text-base md:leading-loose">
           {berita.excerpt}
-          {/* Anda bisa menambahkan properti isiKonten jika ada di data.ts nanti */}
+          {/* Di masa depan, Anda tinggal memanggil {berita.isiKonten} di sini jika strukturnya ditambahkan */}
         </div>
+        
       </article>
     </main>
   );

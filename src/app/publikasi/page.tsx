@@ -1,10 +1,10 @@
+// src/app/publikasi/page.tsx
 import React from "react";
 import Image from "next/image";
-import PublikasiCard from "@/app/components/PublikasiCard"; // Komponen kartu artikel
-// 1. Gabungkan seluruh import dari data pusat ke dalam satu baris agar rapi
+import PublikasiCard from "@/app/components/PublikasiCard"; 
+import { DokumenCard } from "@/app/components/DokumenCard"; 
 import { publikasiData, publikasiDokumen, asetGambar, AsetGambarType } from "@/data/data"; 
 
-// 2. Interface untuk Data Artikel/Siaran Pers
 interface PublikasiItem {
   id: string;
   title: string;
@@ -14,7 +14,6 @@ interface PublikasiItem {
   excerpt: string;
 }
 
-// 3. Interface untuk Data Dokumen/Modul Hukum resmi
 interface DokumenItem {
   id: string;
   tagColor: string;
@@ -26,38 +25,54 @@ interface DokumenItem {
 }
 
 export default function Publikasi() {
-  // 5. Hubungkan variabel dengan tipe datanya masing-masing menggunakan Type Assertion
   const gambar = asetGambar as AsetGambarType;
   const daftarArtikel = publikasiData as unknown as PublikasiItem[];
   const daftarDokumen = publikasiDokumen as unknown as DokumenItem[];
 
   return (
-    <main>
-      {/* BANNER UTAMA */}
-      <section id="banner-publikasi" className="hero-sub"> 
-        <Image 
-          src={gambar.publikasi} // ✨ Sukses dialihkan ke skema gambar terpusat
-          alt="Publikasi LBH SIKAP" 
-          fill 
-          priority 
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 85vw, 1200px" // 🚀 Mengoptimalkan resolusi unduhan gambar sesuai ukuran layar device
-          style={{ objectFit: "cover" }} 
-        />
-        <div className="hero-overlay"></div>
-        <div className="hero-content container">
-          <h1>Publikasi & Riset Hukum</h1>
-          <p>Suara Gerakan, Hasil Analisis Kebijakan, dan Pernyataan Sikap Resmi Lembaga</p>
+    <main className="w-full bg-white">
+      {/* BANNER UTAMA - HERO SUB */}
+      <section className="relative flex h-[40vh] min-h-80 w-full items-center justify-center overflow-hidden bg-gray-950 pt-16 md:h-[50vh]"> 
+        
+        {/* 1. Pembungkus Gambar Background Khusus (Solusi Error Position) */}
+        <div className="absolute inset-0 z-0 h-full w-full">
+          <Image 
+            src={gambar.publikasi} 
+            alt="Publikasi LBH SIKAP" 
+            fill 
+            priority 
+            sizes="100vw" 
+            className="object-cover" 
+          />
+        </div>
+        
+        {/* 2. Overlay Gelap */}
+        <div className="absolute inset-0 z-10 bg-black/70"></div>
+        
+        {/* 3. Konten Teks Hero Sub */}
+        <div className="relative z-20 w-11/12 max-w-300 text-center text-white px-4">
+          <h1 className="text-3xl font-black tracking-wider uppercase sm:text-4xl md:text-5xl">
+            Publikasi & Riset Hukum
+          </h1>
+          <p className="mx-auto mt-4 max-w-2xl text-sm font-medium text-gray-300 sm:text-base">
+            Suara Gerakan, Hasil Analisis Kebijakan, dan Pernyataan Sikap Resmi Lembaga
+          </p>
         </div>
       </section>
 
       {/* 1. BAGIAN ARTIKEL (Siaran Pers, Opini, Riset) */}
-      <section className="section-padding">
-        <div className="container">
-          <div style={{ display: "flex", justifyContent: "space-between", borderBottom: "2px solid #111111", paddingBottom: "15px", marginBottom: "40px" }}>
-            <h2 style={{ fontSize: "24px", fontWeight: "700", textTransform: "uppercase" }}>Rilis Terbaru</h2>
+      <section className="w-full py-16 bg-white">
+        <div className="mx-auto w-11/12 max-w-300">
+          
+          {/* Header Rilis Terbaru */}
+          <div className="mb-10 flex items-center justify-between border-b-2 border-gray-950 pb-4">
+            <h2 className="text-xl font-bold uppercase tracking-wide text-gray-950 md:text-2xl">
+              Rilis Terbaru
+            </h2>
           </div>
           
-          <div className="grid-3">
+          {/* Grid Sistem Responsif Tailwind v4 (Menggantikan grid-3) */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {daftarArtikel.map((item) => (
               <PublikasiCard key={item.id} item={item} />
             ))}
@@ -66,17 +81,19 @@ export default function Publikasi() {
       </section>
 
       {/* 2. BAGIAN DOKUMEN (Laporan Tahunan & Modul) */}
-      <section className="section-padding" style={{ background: "#f9f9f9" }}>
-        <div className="container">
-          <h2 style={{ fontSize: "24px", fontWeight: "700", marginBottom: "30px" }}>Dokumen & Modul Resmi</h2>
-          <div className="grid-3" style={{ gap: "40px" }}>
+      {/* bg-gray-50 memberikan kontras abu-abu yang sangat tipis dan elegan */}
+      <section className="w-full py-16 bg-gray-50">
+        <div className="mx-auto w-11/12 max-w-300">
+          
+          {/* Header Dokumen */}
+          <h2 className="mb-8 text-xl font-bold uppercase tracking-wide text-gray-950 md:text-2xl">
+            Dokumen & Modul Resmi
+          </h2>
+          
+          {/* Grid Sistem Dokumen (Menggantikan grid-3 kustom) */}
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {daftarDokumen.map((doc) => (
-              <div key={doc.id} className="card" style={{ background: "#ffffff", padding: "20px", border: "1px solid #e5e5e5" }}>
-                <span style={{ background: doc.tagColor, color: "#fff", fontSize: "10px", padding: "3px 8px" }}>{doc.tag}</span>
-                <h3 style={{ marginTop: "15px" }}>{doc.judul}</h3>
-                <p style={{ fontSize: "14px", color: "#444" }}>{doc.deskripsi}</p>
-                <a href={doc.link} className="btn-cta" style={{ marginTop: "20px", display: "block", textAlign: "center" }}>{doc.tombolLabel}</a>
-              </div>
+              <DokumenCard key={doc.id} doc={doc} />
             ))}
           </div>
         </div>
