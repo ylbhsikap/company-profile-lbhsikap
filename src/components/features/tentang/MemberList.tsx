@@ -29,7 +29,6 @@ export function MemberList({ anggotaList }: MemberListProps) {
       <div className="flex flex-col gap-12">
         {anggotaList.map((member, index) => {
           const isEven = index % 2 === 1;
-
           return (
             <div 
               key={member.id} 
@@ -54,8 +53,8 @@ export function MemberList({ anggotaList }: MemberListProps) {
               <div className={`relative min-h-75 w-full bg-gray-50 md:min-h-full
                 ${isEven ? "md:order-1" : "md:order-2"}`}
               >
-                {/* 💡 DIV PENYELAMAT: Memastikan direct parent dari Image fill berposisi absolute */}
-                <div className="relative inset-0 z-0 h-full w-full">
+                {/* 💡 PERBAIKAN: Gunakan 'absolute' agar 'inset-0' bekerja dengan benar untuk Image fill */}
+                <div className="absolute inset-0 z-0 h-full w-full">
                   <Image
                     src={member.foto}
                     alt={member.nama}
@@ -66,7 +65,7 @@ export function MemberList({ anggotaList }: MemberListProps) {
                   />
                 </div>
                 
-                {/* Efek Sambungan Gradasi menggunakan Utilitas Tailwind v4 */}
+                {/* Efek Sambungan Gradasi */}
                 <div 
                   className={`absolute inset-0 z-20 h-full w-full pointer-events-none bg-linear-to-b from-white via-white/10 to-transparent
                     md:h-full md:w-1/4 md:from-white md:via-white/20 md:to-transparent

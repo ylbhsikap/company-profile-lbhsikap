@@ -1,20 +1,25 @@
-import React from "react";
-import "@/app/globals.css";
+ // src/app/layout.tsx
+import "./output.css";
+import "./globals.css"; // Ini menghubungkan CSS Tailwind Anda
+import type { Metadata } from "next";
+import { Inter } from "next/font/google"; // Anda bisa ganti font sesuai selera
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "LBH SIKAP | Lembaga Bantuan Hukum",
+  description: "Situs resmi LBH SIKAP, memberikan akses keadilan bagi masyarakat.",
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="id">
-      <body className="antialiased bg-white text-gray-900 min-h-screen flex flex-col justify-between">
-        
-        {/* Konten Utama Aplikasi */}
-        <div className="grow">
-          {children}
-        </div>
-
-        {/* Footer Global Jajaran Nasional */}
-        <footer className="py-6 text-center text-3xs text-gray-400 bg-gray-50 border-t border-gray-200">
-          &copy; {new Date().getFullYear()} LBH SIKAP Jajaran Nasional. All Rights Reserved.
-        </footer>
+      <body className={inter.className}>
+        {children}
       </body>
     </html>
   );

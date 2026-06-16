@@ -20,9 +20,9 @@ export const asetGambar: AsetGambarType = {
   logoResmi: "/assets/images/logo-lbh.png",
   tentangkami: "/assets/images/ruangan2.jpg",
   kontak: "/assets/images/ruangan.jpg",
-  layananBawah: "/assets/images/ruangan10.jpg",
-  publikasi: "/assets/images/ruangan10.jpg",
-  dokumentasiKasus: "/assets/images/ruangan10.jpg"
+  layananBawah: "/assets/images/ruangan.jpg",
+  publikasi: "/assets/images/ruangan.jpg",
+  dokumentasiKasus: "/assets/images/ruangan.jpg"
 };
 
 // =========================================================================
@@ -44,7 +44,7 @@ export interface Berita {
   category: string;
   color: string;
   gambarKunci: keyof AsetGambarType;
-  slugCabang: string; // 🌟 Disatukan di sini sebagai kunci pelacakan rute sub-folder dinamis
+  slugCabang: string; 
 }
 
 export interface AnggotaType {
@@ -61,7 +61,7 @@ export const kriteriaLayananGlobal = [
   { judul: "Pembatasan Kasus", deskripsi: "Secara ideologis, LBH SIKAP berkomitmen tidak akan bertindak sebagai pendamping bagi pelaku korupsi maupun pelaku kekerasan seksual.", borderLeft: "#dc2626" }
 ];
 
-export const kriteriaLayanan = kriteriaLayananGlobal; // Fallback jika komponen lama memanggil variabel ini
+export const kriteriaLayanan = kriteriaLayananGlobal; 
 
 // =========================================================================
 // 📞 DATA KONTAK UTAMA (Untuk src/app/kontak/page.tsx)
@@ -79,7 +79,7 @@ export const kontakInfo: KontakInfoType = {
 // =========================================================================
 export const dataKantorPusat = {
   info: {
-    nama: "LBH SIKAP Pusat",
+    nama: "ylbh sikap",
     kota: "Jakarta",
     alamat: "Jl. Utama No. 12, Kav 3, Kota Jakarta",
     telepon: "021-1234567",
@@ -88,6 +88,12 @@ export const dataKantorPusat = {
     jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
     email: "pusat@ylbhsikap.or.id"
   },
+  menu: [
+    { name: "Beranda", href: "/" },
+    { name: "Tentang Kami", href: "/tentang" },
+    { name: "Layanan Hukum", href: "/layanan" },
+    { name: "Publikasi", href: "/publikasi" },
+  ],
   kriteria: kriteriaLayananGlobal,
   berita: [
     { 
@@ -99,8 +105,19 @@ export const dataKantorPusat = {
       color: "#09090b", 
       gambarKunci: "bannerUtama" as keyof AsetGambarType,
       slugCabang: "pusat" 
+    },
+    { 
+      id: "p2", // Gunakan id unik, misalnya "p2"
+      date: "17 Juni 2026", // Tanggal rilis berita
+      title: "LBH SIKAP Pusat Selenggarakan Pelatihan Paralegal Tingkat Nasional", 
+      excerpt: "Dalam rangka memperkuat jaringan bantuan hukum di akar rumput, LBH SIKAP Pusat resmi membuka pendaftaran pelatihan paralegal struktural...", 
+      category: "EDUKASI", // Kategori berita bebas (Contoh: ADVOKASI, OPINI HUKUM, EDUKASI)
+      color: "#4b5563", // Warna tema label berita
+      gambarKunci: "kantorSekretariat" as keyof AsetGambarType, // Mengambil kunci gambar dari asetGambar global
+      slugCabang: "pusat" // Wajib diisi "pusat" agar muncul di halaman pertama
     }
-  ],
+  ]
+,
   publikasi: [
     { id: "p-doc-1", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja Pusat (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP Pusat kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan nasional.", tombolLabel: "Unduh Laporan Pusat (PDF)", link: "#" }
   ],
@@ -169,7 +186,7 @@ export const databaseArtikelNasional: Berita[] = [
 export const dataSeluruhCabang: Record<string, {
   info: { nama: string; kota: string; alamat: string; telepon: string; email: string; jamOperasional: string; mapsEmbed: string };
   kriteria: typeof kriteriaLayananGlobal;
-  berita: Berita[]; // Menunjuk ke struktur terpadu
+  berita: Berita[]; 
   publikasi: typeof dataKantorPusat.publikasi;
   
   sectionBackup: {
@@ -187,7 +204,7 @@ export const dataSeluruhCabang: Record<string, {
   posbakum: Array<{ id: string; nama: string; kelurahan: string; kapanewon: string; alamat: string; telepon: string; gmapsUrl: string; latitude: number; longitude: number }>;
 }> = {
   
-  // 📍 1. CABANG YOGYAKARTA (Sub-folder: /yogyakarta)
+  // 📍 1. CABANG YOGYAKARTA
   yogyakarta: {
     info: {
       nama: "LBH SIKAP Cabang Yogyakarta",
@@ -199,7 +216,6 @@ export const dataSeluruhCabang: Record<string, {
       mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m12!1m3!1m2!1s0x2e7a599bdf99bf77%3A0x6bdaaa82d6da8!2sCondongcatur%2C%20Sleman%20Regency%2C%20Special%20Region%20of%20Yogyakarta!5e0!3m2!1sid!2sid!4v1718520000000!5m2!1sid!2sid"
     },
     kriteria: kriteriaLayananGlobal,
-    // Di-filter otomatis dari database terpusat untuk efisiensi instansiasi awal
     berita: databaseArtikelNasional.filter(art => art.slugCabang === "yogyakarta"),
     publikasi: [
       { id: "doc-1", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan masyarakat, persentase penyelesaian perkara litigasi maupun non-litigasi, serta transparansi tata kelola keuangan internal lembaga secara berkala.", tombolLabel: "Unduh Laporan Tahunan (PDF)", link: "#" },
@@ -207,46 +223,115 @@ export const dataSeluruhCabang: Record<string, {
     ],
     sectionBackup: {
       pers: [
-        { id: "pers-1", date: "12 Juni 2026", title: "Desakan Hentikan Intimidasi Warga", excerpt: "Ringkasan rilis pers terbaru mengenai situasi eskalasi konflik di lapangan..." },
-        { id: "pers-2", date: "08 Juni 2026", title: "Catatan Kebijakan Publik Daerah", excerpt: "Isi analisa hukum LBH SIKAP terhadap draf rancangan regulasi daerah..." },
-        { id: "pers-3", date: "24 Mei 2026", title: "Keberhasilan Advokasi Buruh", excerpt: "Tuliskan rekam jejak penyelesaian kasus pemutusan hubungan kerja sepihak..." },
+        { id: "pers-1", date: "12 Juni 2026", title: "Desakan Hentikan Intimidasi Warga", excerpt: "Ringkasan rilis pers terbaru mengenai situasi eskalasi konflik di lapangan..." }
       ],
       edukasi: [
-        { id: "edu-1", title: "Klinik Hukum Gratis", excerpt: "Jadwal konsultasi mingguan tatap muka langsung di sekretariat LBH SIKAP." },
-        { id: "edu-2", title: "Panduan Hak Buruh", excerpt: "Mengenal hak-hak dasar tenaga kerja serta jaminan sosial sesuai undang-undang." },
-        { id: "edu-3", title: "Seminar Hukum Agraria", excerpt: "Edukasi mengenai pencegahan konflik pertanahan dan prosedur hukumnya." },
+        { id: "edu-1", title: "Klinik Hukum Gratis", excerpt: "Jadwal konsultasi mingguan tatap muka langsung di sekretariat LBH SIKAP." }
       ]
     },
     struktur: {
       pimpinan: { nama: "Prof. Dr. Ahmad Sodikin, S.H.", jabatan: "Ketua Dewan Pembina" },
       direktur: { nama: "Budi Santoso, S.H., M.H.", jabatan: "Direktur Eksekutif" },
       divisi: [
-        { nama: "Siti Rahma, S.H.", jabatan: "Kepala Divisi Litigasi" },
-        { nama: "Andi Wijaya, S.H.", jabatan: "Kepala Divisi Non-Litigasi" },
-        { nama: "Rian Hidayat, S.Sos.", jabatan: "Sekretaris & Umum" }
+        { nama: "Siti Rahma, S.H.", jabatan: "Kepala Divisi Litigasi" }
       ]
     },
     anggota: [
-      { id: "member-1", nama: "Budi Santoso, S.H., M.H.", jabatan: "Direktur Executif", deskripsi: "Budi Santoso memiliki pengalaman lebih dari 15 tahun di bidang advokasi hukum publik dan penanganan hak asasi manusia. Menyelesaikan studi magister hukum di Universitas Gadjah Mada, beliau aktif memimpin reformasi bantuan hukum gratis bagi masyarakat marjinal di Yogyakarta.", foto: "/assets/images/ruangan10.jpg" },
-      { id: "member-2", nama: "Siti Rahma, S.H.", jabatan: "Kepala Divisi Litigasi", deskripsi: "Siti berspesialisasi dalam hukum pidana dan perlindungan perempuan & anak. Rekam jejaknya mencakup penyelesaian berbagai kasus struktural besar. Dedikasinya terhadap keadilan menjadikannya pilar utama dalam pergerakan bantuan hukum di LBH SIKAP.", foto: "/assets/images/ruangan3.jpg" },
-      { id: "member-3", nama: "Andi Wijaya, S.H.", jabatan: "Kepala Divisi Non-Litigasi", deskripsi: "Andi fokus pada edukasi hukum masyarakat, penyuluhan paralegal, dan mediasi sengketa di luar pengadilan. Memiliki komitmen tinggi dalam memberdayakan masyarakat agar sadar dan melek hukum secara mandiri.", foto: "/assets/images/ruangan1.jpg" },
-      { id: "member-4", nama: "Rian Hidayat, S.Sos.", jabatan: "Sekretaris & Umum", deskripsi: "Rian memiliki pengalaman luas dalam manajemen organisasi organisasi bantuan hukum and koordinasi kegiatan eksternal. Dedikasinya terhadap pelayanan publik menjadikannya aset berharga bagi tata kelola administrasi LBH SIKAP.", foto: "/assets/images/ruangan2.jpg" }
+      { id: "member-1", nama: "Budi Santoso, S.H., M.H.", jabatan: "Direktur Executif", deskripsi: "Pengalaman di bidang advokasi hukum publik...", foto: "/assets/images/ruangan10.jpg" }
     ],
     posbakum: [
-      {
-        id: "posbakum-cabang-yogyakarta",
-        nama: "LBH SIKAP Cabang Yogyakarta (Kantor Utama)",
-        kelurahan: "Condongcatur",
-        kapanewon: "Depok",
-        alamat: "Jl. Malioboro No. 45, Yogyakarta",
-        telepon: "0274-567890",
-        gmapsUrl: "https://maps.google.com/?cid=ID_MAPS_YOGYAKARTA",
-        latitude: -7.7956,
-        longitude: 110.3695
-      }
+      { id: "posbakum-cabang-yogyakarta", nama: "LBH SIKAP Cabang Yogyakarta", kelurahan: "Condongcatur", kapanewon: "Depok", alamat: "Jl. Malioboro No. 45", telepon: "0274-567890", gmapsUrl: "#", latitude: 0, longitude: 0 }
     ]
+  },
+
+  // 📍 2. TEMPLATE CARA MENAMBAHKAN CABANG BARU YANG SAH SECARA TYPESCRIPT (Contoh: Purwokerto)
+  purwokerto: {
+    info: {
+      nama: "LBH SIKAP Cabang Purwokerto",
+      kota: "Purwokerto",
+      alamat: "Jl. Jenderal Sudirman No. 45, Purwokerto, Jawa Tengah",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0281-635xxx",
+      email: "purwokerto@ylbhsikap.or.id",
+      mapsEmbed: ""
+    },
+    kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
+    berita: [], // Boleh dikosongkan menggunakan array kosong
+    publikasi: [], 
+    sectionBackup: {
+      pers: [],
+      edukasi: []
+    },
+    struktur: {
+      pimpinan: { nama: "Dalam Persiapan", jabatan: "Ketua Pembina" },
+      direktur: { nama: "Dalam Persiapan", jabatan: "Direktur Cabang" },
+      divisi: []
+    },
+    anggota: [],
+    posbakum: []
+  },
+
+   balikpapn: {
+    info: {
+      nama: "LBH SIKAP Cabang Balikpapan",
+      kota: "Balikpapan",
+      alamat: "Jl. Jenderal Sudirman No. 45, Balikpapan, Kalimantan Timur",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0281-635xxx",
+      email: "balikpapan@ylbhsikap.or.id",
+      mapsEmbed: ""
+    },
+    kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
+    berita: [], // Boleh dikosongkan menggunakan array kosong
+    publikasi: [], 
+    sectionBackup: {
+      pers: [],
+      edukasi: []
+    },
+    struktur: {
+      pimpinan: { nama: "Dalam Persiapan", jabatan: "Ketua Pembina" },
+      direktur: { nama: "Dalam Persiapan", jabatan: "Direktur Cabang" },
+      divisi: []
+    },
+    anggota: [],
+    posbakum: []
+  },
+
+  samarinda: {
+    info: {
+      nama: "LBH SIKAP Cabang Samarinda",
+      kota: "Samarinda",
+      alamat: "Jl. Jenderal Sudirman No. 45, Samarinda, Kalimantan Timur",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0281-635xxx",
+      email: "samarinda@ylbhsikap.or.id",
+      mapsEmbed: ""
+    },
+    kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
+    berita: [], // Boleh dikosongkan menggunakan array kosong
+    publikasi: [], 
+    sectionBackup: {
+      pers: [],
+      edukasi: []
+    },
+    struktur: {
+      pimpinan: { nama: "Dalam Persiapan", jabatan: "Ketua Pembina" },
+      direktur: { nama: "Dalam Persiapan", jabatan: "Direktur Cabang" },
+      divisi: []
+    },
+    anggota: [],
+    posbakum: []
   }
 };
+
+export const prosedurLayanan = [
+  { step: "01", title: "Menyiapkan Dokumen Persyaratan", desc: "Pemohon wajib menyiapkan fotokopi KTP, KK, dokumen bukti tidak mampu seperti SKTM atau kartu jaminan sosial, serta berkas pendukung yang berkaitan dengan kasus hukumnya." },
+  { step: "02", title: "Mendatangi Kantor LBH Terakreditasi", desc: "Pemohon mendatangi langsung kantor OBH atau LBH terdekat yang statusnya telah resmi terakreditasi oleh Kementerian Hukum dan HAM.." },
+  { step: "03", title: "Mengajukan Permohonan dan Kronologis", desc: "Memberikan pendampingan hukum sesuai kebutuhan, baik litigasi maupun non-litigasi." },
+  { step: "04", title: "Pemeriksaan Administrasi dan Kelayakan Kasus", desc: "Pihak OBH/LBH akan memverifikasi keabsahan dokumen persyaratan dan menganalisis kelayakan kasus hukum tersebut dalam waktu maksimal tiga hari kerja.." },
+  { step: "05", title: " Pengambilan Keputusan dan Penandatanganan Kuasa", desc: "Apabila permohonan disetujui, pemohon akan menandatangani Surat Kuasa Khusus agar tim advokat lembaga tersebut dapat bertindak sebagai pendamping hukum resminya.." },
+  { step: "06", title: "Pelaksanaan Bantuan Hukum Gratis", desc: "Tim OBH/LBH akan memberikan pendampingan hukum penuh secara gratis, baik melalui jalur persidangan (litigasi) maupun penyelesaian di luar pengadilan (non-litigasi)." }
+];
 
 // =========================================================================
 // 🚀 BACKUP VARIABLE & FALLBACK COMPATIBILITY (Mencegah Breaking Error)

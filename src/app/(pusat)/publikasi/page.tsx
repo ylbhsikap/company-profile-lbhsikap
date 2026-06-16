@@ -1,73 +1,50 @@
 // src/app/(pusat)/publikasi/page.tsx
 import React from "react";
-import Link from "next/link";
-import { databaseArtikelNasional, Berita } from "@/data/data";
+import { databaseArtikelNasional } from "@/data/data"; //[cite: 2]
+import { PublikasiCard } from "@/components/features/publikasi/PublikasiCard";
+import { SubPageHeader } from "@/components/layout/SubPageHeader";
+import { asetGambar } from "@/data/data"; //[cite: 1]
 
 export default function PublikasiPusatNasional() {
-  // Pusat mengambil data keseluruhan secara efisien dari satu database nasional tunggal
-  const semuaArtikel: Berita[] = databaseArtikelNasional;
-
   return (
-    <main className="max-w-6xl mx-auto px-6 py-12">
-      {/* HEADER PAGE AGREGATOR */}
-      <div className="mb-10">
-        <h1 className="text-2xl font-black tracking-wider uppercase text-gray-950">
-          Publikasi Jajaran Wilayah Nasional
-        </h1>
-        <p className="text-xs text-gray-500 mt-1">
-          Kumpulan rilis pers, opini hukum, dan dokumentasi kasus dari seluruh cabang LBH SIKAP.
-        </p>
-      </div>
+    <main className="w-full bg-white">
+      {/* 1. BANNER UTAMA (Bebas melebar penuh selayar) */}
+      <SubPageHeader 
+        title="Publikasi" 
+        subtitle="Jajaran Wilayah Nasional" 
+        bgImage={asetGambar.bannerUtama} //[cite: 1]
+      />
 
-      {/* GRID DAFTAR PUBLIKASI NASIONAL */}
-      {semuaArtikel.length === 0 ? (
-        <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">
-          Belum ada data publikasi nasional yang terkumpul.
-        </p>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {semuaArtikel.map((artikel) => (
-            <div 
-              key={artikel.id} 
-              className="border border-gray-200 p-6 rounded-xl bg-gray-50 flex flex-col justify-between shadow-xs hover:border-gray-300 transition-all duration-200"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-4">
-                  {/* Badge Identitas Asal Cabang */}
-                  <span className="text-[10px] font-extrabold bg-gray-950 text-white px-2 py-0.5 rounded-sm uppercase tracking-wider">
-                    Cabang: {artikel.slugCabang}
-                  </span>
-                  {/* Tag Kategori Ringkas Artikel */}
-                  <span 
-                    className="text-[10px] font-bold uppercase tracking-wide"
-                    style={{ color: artikel.color || "#4b5563" }}
-                  >
-                    {artikel.category}
-                  </span>
-                </div>
-
-                <h2 className="text-base font-bold mt-3 text-gray-950 line-clamp-2 uppercase leading-tight tracking-tight">
-                  {artikel.title}
-                </h2>
-                
-                <p className="text-xs text-gray-500 mt-2 line-clamp-2 leading-relaxed">
-                  {artikel.excerpt}
-                </p>
-              </div>
-
-              {/* TAUTAN BYPASS: Mengarahkan langsung masuk ke ekosistem sub-folder cabang */}
-              <div className="mt-4 pt-4 border-t border-gray-200/60">
-                <Link 
-                  href={`/${artikel.slugCabang}/publikasi/${artikel.id}`}
-                  className="text-xs font-bold text-gray-950 hover:text-amber-600 transition-colors inline-flex items-center gap-1 uppercase tracking-wider"
-                >
-                  Baca Artikel Selengkapnya di Website Cabang &rarr;
-                </Link>
-              </div>
-            </div>
-          ))}
+      {/* 2. AREA KONTEN UTAMA (Satu komando di dalam max-w-6xl) */}
+      <section className="max-w-6xl mx-auto px-6 py-12 md:py-16">
+        
+        {/* Kepala Judul Halaman */}
+        <div className="border-b border-gray-100 pb-6">
+          <h1 className="text-2xl font-black tracking-wider uppercase text-gray-950 sm:text-3xl">
+            Publikasi Jajaran Wilayah Nasional
+          </h1>
+          <p className="text-xs text-gray-500 mt-1.5 max-w-2xl leading-relaxed">
+            Kumpulan rilis pers, opini hukum, dan dokumentasi kasus dari seluruh cabang LBH SIKAP.
+          </p>
         </div>
-      )}
+
+        {/* Grid List Kartu Berita (Sekarang aman di dalam pembungkus) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+          {databaseArtikelNasional.length > 0 ? (
+            databaseArtikelNasional.map((artikel) => (
+              <PublikasiCard key={artikel.id} artikel={artikel} />
+            ))
+          ) : (
+            // Jika kosong, pesan peringatan akan rapi menempati grid full-width
+            <div className="col-span-full py-12 text-center bg-gray-50 rounded-xl border border-dashed border-gray-200">
+              <p className="text-sm font-bold text-gray-400 italic">
+                Belum ada publikasi nasional.
+              </p>
+            </div>
+          )}
+        </div>
+
+      </section>
     </main>
   );
 }

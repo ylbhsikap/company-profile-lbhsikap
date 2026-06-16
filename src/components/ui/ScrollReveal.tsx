@@ -1,3 +1,4 @@
+// src/components/layout/ScrollReveal.tsx
 "use client";
 import { useEffect, useRef, ReactNode } from "react";
 
@@ -12,15 +13,13 @@ export default function ScrollReveal({ children }: ScrollRevealProps) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          // 💡 SOLUSI TAILWIND v4:
-          // Menghapus kelas 'invisible & tergeser' lalu menyuntikkan efek 'muncul & tegak lurus'
           entry.target.classList.remove("opacity-0", "translate-y-8");
           entry.target.classList.add("opacity-100", "translate-y-0");
         }
       },
       {
-        threshold: 0.15, // Elemen terpicu jika 15% areanya sudah masuk layar
-        rootMargin: "0px 0px -50px 0px" // Terpicu sedikit sebelum menyentuh batas pandang dasar
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px"
       }
     );
 
@@ -33,11 +32,11 @@ export default function ScrollReveal({ children }: ScrollRevealProps) {
   }, []);
 
   return (
-    // Kondisi Awal: Transparan (opacity-0) dan amblas ke bawah sejauh 32px (translate-y-8)
-    // transition-all duration-700 ease-out memastikan animasi bergeser naik ke atas berjalan sangat halus saat di-scroll
+    // Penambahan 'relative' di sini memastikan wrapper animasi 
+    // memiliki positioning yang valid untuk elemen anak (seperti Image fill)
     <div 
       ref={ref} 
-      className="opacity-0 translate-y-8 transition-all duration-1000 ease-out will-change-transform"
+      className="relative opacity-0 translate-y-8 transition-all duration-1000 ease-out will-change-transform"
     >
       {children}
     </div>

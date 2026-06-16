@@ -9,23 +9,22 @@ interface PageBackgroundProps {
 
 export default function PageBackground({ src, alt = "Latar Belakang Halaman" }: PageBackgroundProps) {
   return (
-    // WADAH UTAMA: Mengunci posisi fixed melayang di seluruh layar di balik semua konten (z-[-1])
-    <div className="fixed inset-0 -z-10 h-screen w-screen overflow-hidden bg-gray-950">
+    // 'fixed inset-0' memastikan latar belakang selalu menutup layar
+    <div className="fixed inset-0 -z-10 h-dvh w-full overflow-hidden bg-gray-950">
       
-      {/* 💡 DIV PENYELAMAT: Menjadi direct parent absolute yang valid untuk Next.js Image fill */}
-      <div className="absolute inset-0 z-0 h-full w-full">
+      {/* WAJIB: Tambahkan 'relative' agar Image fill punya anchor yang tepat */}
+      <div className="relative w-full h-full z-0">
         <Image
-          src={src} // Berubah dinamis sesuai halaman yang memanggilnya
+          src={src}
           alt={alt}
           fill
           sizes="100vw"
-          className="object-cover object-center scale-102 blur-xs opacity-40 transition-all duration-700"
+          className="object-cover object-center scale-105 blur-xs opacity-40 transition-all duration-700"
           priority
         />
       </div>
       
-      {/* OVERLAY GELAP GRADASI PREMIUM */}
-      {/* Menggunakan kombinasi opacity hitam arang agar teks putih di atasnya terlihat sangat tajam */}
+      {/* Gradient di Tailwind v4 sudah mendukung sintaks linear-to */}
       <div className="absolute inset-0 z-10 h-full w-full bg-linear-to-b from-black/60 via-black/40 to-gray-950"></div>
       
     </div>

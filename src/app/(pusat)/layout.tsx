@@ -1,34 +1,35 @@
-import React from "react";
-import Link from "next/link";
+// src/app/(pusat)/layout.tsx
+import { Navbar } from "@/components/layout/Navbar";
+import { Footer } from "@/components/layout/Footer";
+import { dataKantorPusat, dataSeluruhCabang } from "@/data/data"; // 💡 Import dataSeluruhCabang
 
-// Komponen Navbar internal khusus Kantor Pusat
-function NavbarPusat() {
+export default function LayoutPusat({ children }: { children: React.ReactNode }) {
+  const info = dataKantorPusat.info;
+  const menuNavigasi = dataKantorPusat.menu;
+  
+  // 💡 EKSTRAKSI OTOMATIS: Mengubah data database cabang menjadi format menu dropdown
+  const daftarCabang = Object.keys(dataSeluruhCabang).map((slug) => ({
+    name: dataSeluruhCabang[slug].info.kota, // Mengambil teks kota, misal: "Yogyakarta"
+    href: `/${slug}`,                       // Mengarahkan ke folder rute, misal: "/yogyakarta"
+  }));
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950 border-b border-gray-800 text-white shadow-md">
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
-        {/* Brand / Logo Pusat */}
-        <Link href="/" className="font-black text-amber-500 tracking-wider text-base uppercase">
-          LBH SIKAP <span className="text-white text-xs font-normal border-l border-gray-700 pl-2 ml-2">PUSAT</span>
-        </Link>
-
-        {/* Menu Navigasi Khusus Pusat */}
-        <nav className="flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
-          <Link href="/" className="hover:text-amber-500 transition-colors">Beranda</Link>
-          <Link href="/tentang" className="hover:text-amber-500 transition-colors">Profil & Cabang</Link>
-          <Link href="/layanan" className="hover:text-amber-500 transition-colors">Layanan Pengaduan</Link>
-          <Link href="/publikasi" className="hover:text-amber-500 transition-colors">Publikasi</Link>
-        </nav>
-      </div>
-    </header>
-  );
-}
-
-export default function PusatLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <>
-      <NavbarPusat />
-      {/* Jarak padding-top 16 (64px) disesuaikan dengan tinggi navbar fixed */}
-      <div className="pt-16">{children}</div>
-    </>
+    <div className="flex flex-col min-h-screen">
+      {/* 💡 Kirim data menu utama dan data cabang ke Navbar */}
+      <Navbar 
+        menuItems={menuNavigasi} 
+        namaLembaga={info.nama} 
+        cabangItems={daftarCabang} 
+      />
+      
+      <main className="grow">{children}</main>
+      
+      <Footer 
+        namaLembaga={info.nama}
+        alamat={info.alamat}
+        telepon={info.telepon}
+        email={info.email}
+      />
+    </div>
   );
 }

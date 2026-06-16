@@ -50,3 +50,20 @@ export default function CabangLayout({ children, params }: CabangLayoutProps) {
     </>
   );
 }
+
+
+
+// Contoh konsep untuk layout cabang
+import { Footer } from "@/components/layout/Footer";
+
+// Di dalam layout cabang, Anda akan melakukan find data berdasarkan params
+const info = cabangAktif.info; 
+
+return (
+  <Footer 
+    namaLembaga={info.nama}
+    alamat={info.alamat}
+    telepon={info.telepon}
+    email={info.email}
+  />
+);
