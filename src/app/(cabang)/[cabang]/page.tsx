@@ -161,6 +161,45 @@ export default function HalamanCabangHome({ params }: HalamanCabangProps) {
                   isPriority={index === 0}
                 />
               ))}
+            {/* 📍 SEKSI BARU: JARINGAN POSBAKUM [ANCHOR: #posbakum] */}
+      <section id="posbakum" className="w-full py-16 bg-gray-50 scroll-mt-16">
+        <div className="mx-auto max-w-6xl px-6">
+          <div className="border-l-4 border-amber-600 pl-4 mb-12">
+            <h2 className="text-2xl font-black uppercase tracking-wider text-gray-950 sm:text-3xl">
+              Jaringan Posbakum
+            </h2>
+            <p className="text-xs text-gray-500 mt-1 uppercase tracking-widest font-medium">
+              Titik layanan bantuan hukum di wilayah {cabangAktif.info.kota}
+            </p>
+          </div>
+
+          {cabangAktif.posbakum && cabangAktif.posbakum.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {cabangAktif.posbakum.map((pos) => (
+                <div key={pos.id} className="bg-white p-6 border border-gray-200 shadow-2xs hover:border-amber-600 transition-colors">
+                  <span className="block text-[10px] font-black uppercase bg-gray-950 text-white px-2 py-1 mb-3 w-max">
+                    {pos.kapanewon}
+                  </span>
+                  <h4 className="text-sm font-black text-gray-950 uppercase tracking-wide mb-1">
+                    {pos.nama}
+                  </h4>
+                  <p className="text-xs text-gray-400 font-bold mb-4">{pos.kelurahan}</p>
+                  <div className="space-y-2 text-[11px] text-gray-600">
+                    <p>📍 {pos.alamat}</p>
+                    <p>📞 {pos.telepon}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white p-8 border border-dashed border-gray-300 text-center">
+              <p className="text-xs text-gray-400 uppercase tracking-widest">
+                Belum ada titik Posbakum aktif di wilayah ini.
+              </p>
+            </div>
+          )}
+        </div>
+      </section>
 
               {/* 🎯 LINK UTAMA MENUJU HALAMAN ARSIP PENUH */}
               <div className="text-center mt-6">
