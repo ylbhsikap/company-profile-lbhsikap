@@ -19,7 +19,7 @@ export default function BerandaPusat() {
   const beritaBesarUtama = beritaPusat.slice(0, 2);
 
   return (
-    <main className="w-full bg-white text-gray-900 min-h-screen">
+    <main className="w-full bg-white text-gray-900 min-h-screen scroll-smooth">
       
       {/* HERO BANNER PUSAT */}
       <section className="relative w-full h-[60vh] bg-gray-950">

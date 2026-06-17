@@ -5,96 +5,116 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { asetGambar, dataSeluruhCabang } from "@/data/data"; 
 
-interface MenuItem {
-  name: string;
-  href: string;
-}
-
-interface CabangItem {
-  name: string;
-  href: string;
-}
-
-interface NavbarProps {
-  menuItems: MenuItem[];
+type NavbarProps = {
+  menuItems?: { href: string; name: string }[];
   namaLembaga: string;
-  cabangItems: CabangItem[];
-}
+  cabangItems: { href: string; name: string }[];
+};
 
 export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // State untuk Hamburger
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const cabangSlugs = Object.keys(dataSeluruhCabang);
   const isCabangPage = cabangSlugs.some(slug => pathname.includes(`/${slug}`));
-  
   const displayNama = isCabangPage ? "LBH SIKAP" : "YLBH SIKAP";
   const namaCabang = isCabangPage ? namaLembaga.replace("LBH SIKAP ", "") : "";
 
   return (
-    <nav className={`fixed top-0 w-full z-100 transition-all duration-500 ${
-      isScrolled ? "bg-white border-b border-gray-200 shadow-sm py-2" : "bg-transparent py-3"
-    }`}>
-      {/* Container utama dengan padding lebih kecil di HP */}
-      <div className="mx-auto max-w-6xl px-3 md:px-4 flex items-center justify-between">
+    <nav className={`fixed top-0 w-full z-100 transition-all duration-300 ease-in-out ${
+      isScrolled ? "bg-white border-b border-gray-200 h-16 shadow-sm" : "bg-transparent h-20"
+    } flex items-center`}>
+      
+      <div className="mx-auto max-w-7xl px-4 w-full flex items-center justify-between">
         
-        {/* LOGO & NAMA (Diperkecil untuk mobile) */}
-        <Link href="/" className="flex items-center gap-2 group shrink-0">
-          <img src={asetGambar.logoResmi} alt="Logo" className="h-7 w-7 object-contain" />
+        {/* LOGO */}
+        <Link href="/" className="flex items-center gap-3 group">
+          <img src={asetGambar.logoResmi} alt="Logo" className="h-10 w-10 object-contain" />
           <div className="flex flex-col">
-            <span className={`text-sm font-black uppercase leading-none transition-colors ${isScrolled ? "text-gray-950" : "text-white"}`}>
+            <span className={`text-lg font-black uppercase tracking-wide transition-colors ${isScrolled ? "text-gray-950" : "text-white"}`}>
               {displayNama}
             </span>
-            {isCabangPage && (
-              <span className={`text-[8px] font-bold tracking-widest uppercase mt-0.5 ${isScrolled ? "text-amber-700" : "text-amber-200"}`}>
-                {namaCabang}
-              </span>
-            )}
           </div>
         </Link>
 
-        {/* MENU NAVIGASI (Dibuat responsif) */}
-        <div className={`flex items-center gap-3 md:gap-6 font-bold text-[10px] md:text-sm transition-colors ${
-          isScrolled ? "text-gray-700" : "text-white"
-        }`}>
-          
-          {/* MENU UTAMA (Sembunyikan di HP jika terlalu panjang, atau gunakan text kecil) */}
-          <div className="flex gap-3 md:gap-6">
-            {menuItems?.map((menu) => (
-              <Link key={menu.href} href={menu.href} className="hover:text-amber-500 whitespace-nowrap">
-                {menu.name}
-              </Link>
-            ))}
-          </div>
+        {/* TOMBOL HAMBURGER (Hanya muncul di HP) */}
+        <button 
+          className={`md:hidden p-2 ${isScrolled ? "text-gray-950" : "text-white"}`}
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" /></svg>
+        </button>
 
-          {/* DROPDOWN CABANG (Tetap ada sebagai akses cepat) */}
-          <div className="relative border-l border-current pl-3">
-            <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-0.5 hover:text-amber-500">
-              <span>Cabang</span>
-            </button>
-
-            {isDropdownOpen && (
-              <>
-                <div className="fixed inset-0 z-[-1]" onClick={() => setIsDropdownOpen(false)} />
-                <div className="absolute right-0 mt-3 w-40 rounded-lg bg-white p-1 shadow-xl border border-gray-100">
-                  {cabangItems.map((cabang) => (
-                    <Link key={cabang.href} href={cabang.href} onClick={() => setIsDropdownOpen(false)} className="block px-3 py-2 text-[10px] text-gray-700 hover:bg-gray-50 hover:text-amber-600">
-                      {cabang.name}
-                    </Link>
-                  ))}
-                </div>
-              </>
-            )}
-          </div>
+        {/* MENU (Desktop) */}
+        <div className={`hidden md:flex items-center gap-8 font-bold transition-colors ${isScrolled ? "text-gray-800" : "text-white"}`}>
+          {menuItems?.map((menu) => (
+            <Link key={menu.href} href={menu.href} className="hover:text-amber-500 uppercase tracking-wider text-xs">{menu.name}</Link>
+          ))}
+          <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="uppercase tracking-wider text-xs hover:text-amber-500">Cabang</button>
         </div>
       </div>
+
+      {/* MOBILE MENU (Elegan - Slide dari Kanan dengan Rounded & Margin) */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-200">
+          {/* Backdrop Blur */}
+          <div 
+            className="absolute inset-0 bg-black/20 backdrop-blur-sm" 
+            onClick={() => setIsMobileMenuOpen(false)}
+          />
+          
+          {/* Menu Samping (Slide-over dengan Rounded & Margin) */}
+          <div className="absolute top-4 right-4 bottom-4 w-70 bg-white/80 backdrop-blur-xl border border-white/30 shadow-2xl rounded-3xl p-8 flex flex-col gap-8 animate-in slide-in-from-right duration-300">
+            
+            {/* Tombol Close */}
+            <button 
+              onClick={() => setIsMobileMenuOpen(false)} 
+              className="self-end text-gray-500 hover:text-gray-900 transition-colors"
+            >
+              ✕
+            </button>
+            
+            {/* Link Menu Utama */}
+            <div className="flex flex-col gap-6 mt-4">
+              {menuItems?.map((menu) => (
+                <Link 
+                  key={menu.href} 
+                  href={menu.href} 
+                  onClick={() => setIsMobileMenuOpen(false)} 
+                  className="text-gray-900 font-bold uppercase tracking-widest text-sm hover:text-amber-600 transition-colors"
+                >
+                  {menu.name}
+                </Link>
+              ))}
+            </div>
+            
+            {/* Bagian Cabang (Dibawah) */}
+            <div className="mt-auto border-t border-gray-900/10 pt-8">
+              <p className="text-[9px] font-black text-gray-500 uppercase tracking-widest mb-4">Pilih Cabang</p>
+              <div className="flex flex-col gap-3">
+                {cabangItems.map((cabang) => (
+                  <Link 
+                    key={cabang.href} 
+                    href={cabang.href} 
+                    onClick={() => setIsMobileMenuOpen(false)} 
+                    className="text-xs font-semibold text-gray-700 hover:text-amber-600 transition-colors"
+                  >
+                    {cabang.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </nav>
   );
 }
