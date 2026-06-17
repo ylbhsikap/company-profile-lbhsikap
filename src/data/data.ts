@@ -336,7 +336,7 @@ export const dataSeluruhCabang: Record<string, {
       kota: "Samarinda",
       alamat: "Jl. Jenderal Sudirman No. 45, Samarinda, Kalimantan Timur",
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
-      telepon: "0281-635xxx",
+      telepon: "0281-635321",
       email: "samarinda@ylbhsikap.or.id",
       direktur: "Budi Santoso, S.H., M.H.",
       mapsEmbed: ""
