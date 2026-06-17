@@ -10,10 +10,15 @@ interface MenuItem {
   href: string;
 }
 
+interface CabangItem {
+  name: string;
+  href: string;
+}
+
 interface NavbarProps {
   menuItems: MenuItem[];
   namaLembaga: string;
-  cabangItems: MenuItem[]; 
+  cabangItems: CabangItem[];
 }
 
 export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
@@ -21,14 +26,12 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // Efek scroll untuk mengubah background navbar
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Deteksi halaman cabang secara dinamis
   const cabangSlugs = Object.keys(dataSeluruhCabang);
   const isCabangPage = cabangSlugs.some(slug => pathname.includes(`/${slug}`));
   
@@ -37,87 +40,53 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
 
   return (
     <nav className={`fixed top-0 w-full z-100 transition-all duration-500 ${
-      isScrolled ? "bg-white border-b border-gray-200 shadow-sm py-2" : "bg-transparent py-4"
+      isScrolled ? "bg-white border-b border-gray-200 shadow-sm py-2" : "bg-transparent py-3"
     }`}>
-      <div className="mx-auto max-w-6xl px-4 flex items-center justify-between">
+      {/* Container utama dengan padding lebih kecil di HP */}
+      <div className="mx-auto max-w-6xl px-3 md:px-4 flex items-center justify-between">
         
-        {/* LOGO, IDENTITAS & TOMBOL PUSAT */}
-        <div className="flex items-center gap-4">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="relative h-8 w-8">
-              <img src={asetGambar.logoResmi} alt="Logo" className="h-full w-auto object-contain" />
-            </div>
-            <div className="flex flex-col">
-              <span className={`font-black tracking-wider uppercase leading-none transition-colors ${
-                isScrolled ? "text-gray-950" : "text-white"
-              }`}>
-                {displayNama}
+        {/* LOGO & NAMA (Diperkecil untuk mobile) */}
+        <Link href="/" className="flex items-center gap-2 group shrink-0">
+          <img src={asetGambar.logoResmi} alt="Logo" className="h-7 w-7 object-contain" />
+          <div className="flex flex-col">
+            <span className={`text-sm font-black uppercase leading-none transition-colors ${isScrolled ? "text-gray-950" : "text-white"}`}>
+              {displayNama}
+            </span>
+            {isCabangPage && (
+              <span className={`text-[8px] font-bold tracking-widest uppercase mt-0.5 ${isScrolled ? "text-amber-700" : "text-amber-200"}`}>
+                {namaCabang}
               </span>
-              {isCabangPage && (
-                <span className={`text-[10px] font-bold tracking-[0.2em] uppercase mt-1 transition-colors ${
-                  isScrolled ? "text-amber-700" : "text-amber-200"
-                }`}>
-                  {namaCabang}
-                </span>
-              )}
-            </div>
-          </Link>
+            )}
+          </div>
+        </Link>
 
-          {/* TOMBOL KEMBALI KE PUSAT */}
-          {isCabangPage && (
-            <Link href="/" className={`hidden md:flex items-center gap-1.5 rounded-lg border px-3 py-1 text-[10px] font-black uppercase transition-all ${
-              isScrolled 
-                ? "border-amber-600/20 bg-amber-50 text-amber-700 hover:bg-gray-950 hover:text-white" 
-                : "border-white/20 bg-white/10 text-white hover:bg-white hover:text-gray-950"
-            }`}>
-              <span>Pusat</span>
-            </Link>
-          )}
-        </div>
-
-        {/* MENU NAVIGASI & DROPDOWN CABANG */}
-        {/* MENU NAVIGASI & DROPDOWN CABANG */}
-        <div className={`flex items-center gap-6 font-bold text-sm transition-colors ${
+        {/* MENU NAVIGASI (Dibuat responsif) */}
+        <div className={`flex items-center gap-3 md:gap-6 font-bold text-[10px] md:text-sm transition-colors ${
           isScrolled ? "text-gray-700" : "text-white"
         }`}>
           
-          {/* MENU UTAMA - Saya hapus 'hidden md:flex' agar terlihat di semua perangkat untuk tes */}
-          <div className="flex gap-6">
+          {/* MENU UTAMA (Sembunyikan di HP jika terlalu panjang, atau gunakan text kecil) */}
+          <div className="flex gap-3 md:gap-6">
             {menuItems?.map((menu) => (
-              <Link 
-                key={menu.href} 
-                href={menu.href} 
-                className="hover:text-amber-500 transition-colors cursor-pointer"
-              >
+              <Link key={menu.href} href={menu.href} className="hover:text-amber-500 whitespace-nowrap">
                 {menu.name}
               </Link>
             ))}
           </div>
 
-          {/* DROPDOWN CABANG */}
-          <div className="relative border-l border-white/20 pl-6">
-            <button 
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
-              className="flex items-center gap-1 hover:text-amber-500 transition-colors"
-            >
+          {/* DROPDOWN CABANG (Tetap ada sebagai akses cepat) */}
+          <div className="relative border-l border-current pl-3">
+            <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="flex items-center gap-0.5 hover:text-amber-500">
               <span>Cabang</span>
-              <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
             </button>
 
             {isDropdownOpen && (
               <>
                 <div className="fixed inset-0 z-[-1]" onClick={() => setIsDropdownOpen(false)} />
-                <div className="absolute right-0 mt-3 w-48 rounded-lg bg-white p-1.5 shadow-xl border border-gray-100">
+                <div className="absolute right-0 mt-3 w-40 rounded-lg bg-white p-1 shadow-xl border border-gray-100">
                   {cabangItems.map((cabang) => (
-                    <Link 
-                      key={cabang.href} 
-                      href={cabang.href} 
-                      onClick={() => setIsDropdownOpen(false)} 
-                      className="block px-3 py-2 text-[11px] font-semibold text-gray-700 hover:bg-gray-50 hover:text-amber-600 rounded-md transition-colors"
-                    >
-                      LBH SIKAP {cabang.name}
+                    <Link key={cabang.href} href={cabang.href} onClick={() => setIsDropdownOpen(false)} className="block px-3 py-2 text-[10px] text-gray-700 hover:bg-gray-50 hover:text-amber-600">
+                      {cabang.name}
                     </Link>
                   ))}
                 </div>
