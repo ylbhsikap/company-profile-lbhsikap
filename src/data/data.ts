@@ -214,7 +214,7 @@ export const databaseArtikelNasional: Berita[] = [
 // 🗺️ ZONA B: DATA KOLEKTIF SELURUH CABANG DINAMIS ( lbhsikap.org/[cabang] )
 // =========================================================================
 export const dataSeluruhCabang: Record<string, {
-  info: { nama: string; kota: string; alamat: string; telepon: string; email: string; jamOperasional: string; direktur: string; mapsEmbed: string };
+  info: { nama: string; kota: string; alamat: string; telepon: string; email: string; jamOperasional: string; direktur: string; mapsEmbed: string; bannerCabang?: string };
   kriteria: typeof kriteriaLayananGlobal;
   berita: Berita[]; 
   publikasi: typeof dataKantorPusat.publikasi;
@@ -244,6 +244,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "081906157620",
       email: "yogyakarta@ylbhsikap.or.id",
       direktur: "Wandy Marseli, S.H.",
+      bannerCabang: "/assets/images/ruangan10.jpg",
       mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m12!1m3!1m2!1s0x2e7a599bdf99bf77%3A0x6bdaaa82d6da8!2sCondongcatur%2C%20Sleman%20Regency%2C%20Special%20Region%20of%20Yogyakarta!5e0!3m2!1sid!2sid!4v1718520000000!5m2!1sid!2sid"
     },
     kriteria: kriteriaLayananGlobal,
@@ -285,6 +286,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "0281-635xxx",
       email: "purwokerto@ylbhsikap.or.id",
       direktur: "Faishal Ammar Dwi Wijaya, S.H.",
+      bannerCabang: "/assets/images/ruangan.jpg",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
@@ -312,6 +314,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "0281-635xxx",
       email: "balikpapan@ylbhsikap.or.id",
       direktur: "Eben Marwi",
+      bannerCabang: "/assets/images/ruangan1.jpg",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
@@ -339,6 +342,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "0281-635321",
       email: "samarinda@ylbhsikap.or.id",
       direktur: "Budi Santoso, S.H., M.H.",
+      bannerCabang: "/assets/images/jogja-hero.jpg",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
@@ -365,6 +369,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "0281-635xxx",
       email: "banten@ylbhsikap.or.id",
       direktur: "Budi Santoso, S.H., M.H.",
+      bannerCabang: "/assets/images/jogja-hero.jpg",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
@@ -391,6 +396,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "0281-635xxx",
       email: "ciamis@ylbhsikap.or.id",
       direktur: "Budi Santoso, S.H., M.H.",
+      bannerCabang: "/assets/images/jogja-hero.jpg",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
@@ -417,6 +423,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "0281-635xxx",
       email: "madura@ylbhsikap.or.id",
       direktur: "Budi Santoso, S.H., M.H.",
+      bannerCabang: "/assets/images/jogja-hero.jpg",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong

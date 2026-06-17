@@ -33,12 +33,11 @@ export default function HalamanCabangHome({ params }: HalamanCabangProps) {
       <section id="hero" className="relative w-full h-[85vh] md:h-[90vh] bg-gray-950 scroll-mt-0">
         <div className="absolute inset-0 z-0">
           <Image 
-            src={asetGambar.bannerUtama} 
-            alt={cabangAktif.info.nama} 
-            fill 
-            priority 
-            className="object-cover opacity-60" 
-          />
+          src={cabangAktif.info.bannerCabang || asetGambar.bannerUtama} 
+          alt={cabangAktif.info.nama} 
+           fill 
+           className="object-cover opacity-60" 
+             />
         </div>
         <div className="absolute inset-0 z-0 bg-linear-to-b from-black/60 via-transparent to-transparent" />
         

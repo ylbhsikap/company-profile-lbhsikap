@@ -63,11 +63,44 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
 
         {/* MENU (Desktop) */}
         <div className={`hidden md:flex items-center gap-8 font-bold transition-colors ${isScrolled ? "text-gray-800" : "text-white"}`}>
-          {menuItems?.map((menu) => (
-            <Link key={menu.href} href={menu.href} className="hover:text-amber-500 uppercase tracking-wider text-xs">{menu.name}</Link>
-          ))}
-          <button onClick={() => setIsDropdownOpen(!isDropdownOpen)} className="uppercase tracking-wider text-xs hover:text-amber-500">Cabang</button>
+  {menuItems?.map((menu) => (
+    <Link key={menu.href} href={menu.href} className="hover:text-amber-500 uppercase tracking-wider text-xs">{menu.name}</Link>
+  ))}
+  
+  {/* Kontainer Tombol & Dropdown Cabang */}
+  <div className="relative">
+    <button 
+      onClick={() => setIsDropdownOpen(!isDropdownOpen)} 
+      className="uppercase tracking-wider text-xs hover:text-amber-500 flex items-center gap-1 transition-colors"
+    >
+      Cabang <span className="text-[9px]">{isDropdownOpen ? "▲" : "▼"}</span>
+    </button>
+    
+    {/* Box Dropdown Menu Desktop */}
+    {isDropdownOpen && (
+      <>
+        {/* Backdrop transparan agar dropdown otomatis menutup ketika user klik di luar menu */}
+        <div className="fixed inset-0 z-10" onClick={() => setIsDropdownOpen(false)} />
+        
+        <div className="absolute right-0 mt-3 w-56 bg-white border border-gray-200/80 shadow-xl rounded-2xl py-3 text-gray-900 z-20 animate-in fade-in slide-in-from-top-2 duration-200">
+          <p className="text-[9px] font-black text-gray-400 uppercase tracking-widest px-4 mb-2">Pilih Wilayah Cabang</p>
+          <div className="flex flex-col">
+            {cabangItems.map((cabang) => (
+              <Link 
+                key={cabang.href} 
+                href={cabang.href} 
+                onClick={() => setIsDropdownOpen(false)} 
+                className="px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-amber-50 hover:text-amber-600 transition-colors"
+              >
+                {cabang.name}
+              </Link>
+            ))}
+          </div>
         </div>
+      </>
+    )}
+  </div>
+</div>
       </div>
 
       {/* MOBILE MENU (Elegan - Slide dari Kanan dengan Rounded & Margin) */}
