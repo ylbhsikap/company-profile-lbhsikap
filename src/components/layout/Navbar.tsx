@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { asetGambar } from "@/data/data"; 
+import { asetGambar, dataSeluruhCabang } from "@/data/data"; 
 
 interface MenuItem {
   name: string;
@@ -12,7 +12,7 @@ interface MenuItem {
 
 interface NavbarProps {
   menuItems: MenuItem[];
-  namaLembaga: string;
+  namaLembaga: string; // Nama lembaga yang dilempar dari parent
   cabangItems: MenuItem[]; 
 }
 
@@ -20,38 +20,53 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
   const pathname = usePathname();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  // 💡 KUNCI DETEKSI: Bernilai true jika user tidak berada di halaman beranda utama pusat
-  const isSubPage = pathname !== "/";
+  // 💡 LOGIKA DINAMIS: Mengambil semua kunci cabang dari dataSeluruhCabang
+  const cabangSlugs = Object.keys(dataSeluruhCabang);
+  const isCabangPage = cabangSlugs.some(slug => pathname.includes(`/${slug}`));
+  
+  // Menentukan nama tampilan lembaga
+  const displayNama = isCabangPage ? "LBH SIKAP" : "YLBH SIKAP";
+  const namaCabang = isCabangPage ? namaLembaga.replace("LBH SIKAP ", "") : "";
 
   return (
     <nav className="sticky top-0 z-9999 w-full border-b border-gray-200 bg-white shadow-sm">
       <div className="mx-auto max-w-6xl px-4 py-3 md:py-4 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
         
-        {/* LOGO, NAMA LEMBAGA & MECHANISM KEMBALI KE PUSAT */}
         <div className="flex items-center gap-3 w-full md:w-auto justify-between md:justify-start">
           <Link href="/" className="flex items-center gap-2.5 group">
             <div className="relative h-8 w-8 flex items-center justify-center shrink-0">
               <img
                 src={asetGambar.logoResmi} 
-                alt={`Logo ${namaLembaga}`}
+                alt="Logo LBH SIKAP"
                 className="h-full w-auto object-contain"
               />
             </div>
-            <span className="text-base md:text-xl font-black tracking-wider text-gray-950 uppercase whitespace-nowrap">
-              {namaLembaga}
-            </span>
+            
+            <div className="flex flex-col">
+              {/* Teks berubah otomatis antara YLBH SIKAP (Pusat) dan LBH SIKAP (Cabang) */}
+              <span className="text-base md:text-xl font-black tracking-wider text-gray-950 uppercase whitespace-nowrap leading-none">
+                {displayNama}
+              </span>
+              
+              {/* Hanya muncul di halaman cabang */}
+              {isCabangPage && (
+                <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-amber-700 uppercase mt-1">
+                  {namaCabang}
+                </span>
+              )}
+            </div>
           </Link>
 
-          {/* 💡 TOMBOL KHUSUS KEMBALI KE PUSAT (Cara 2 - Elegan & Responsif) */}
-          {isSubPage && (
+          {/* Tombol kembali ke pusat (hanya muncul di halaman cabang) */}
+          {isCabangPage && (
             <Link
               href="/"
-              className="inline-flex items-center gap-1 rounded-lg border border-amber-600/20 bg-amber-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-amber-700 transition-all hover:bg-gray-950 hover:text-white hover:border-gray-950 select-none touch-manipulation shadow-xs"
+              className="inline-flex items-center gap-1 rounded-lg border border-amber-600/20 bg-amber-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-amber-700 transition-all hover:bg-gray-950 hover:text-white hover:border-gray-950 select-none touch-manipulation shadow-xs md:hidden"
             >
               <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
               </svg>
-              <span>Ke Pusat</span>
+              <span>Pusat</span>
             </Link>
           )}
         </div>
@@ -73,7 +88,6 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
             );
           })}
 
-          {/* DROPDOWN KANTOR CABANG */}
           <div className="relative">
             <button
               type="button"
@@ -86,14 +100,9 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
               </svg>
             </button>
 
-            {/* BACKDROP SYSTEM FOR MOBILE CLOSURE */}
             {isDropdownOpen && (
               <>
-                <div 
-                  className="fixed inset-0 z-10004 bg-transparent cursor-default"
-                  onClick={() => setIsDropdownOpen(false)}
-                />
-                
+                <div className="fixed inset-0 z-10004 bg-transparent cursor-default" onClick={() => setIsDropdownOpen(false)} />
                 <div className="absolute right-1/2 translate-x-1/2 md:translate-x-0 md:right-0 mt-2 w-44 rounded-lg border border-gray-100 bg-white p-1.5 shadow-xl z-10005">
                   {cabangItems.length > 0 ? (
                     cabangItems.map((cabang) => (
@@ -114,7 +123,6 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
             )}
           </div>
         </div>
-
       </div>
     </nav>
   );
