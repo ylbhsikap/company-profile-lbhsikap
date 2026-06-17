@@ -170,6 +170,7 @@
   }
   img, svg, video, canvas, audio, iframe, embed, object {
     display: block;
+    vertical-align: middle;
   }
   img, video {
     max-width: 100%;
@@ -444,14 +445,12 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
   }
   .line-clamp-3 {
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
-    line-clamp: 3;
   }
   .block {
     display: block;
@@ -892,6 +891,10 @@
     border-left-style: var(--tw-border-style);
     border-left-width: 1px;
   }
+  .border-l-2 {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 2px;
+  }
   .border-l-4 {
     border-left-style: var(--tw-border-style);
     border-left-width: 4px;
@@ -902,6 +905,9 @@
   }
   .border-amber-200 {
     border-color: var(--color-amber-200);
+  }
+  .border-amber-500 {
+    border-color: var(--color-amber-500);
   }
   .border-amber-600 {
     border-color: var(--color-amber-600);
@@ -1884,6 +1890,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-white);
+      }
+    }
+  }
+  .hover\:text-amber-400 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-amber-400);
       }
     }
   }
