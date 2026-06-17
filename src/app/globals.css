@@ -1,4 +1,7 @@
 /* globals.css */
 @import "tailwindcss";
+@view-transition {
+  navigation: auto;
+}
 
 /* Jangan masukkan css manual lama di sini agar tidak bentrok dengan v4 */
