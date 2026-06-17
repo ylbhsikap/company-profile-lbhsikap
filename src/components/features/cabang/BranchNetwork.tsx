@@ -10,6 +10,7 @@ interface BranchInfo {
   alamat: string;
   telepon?: string;
   email?: string;
+  direktur?: string; // 💡 DISESUAIKAN: Menampung data direktur yang dikirim dari halaman tentang
 }
 
 interface BranchNetworkProps {
@@ -48,7 +49,19 @@ export function BranchNetwork({ branches }: BranchNetworkProps) {
                 </h3>
                 
                 {/* Detail Kontak */}
-                <div className="mt-4 space-y-2.5 text-xs text-gray-600">
+                {/* 💡 SEMBUH: Ditambahkan suppressHydrationWarning agar aman dari auto-format browser */}
+                <div 
+                  className="mt-4 space-y-2.5 text-xs text-gray-600"
+                  suppressHydrationWarning
+                >
+                  {/* Direktur Cabang */}
+                  {cabang.direktur && (
+                    <p className="flex items-center gap-2 border-b border-gray-100 pb-2 mb-2">
+                      <span className="font-bold text-gray-400">Direktur:</span>
+                      <span className="font-semibold text-gray-950">{cabang.direktur}</span>
+                    </p>
+                  )}
+
                   {/* Alamat */}
                   <p className="flex items-start gap-2">
                     <span className="font-bold text-gray-400">Alamat:</span>
@@ -73,7 +86,7 @@ export function BranchNetwork({ branches }: BranchNetworkProps) {
                 </div>
               </div>
 
-              {/* Tombol Aksi Menuju Halaman Cabang */}
+              {/* Tombol Aksi Menuju Halaman Dinamis Cabang */}
               <div className="mt-6 pt-4 border-t border-gray-100">
                 <Link
                   href={`/${cabang.slug}`}

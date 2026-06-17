@@ -9,6 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "LBH SIKAP | Lembaga Bantuan Hukum",
   description: "Situs resmi LBH SIKAP, memberikan akses keadilan bagi masyarakat.",
+  formatDetection: {
+    telephone: false,
+    date: false,
+    email: false,
+    address: false,
+  },
 };
 
 export default function RootLayout({

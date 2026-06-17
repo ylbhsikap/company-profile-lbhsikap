@@ -15,6 +15,7 @@ export default function TentangPusatPage() {
       alamat: cabang.info.alamat,
       telepon: cabang.info.telepon,
       email: cabang.info.email,
+      direktur: cabang.info.direktur, //[cite: 4]
     };
   }); //[cite: 3]
 

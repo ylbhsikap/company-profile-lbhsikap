@@ -80,13 +80,13 @@ export const kontakInfo: KontakInfoType = {
 export const dataKantorPusat = {
   info: {
     nama: "ylbh sikap",
-    kota: "Jakarta",
-    alamat: "Jl. Utama No. 12, Kav 3, Kota Jakarta",
-    telepon: "021-1234567",
+    kota: "Yogyakarta",
+    alamat: "Jalan Anggajaya I Brojodento.294, Gejayan, Sanggrahan, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55283",
+    telepon: "081906157620",
     gmapsUrl: "https://maps.google.com/?cid=ID_MAPS_PUSAT",
     mapsEmbed: "https://maps.google.com/?cid=ID_MAPS_PUSAT",
     jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
-    email: "pusat@ylbhsikap.or.id"
+    email: "info@ylbhsikap.or.id"
   },
   menu: [
     { name: "Beranda", href: "/" },
@@ -109,6 +109,36 @@ export const dataKantorPusat = {
     { 
       id: "p2", // Gunakan id unik, misalnya "p2"
       date: "17 Juni 2026", // Tanggal rilis berita
+      title: "LBH SIKAP Pusat Selenggarakan Pelatihan Paralegal Tingkat Nasional", 
+      excerpt: "Dalam rangka memperkuat jaringan bantuan hukum di akar rumput, LBH SIKAP Pusat resmi membuka pendaftaran pelatihan paralegal struktural...", 
+      category: "EDUKASI", // Kategori berita bebas (Contoh: ADVOKASI, OPINI HUKUM, EDUKASI)
+      color: "#4b5563", // Warna tema label berita
+      gambarKunci: "kantorSekretariat" as keyof AsetGambarType, // Mengambil kunci gambar dari asetGambar global
+      slugCabang: "pusat" // Wajib diisi "pusat" agar muncul di halaman pertama
+    },
+    { 
+      id: "p3", // Gunakan id unik, misalnya "p2"
+      date: "18 Juni 2026", // Tanggal rilis berita
+      title: "LBH SIKAP Pusat Selenggarakan Pelatihan Paralegal Tingkat Nasional", 
+      excerpt: "Dalam rangka memperkuat jaringan bantuan hukum di akar rumput, LBH SIKAP Pusat resmi membuka pendaftaran pelatihan paralegal struktural...", 
+      category: "EDUKASI", // Kategori berita bebas (Contoh: ADVOKASI, OPINI HUKUM, EDUKASI)
+      color: "#4b5563", // Warna tema label berita
+      gambarKunci: "kantorSekretariat" as keyof AsetGambarType, // Mengambil kunci gambar dari asetGambar global
+      slugCabang: "pusat" // Wajib diisi "pusat" agar muncul di halaman pertama
+    },
+    { 
+      id: "p4", // Gunakan id unik, misalnya "p2"
+      date: "19 Juni 2026", // Tanggal rilis berita
+      title: "LBH SIKAP Pusat Selenggarakan Pelatihan Paralegal Tingkat Nasional", 
+      excerpt: "Dalam rangka memperkuat jaringan bantuan hukum di akar rumput, LBH SIKAP Pusat resmi membuka pendaftaran pelatihan paralegal struktural...", 
+      category: "EDUKASI", // Kategori berita bebas (Contoh: ADVOKASI, OPINI HUKUM, EDUKASI)
+      color: "#4b5563", // Warna tema label berita
+      gambarKunci: "kantorSekretariat" as keyof AsetGambarType, // Mengambil kunci gambar dari asetGambar global
+      slugCabang: "pusat" // Wajib diisi "pusat" agar muncul di halaman pertama
+    },
+    { 
+      id: "p5", // Gunakan id unik, misalnya "p2"
+      date: "18 Juli 2026", // Tanggal rilis berita
       title: "LBH SIKAP Pusat Selenggarakan Pelatihan Paralegal Tingkat Nasional", 
       excerpt: "Dalam rangka memperkuat jaringan bantuan hukum di akar rumput, LBH SIKAP Pusat resmi membuka pendaftaran pelatihan paralegal struktural...", 
       category: "EDUKASI", // Kategori berita bebas (Contoh: ADVOKASI, OPINI HUKUM, EDUKASI)
@@ -184,7 +214,7 @@ export const databaseArtikelNasional: Berita[] = [
 // 🗺️ ZONA B: DATA KOLEKTIF SELURUH CABANG DINAMIS ( lbhsikap.org/[cabang] )
 // =========================================================================
 export const dataSeluruhCabang: Record<string, {
-  info: { nama: string; kota: string; alamat: string; telepon: string; email: string; jamOperasional: string; mapsEmbed: string };
+  info: { nama: string; kota: string; alamat: string; telepon: string; email: string; jamOperasional: string; direktur: string; mapsEmbed: string };
   kriteria: typeof kriteriaLayananGlobal;
   berita: Berita[]; 
   publikasi: typeof dataKantorPusat.publikasi;
@@ -213,6 +243,7 @@ export const dataSeluruhCabang: Record<string, {
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
       telepon: "081906157620",
       email: "yogyakarta@ylbhsikap.or.id",
+      direktur: "Wandy Marseli, S.H.",
       mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m12!1m3!1m2!1s0x2e7a599bdf99bf77%3A0x6bdaaa82d6da8!2sCondongcatur%2C%20Sleman%20Regency%2C%20Special%20Region%20of%20Yogyakarta!5e0!3m2!1sid!2sid!4v1718520000000!5m2!1sid!2sid"
     },
     kriteria: kriteriaLayananGlobal,
@@ -253,6 +284,7 @@ export const dataSeluruhCabang: Record<string, {
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
       telepon: "0281-635xxx",
       email: "purwokerto@ylbhsikap.or.id",
+      direktur: "Faishal Ammar Dwi Wijaya, S.H.",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
@@ -279,6 +311,7 @@ export const dataSeluruhCabang: Record<string, {
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
       telepon: "0281-635xxx",
       email: "balikpapan@ylbhsikap.or.id",
+      direktur: "Eben Marwi",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
@@ -305,6 +338,85 @@ export const dataSeluruhCabang: Record<string, {
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
       telepon: "0281-635xxx",
       email: "samarinda@ylbhsikap.or.id",
+      direktur: "Budi Santoso, S.H., M.H.",
+      mapsEmbed: ""
+    },
+    kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
+    berita: [], // Boleh dikosongkan menggunakan array kosong
+    publikasi: [], 
+    sectionBackup: {
+      pers: [],
+      edukasi: []
+    },
+    struktur: {
+      pimpinan: { nama: "Dalam Persiapan", jabatan: "Ketua Pembina" },
+      direktur: { nama: "Dalam Persiapan", jabatan: "Direktur Cabang" },
+      divisi: []
+    },
+    anggota: [],
+    posbakum: []
+  },
+  banten: {
+    info: {
+      nama: "LBH SIKAP Cabang Banten",
+      kota: "Banten",
+      alamat: "Jl. Jenderal Sudirman No. 45, Banten, Banten",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0281-635xxx",
+      email: "banten@ylbhsikap.or.id",
+      direktur: "Budi Santoso, S.H., M.H.",
+      mapsEmbed: ""
+    },
+    kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
+    berita: [], // Boleh dikosongkan menggunakan array kosong
+    publikasi: [], 
+    sectionBackup: {
+      pers: [],
+      edukasi: []
+    },
+    struktur: {
+      pimpinan: { nama: "Dalam Persiapan", jabatan: "Ketua Pembina" },
+      direktur: { nama: "Dalam Persiapan", jabatan: "Direktur Cabang" },
+      divisi: []
+    },
+    anggota: [],
+    posbakum: []
+  },
+  ciamis: {
+    info: {
+      nama: "LBH SIKAP Cabang Ciamis",
+      kota: "Ciamis",
+      alamat: "Jl. Jenderal Sudirman No. 45, Ciamis, Jawa Barat",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0281-635xxx",
+      email: "ciamis@ylbhsikap.or.id",
+      direktur: "Budi Santoso, S.H., M.H.",
+      mapsEmbed: ""
+    },
+    kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
+    berita: [], // Boleh dikosongkan menggunakan array kosong
+    publikasi: [], 
+    sectionBackup: {
+      pers: [],
+      edukasi: []
+    },
+    struktur: {
+      pimpinan: { nama: "Dalam Persiapan", jabatan: "Ketua Pembina" },
+      direktur: { nama: "Dalam Persiapan", jabatan: "Direktur Cabang" },
+      divisi: []
+    },
+    anggota: [],
+    posbakum: []
+  },
+  madura: {
+    info: {
+      nama: "LBH SIKAP Cabang Madura",
+      kota: "Madura",
+      alamat: "Jl. Jenderal Sudirman No. 45, Madura, Jawa Timur",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0281-635xxx",
+      email: "madura@ylbhsikap.or.id",
+      direktur: "Budi Santoso, S.H., M.H.",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal, // Menggunakan kriteria global biar tidak kosong
