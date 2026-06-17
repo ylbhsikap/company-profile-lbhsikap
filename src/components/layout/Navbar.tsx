@@ -36,14 +36,22 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
       <div className="mx-auto max-w-7xl px-4 w-full flex items-center justify-between">
         
         {/* LOGO */}
-        <Link href="/" className="flex items-center gap-3 group">
+       {/* LOGO */}
+        {/* LOGO */}
+      <Link href="/" className="flex items-center gap-3 group">
           <img src={asetGambar.logoResmi} alt="Logo" className="h-10 w-10 object-contain" />
-          <div className="flex flex-col">
+            <div className="flex flex-col">
             <span className={`text-lg font-black uppercase tracking-wide transition-colors ${isScrolled ? "text-gray-950" : "text-white"}`}>
-              {displayNama}
+               {displayNama}
+           </span>
+            {/* Menampilkan nama cabang di bawah tulisan LBH SIKAP jika sedang di halaman cabang */}
+        {isCabangPage && namaCabang && (
+           <span className={`text-[10px] font-bold uppercase tracking-widest -mt-1 transition-colors ${isScrolled ? "text-amber-600" : "text-amber-400"}`}>
+           {namaCabang}
             </span>
-          </div>
-        </Link>
+                 )}
+            </div>
+            </Link>
 
         {/* TOMBOL HAMBURGER (Hanya muncul di HP) */}
         <button 
@@ -83,18 +91,29 @@ export function Navbar({ menuItems, namaLembaga, cabangItems }: NavbarProps) {
             </button>
             
             {/* Link Menu Utama */}
-            <div className="flex flex-col gap-6 mt-4">
-              {menuItems?.map((menu) => (
-                <Link 
-                  key={menu.href} 
-                  href={menu.href} 
-                  onClick={() => setIsMobileMenuOpen(false)} 
-                  className="text-gray-900 font-bold uppercase tracking-widest text-sm hover:text-amber-600 transition-colors"
-                >
-                  {menu.name}
-                </Link>
-              ))}
-            </div>
+<div className="flex flex-col gap-6 mt-4">
+  {/* Tombol Back to Pusat (Hanya muncul jika di halaman cabang) */}
+  {isCabangPage && (
+    <Link 
+      href="/" 
+      onClick={() => setIsMobileMenuOpen(false)} 
+      className="text-amber-600 font-black uppercase tracking-widest text-sm border-b border-gray-900/10 pb-3 flex items-center gap-1 hover:text-amber-700 transition-colors"
+    >
+      ← Kembali ke Pusat
+    </Link>
+  )}
+
+  {menuItems?.map((menu) => (
+    <Link 
+      key={menu.href} 
+      href={menu.href} 
+      onClick={() => setIsMobileMenuOpen(false)} 
+      className="text-gray-900 font-bold uppercase tracking-widest text-sm hover:text-amber-600 transition-colors"
+    >
+      {menu.name}
+    </Link>
+  ))}
+</div>
             
             {/* Bagian Cabang (Dibawah) */}
             <div className="mt-auto border-t border-gray-900/10 pt-8">
