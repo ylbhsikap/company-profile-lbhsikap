@@ -1,9 +1,11 @@
-// src/app/(pusat)/page.tsx
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { dataKantorPusat, asetGambar } from "@/data/data";
+import { dataKantorPusat, asetGambar, dataSeluruhCabang } from "@/data/data"; // 💡 Import data cabang
 import NewsRowCard from "@/components/features/berita/NewsRowCard";
+
+// 📦 Import komponen network yang sudah kita perbarui di atas
+import { BranchNetwork } from "@/components/features/cabang/BranchNetwork";
 
 export default function BerandaPusat() {
   const beritaPusat = dataKantorPusat.berita.map(item => ({
@@ -13,10 +15,19 @@ export default function BerandaPusat() {
     slugCabang: "pusat"
   }));
 
-  // =========================================================================
-  // 💡 METODE RINGKASAN PUSAT: Hanya tampilkan 2 berita utama besar saja
-  // =========================================================================
+  // Hanya tampilkan 2 berita utama di dashboard pusat
   const beritaBesarUtama = beritaPusat.slice(0, 2);
+
+  // 🔄 JEMBATAN DATA: Mengubah data Object bawaan data.ts menjadi Array yang dipahami komponen
+  const dataCabangSiapPakai = Object.entries(dataSeluruhCabang).map(([slug, cabang]) => ({
+    slug: slug,
+    kota: cabang.info.kota,
+    alamat: cabang.info.alamat,
+    telepon: cabang.info.telepon,
+    email: cabang.info.email,
+    direktur: cabang.info.direktur,
+    mapsEmbed: cabang.info.mapsEmbed, // 💡 Menyalurkan string embed maps ke dalam komponen
+  }));
 
   return (
     <main className="w-full bg-white text-gray-900 min-h-screen scroll-smooth">
@@ -44,7 +55,7 @@ export default function BerandaPusat() {
         </div>
       </section>
 
-      {/* ⚖️ SEKSI BERITA UTAMA BESAR (RINGKASAN DASHBOARD NNASIONAL) */}
+      {/* SEKSI BERITA UTAMA BESAR */}
       <section className="mx-auto max-w-6xl px-6 py-16 flex flex-col gap-12">
         <div className="border-l-4 border-gray-950 pl-4 mb-4">
           <h2 className="text-2xl font-black uppercase tracking-wider text-gray-950 sm:text-3xl">
@@ -65,7 +76,7 @@ export default function BerandaPusat() {
           />
         ))}
 
-        {/* 🎯 LINK UTAMA MENUJU HUB AKSES ARSIP PUBLIKASI NASIONAL LENGKAP */}
+        {/* LINK MENUJU ARSIP PUBLIKASI */}
         <div className="text-center mt-8 border-t border-gray-100 pt-12">
           <Link 
             href="/publikasi#pusat-siaran"
@@ -75,6 +86,10 @@ export default function BerandaPusat() {
           </Link>
         </div>
       </section>
+
+      {/* 🏢 SEKSI JARINGAN KANTOR CABANG */}
+      {/* Kita masukkan array dataCabangSiapPakai ke dalam props branches */}
+      <BranchNetwork branches={dataCabangSiapPakai} />
 
     </main>
   );

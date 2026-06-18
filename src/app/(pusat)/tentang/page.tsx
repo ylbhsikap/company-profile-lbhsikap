@@ -3,7 +3,7 @@ import React from "react";
 import { asetGambar, dataSeluruhCabang, dataKantorPusat } from "@/data/data"; //[cite: 3, 4]
 import { SubPageHeader } from "@/components/layout/SubPageHeader";
 import { BranchNetwork } from "@/components/features/cabang/BranchNetwork"; //[cite: 3]
-import { OrganogramTree } from "@/components/features/tentang/OrganogramTree"; //
+import { CentralOrgTree } from "@/components/features/tentang/CentralOrgTree"; //
 
 export default function TentangPusatPage() {
   // Pemetaan data cabang nasional untuk komponen BranchNetwork
@@ -33,7 +33,7 @@ export default function TentangPusatPage() {
        
         {/* SEKSI B: BAGAN STRUKTUR ORGANISASI (ORGANOGRAM) */}
         <section className="border-t border-gray-100 pt-12">
-          <OrganogramTree treeOrga={dataKantorPusat.struktur} />
+          <CentralOrgTree data={dataKantorPusat.struktur} />
         </section>
 
       </div>
