@@ -12,6 +12,7 @@ export interface AsetGambarType {
   layananBawah: string;
   publikasi: string; 
   dokumentasiKasus: string;
+  pks: string;
 }
 
 export const asetGambar: AsetGambarType = {
@@ -22,7 +23,8 @@ export const asetGambar: AsetGambarType = {
   kontak: "/assets/images/ruangan.jpg",
   layananBawah: "/assets/images/ruangan.jpg",
   publikasi: "/assets/images/ruangan.jpg",
-  dokumentasiKasus: "/assets/images/ruangan.jpg"
+  dokumentasiKasus: "/assets/images/pkslembata.jpg",
+  pks: "/assets/images/pkslembata.jpg",
 };
 
 // =========================================================================
@@ -247,7 +249,17 @@ export const databaseArtikelNasional: Berita[] = [
     category: "ADVOKASI", 
     color: "#4b5563", 
     gambarKunci: "dokumentasiKasus",
-    slugCabang: "Balikpapan"
+    slugCabang: "balikpapan"
+  },
+  { 
+    id: "berita-lembata-1", 
+    date: "15 21 2026", 
+    title: "PKS Posabnkum LBH SIKAP Lembata dengan Pengadilan Negeri Lembata 2026-2027", 
+    excerpt: "LBH SIKAP Balikpapan memberikan pendampingan hukum struktural bagi 50 buruh...", 
+    category: "MoU", 
+    color: "#4b5563", 
+    gambarKunci: "dokumentasiKasus",
+    slugCabang: "lembata"
   }
 ];
 
@@ -406,12 +418,12 @@ export const dataSeluruhCabang: Record<string, {
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
       telepon: "0281-635xxx",
       email: "purwokerto@ylbhsikap.or.id",
-      direktur: "Faishal Ammar Dwi Wijaya, S.H.",
+      direktur: "Rahman, S.H.",
       bannerCabang: "/assets/images/ruangan.jpg",
       mapsEmbed: ""
     },
     kriteria: kriteriaLayananGlobal,
-    berita: [],
+    berita: databaseArtikelNasional.filter(art => art.slugCabang === "purwokerto"),
     publikasi: [], 
     sectionBackup: { pers: [], edukasi: [] },
     struktur: {
@@ -445,7 +457,7 @@ export const dataSeluruhCabang: Record<string, {
         deskripsi: "Berdedikasi dalam menangani advokasi sengketa tanah pertanian rakyat dan edukasi perlindungan konsumen di eks-Karesidenan Banyumas.",
         foto: "/assets/images/ruangan.jpg",
         noHp: "0813-9900-1122",
-        email: "faishal.ammar@ylbhsikap.or.id",
+        email: "rahman@ylbhsikap.or.id",
         slugCabang: "purwokerto"
       },
       {
@@ -476,7 +488,7 @@ export const dataSeluruhCabang: Record<string, {
       mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8966655342424!2d116.85643727567279!3d-1.2315543355702074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df14700558e9ed3%3A0x3bc17f7798283526!2sLBH%20SIKAP%20Balikpapan!5e0!3m2!1sid!2sid!4v1781786764791!5m2!1sid!2sid"
     },
     kriteria: kriteriaLayananGlobal,
-    berita: [],
+    berita: databaseArtikelNasional.filter(art => art.slugCabang === "balikpapan"),
     publikasi: [], 
     sectionBackup: { pers: [], edukasi: [] },
     struktur: {
@@ -512,6 +524,63 @@ export const dataSeluruhCabang: Record<string, {
         noHp: "0811-7788-9900",
         email: "eben.marwi@ylbhsikap.or.id",
         slugCabang: "balikpapn"
+      }
+    ],
+    posbakum: []
+  },
+  // 📍 3. CABANG LEMBATA
+  lembata: {
+    info: {
+      nama: "LBH SIKAP lembata",
+      kota: "Lembata",
+      alamat: "Dekat cwc, pegadaian lembata, Selandoro, Kec. Nubatukan, Kab. Lembata, Nusa Tenggara Timur 86611",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0813-9380-8277",
+      email: "lembata@ylbhsikap.or.id",
+      direktur: "Juprians Lambabelawa, S.H., M.H.",
+      bannerCabang: "/assets/images/bannerlembata.jpg",
+      mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3947.310924522287!2d123.43736507574114!3d-8.371044584393282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dab0d00774d64b5%3A0x3f2255b4622bcccd!2sKIOS%20IRWANA!5e0!3m2!1sid!2sid!4v1782043559040!5m2!1sid!2sid" 
+    },
+    kriteria: kriteriaLayananGlobal,
+    berita: databaseArtikelNasional.filter(art => art.slugCabang === "lembata"),
+    publikasi: [
+      { id: "doc-3", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan masyarakat, persentase penyelesaian perkara litigasi maupun non-litigasi, serta transparansi tata kelola keuangan internal lembaga secara berkala.", tombolLabel: "Unduh Laporan Tahunan (PDF)", link: "#" },
+      { id: "doc-4", tag: "EDUKASI PUBLIK", tagColor: "#4b5563", judul: "Kertas Kebijakan & Modul Paralegal", deskripsi: "Akses gratis ke modul hukum praktis untuk kader di akar rumput (community paralegal), panduan taktis menghadapi sengketa ruang hidup, draf perlindungan hak-hak pekerja, serta hasil riset advokasi kebijakan publik lainnya.", tombolLabel: "Buka Berkas Modul", link: "#" }
+    ], 
+    sectionBackup: { pers: [], edukasi: [] },
+    struktur: {
+      pembina: {
+        ketua: "-",
+      },
+      pengurus: {
+        direktur: "Juprians Lambabelawa, S.H., M.H.",
+        sekretaris: "Nama Sekretaris", // Ganti sesuai nama
+        bendahara: "Nama Bendahara",   // Ganti sesuai nama
+      },
+      bidang: {
+        litigasi: {
+          kepala: "Siti Rahma, S.H.",
+          sub_bidang: {
+            pidana: "Nama Penanggung Jawab",
+            perdata: "Nama Penanggung Jawab",
+            phi: "Nama Penanggung Jawab",
+          }
+        },
+        non_litigasi: {
+          kepala: "Nama Kepala Bidang",
+        }
+      }
+    },
+    anggota: [
+      {
+        id: "bpp-member-1",
+        nama: "Juprians Lambabelawa, S.H., M.H.",
+        jabatan: "Direktur Cabang Lembata",
+        deskripsi: "Tokoh pejuang keadilan lingkungan hidup di Kalimantan Timur, fokus mendampingi nelayan tradisional dan komunitas adat pesisir.",
+        foto: "/assets/images/ruangan1.jpg",
+        noHp: "0811-7788-9900",
+        email: "juprian.lamabelawa@ylbhsikap.or.id",
+        slugCabang: "lembata"
       }
     ],
     posbakum: []
