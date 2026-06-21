@@ -318,9 +318,6 @@
   .z-200 {
     z-index: 200;
   }
-  .col-span-1 {
-    grid-column: span 1 / span 1;
-  }
   .col-span-full {
     grid-column: 1 / -1;
   }
@@ -467,9 +464,6 @@
   }
   .hidden {
     display: none;
-  }
-  .inline {
-    display: inline;
   }
   .inline-block {
     display: inline-block;
@@ -2114,11 +2108,6 @@
       order: 2;
     }
   }
-  .sm\:col-span-2 {
-    @media (width >= 40rem) {
-      grid-column: span 2 / span 2;
-    }
-  }
   .sm\:mx-0 {
     @media (width >= 40rem) {
       margin-inline: 0;
@@ -2654,11 +2643,6 @@
   .md\:transition-none {
     @media (width >= 48rem) {
       transition-property: none;
-    }
-  }
-  .lg\:col-span-3 {
-    @media (width >= 64rem) {
-      grid-column: span 3 / span 3;
     }
   }
   .lg\:h-\[90vh\] {
