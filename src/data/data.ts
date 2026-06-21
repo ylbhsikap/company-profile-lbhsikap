@@ -254,7 +254,7 @@ export const databaseArtikelNasional: Berita[] = [
   { 
     id: "berita-lembata-1", 
     date: "15 21 2026", 
-    title: "PKS Posabnkum LBH SIKAP Lembata dengan Pengadilan Negeri Lembata 2026-2027", 
+    title: "PKS Posabnkum LBH SIKAP Lembata dengan Pengadilan Negeri Lembata 2026-2028", 
     excerpt: "LBH SIKAP Balikpapan memberikan pendampingan hukum struktural bagi 50 buruh...", 
     category: "MoU", 
     color: "#4b5563", 
