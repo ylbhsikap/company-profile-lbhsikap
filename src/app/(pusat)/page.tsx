@@ -33,24 +33,24 @@ export default function BerandaPusat() {
     <main className="w-full bg-white text-gray-900 min-h-screen scroll-smooth">
       
       {/* HERO BANNER PUSAT */}
-      <section className="relative w-full h-[60vh] bg-gray-950">
+      <section className="relative w-full h-screen bg-gray-950">
         <div className="absolute inset-0 z-0">
           <Image 
-            src={asetGambar.bannerUtama} 
+            src={asetGambar.bannerPusat} 
             alt="LBH SIKAP Pusat" 
             fill 
             priority
-            className="object-cover opacity-60" 
+            className="object-cover opacity-100" 
           />
         </div>
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center text-white">
-          <div>
-            <h1 className="text-4xl font-black uppercase tracking-wider md:text-6xl">
-              {dataKantorPusat.info.nama}
+        <div className="absolute inset-0 z-10 flex flex-col items-start justify-center p-6 md:p-20 text-white text-left">
+          <div className="mt-50">
+             <h1 className="text-4xl font-black uppercase tracking-wider md:text-6xl drop-shadow-lg">
+                {dataKantorPusat.info.nama}
             </h1>
-            <p className="mt-4 text-sm sm:text-lg text-gray-200 uppercase tracking-widest font-medium">
+           <p className="mt-4 max-w-2xl text-sm sm:text-lg text-gray-100 uppercase tracking-widest font-medium drop-shadow-md">
               Yayasan Lembaga Bantuan Hukum & Studi Kebijakan Publik
-            </p>
+           </p>
           </div>
         </div>
       </section>

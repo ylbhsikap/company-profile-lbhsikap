@@ -7,8 +7,8 @@ import { Inter } from "next/font/google"; // Anda bisa ganti font sesuai selera
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "LBH SIKAP | Lembaga Bantuan Hukum",
-  description: "Situs resmi LBH SIKAP, memberikan akses keadilan bagi masyarakat.",
+  title: "YLBH SIKAP | Yayasan Lembaga Bantuan Hukum & Studi Kebijakan Publik",
+  description: "Situs resmi Jaringan YLBH SIKAP, memberikan akses keadilan bagi masyarakat.",
   formatDetection: {
     telephone: false,
     date: false,

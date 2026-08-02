@@ -31,19 +31,15 @@ export function BranchNetwork({ branches }: BranchNetworkProps) {
             Jaringan Kantor Cabang
           </h2>
           <p className="mt-3 max-w-2xl text-sm leading-relaxed text-gray-600">
-            LBH SIKAP hadir di berbagai wilayah untuk memperluas akses keadilan bagi masyarakat miskin, buta hukum, dan tertindas secara struktural.
+            LBH SIKAP hadir di berbagai wilayah di seluruh indonesia untuk memperluas akses keadilan bagi masyarakat miskin, kurang mampu, buta hukum, dan tertindas secara struktural.
           </p>
         </div>
 
-        {/* 💡 PENERAPAN INLINE HORIZONTAL SCROLL (Tanpa Komponen Luar)
-            - HP: flex-row, flex-nowrap, overflow-x-auto (geser kanan-kiri).
-            - Desktop: sm:grid, sm:grid-cols-2, lg:grid-cols-3 (statis kotak-kotak). */}
+        {/* PENERAPAN INLINE HORIZONTAL SCROLL */}
         <div className="flex flex-row flex-nowrap overflow-x-auto gap-6 -mx-6 px-6 pb-6 snap-x snap-mandatory scrollbar-none sm:mx-0 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:px-0 sm:pb-0 sm:overflow-visible">
           {branches.map((cabang) => (
             <div 
               key={cabang.slug}
-              /* 💡 HP: w-[280px] agar kokoh tidak gepeng saat di-swipe, snap-center agar magnet pas di tengah.
-                 💡 Desktop: sm:w-full sm:flex-none untuk mengikuti kolom grid bawaannya. */
               className="w-70 shrink-0 snap-center flex flex-col justify-between rounded-xl border border-gray-200 bg-white p-6 shadow-xs transition-all duration-300 hover:-translate-y-1 hover:border-amber-500/30 hover:shadow-md sm:w-full sm:flex-none"
             >
               <div>
@@ -68,32 +64,32 @@ export function BranchNetwork({ branches }: BranchNetworkProps) {
                   LBH SIKAP <span className="text-amber-600">{cabang.kota}</span>
                 </h3>
                 
-                {/* Detail Kontak */}
+                {/* Detail Kontak dengan Titik Dua Sejajar (CSS Grid) */}
                 <div className="mt-4 space-y-2.5 text-xs text-gray-600" suppressHydrationWarning>
                   {cabang.direktur && (
-                    <p className="flex items-center gap-2 border-b border-gray-100 pb-2 mb-2">
-                      <span className="font-bold text-gray-400">Direktur:</span>
+                    <div className="grid grid-cols-[64px_1fr] gap-2 items-center border-b border-gray-100 pb-2 mb-2">
+                      <span className="font-bold text-gray-400">Direktur</span>
                       <span className="font-semibold text-gray-950">{cabang.direktur}</span>
-                    </p>
+                    </div>
                   )}
 
-                  <p className="flex items-start gap-2">
-                    <span className="font-bold text-gray-400">Alamat:</span>
+                  <div className="grid grid-cols-[64px_1fr] gap-2 items-start">
+                    <span className="font-bold text-gray-400">Alamat</span>
                     <span className="leading-relaxed">{cabang.alamat}</span>
-                  </p>
+                  </div>
                   
                   {cabang.telepon && (
-                    <p className="flex items-center gap-2">
-                      <span className="font-bold text-gray-400">Telp:</span>
+                    <div className="grid grid-cols-[64px_1fr] gap-2 items-center">
+                      <span className="font-bold text-gray-400">Telp</span>
                       <span>{cabang.telepon}</span>
-                    </p>
+                    </div>
                   )}
 
                   {cabang.email && (
-                    <p className="flex items-center gap-2">
-                      <span className="font-bold text-gray-400">Email:</span>
+                    <div className="grid grid-cols-[64px_1fr] gap-2 items-center">
+                      <span className="font-bold text-gray-400">Email</span>
                       <span className="break-all">{cabang.email}</span>
-                    </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -104,7 +100,7 @@ export function BranchNetwork({ branches }: BranchNetworkProps) {
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent("LBH SIKAP " + cabang.kota + " " + cabang.alamat)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-750 transition-all hover:bg-gray-50 text-center"
+                  className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-700 transition-all hover:bg-gray-50 text-center"
                 >
                   Lokasi Cabang
                 </a>

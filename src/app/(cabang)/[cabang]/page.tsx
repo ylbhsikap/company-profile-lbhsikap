@@ -95,31 +95,33 @@ export default function HalamanCabangHome({ params }: HalamanCabangProps) {
     <main className="w-full bg-white text-gray-900 min-h-screen scroll-smooth">
       
       {/* SECTION HERO */}
-      <section id="hero" className="relative w-full h-[85vh] md:h-[90vh] bg-gray-950 scroll-mt-0">
-        <div className="absolute inset-0 z-0">
-          <Image 
-            src={cabangAktif.info.bannerCabang || asetGambar.bannerUtama} 
-            alt={cabangAktif.info.nama} 
-            fill 
-            className="object-cover opacity-60" 
-          />
+      <section id="hero" className="relative w-full h-screen bg-gray-950 scroll-mt-0">
+  <div className="absolute inset-0 z-0">
+    <Image 
+      src={cabangAktif.info.bannerCabang || asetGambar.bannerUtama} 
+      alt={cabangAktif.info.nama} 
+      fill 
+      className="object-cover opacity-60" 
+    />
+  </div>
+  <div className="absolute inset-0 z-0 bg-linear-to-b from-black/60 via-transparent to-transparent" />
+  
+     <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center text-white">
+        <div className="pt-20"> 
+        <span className="inline-block bg-amber-600 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-sm mb-4">
+         Kantor Wilayah Resmi
+        </span>
+          {/* Judul dengan ukuran seragam */}
+          <h1 className="text-3xl font-black uppercase tracking-wider md:text-5xl max-w-4xl leading-tight mb-4">
+            {cabangAktif.info.nama}
+          </h1>
+          {/* Sub Judul dengan ukuran seragam */}
+          <p className="mt-4 text-xs sm:text-sm text-gray-200 max-w-2xl uppercase tracking-widest font-medium text-center mx-auto">
+            Mewujudkan Akses Keadilan & Pendampingan Hukum Structural di {cabangAktif.info.kota}
+          </p>
         </div>
-        <div className="absolute inset-0 z-0 bg-linear-to-b from-black/60 via-transparent to-transparent" />
-        
-        <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center text-white">
-          <div className="pt-20"> 
-            <span className="inline-block bg-amber-600 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-sm mb-4">
-              Kantor Wilayah Resmi
-            </span>
-            <h1 className="text-4xl font-black uppercase tracking-wider md:text-7xl max-w-4xl leading-tight mb-4">
-              {cabangAktif.info.nama}
-            </h1>
-            <p className="mt-4 text-sm sm:text-lg text-gray-200 max-w-2xl uppercase tracking-widest font-medium">
-              Mewujudkan Akses Keadilan & Pendampingan Hukum Structural di {cabangAktif.info.kota}
-            </p>
-          </div>
-        </div>
-      </section>
+      </div>
+     </section>
 
      {/* SECTION TENTANG & PERSONIL */}
      <section id="tentang" className="w-full bg-white py-20 border-b border-gray-150 scroll-mt-20">
@@ -155,14 +157,15 @@ export default function HalamanCabangHome({ params }: HalamanCabangProps) {
                 key={advokat.id}
                 className="w-70 shrink-0 snap-center flex flex-col sm:w-full sm:flex-none sm:flex-row bg-gray-50 border border-gray-200 rounded-sm overflow-hidden shadow-xs"
               >
-                <div className="relative w-full sm:w-36 h-44 bg-gray-200 shrink-0">
-                  <Image src={advokat.foto} alt={advokat.nama} fill className="object-cover" />
+                <div className="relative w-full sm:w-48 h-92 sm:h-auto bg-gray-200 shrink-0">
+                  <Image src={advokat.foto} alt={advokat.nama} fill className="object-cover object-top" />
                 </div>
                 <div className="p-6 flex flex-col justify-center min-w-0 w-full">
-                  <h3 className="font-black text-gray-950 uppercase tracking-wide text-base truncate">
+                  {/* Perbaikan: Menghapus 'truncate' dan menambahkan 'break-words' serta penyesuaian ukuran teks agar nama panjang tidak tertutup */}
+                  <h3 className="font-black text-gray-950 uppercase tracking-wide text-sm sm:text-base break-words leading-tight">
                     {advokat.nama}
                   </h3>
-                  <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mb-3">
+                  <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest mt-1 mb-3">
                     {advokat.jabatan}
                   </span>
 
@@ -184,7 +187,7 @@ export default function HalamanCabangHome({ params }: HalamanCabangProps) {
           </div>
         ) : (
           <p className="text-xs text-gray-400 italic uppercase tracking-wider">
-            Daftar personil advokat wilayah sedang dalam proses pembaharuan.
+            Daftar personil advokat publik wilayah sedang dalam proses pembaharuan.
           </p>
         )}
       </div>
@@ -279,7 +282,7 @@ export default function HalamanCabangHome({ params }: HalamanCabangProps) {
                     <div className="w-full h-40 rounded-lg overflow-hidden border border-gray-100 mb-5 bg-gray-100 relative">
                       <iframe
                         title={`Peta Lokasi ${pos.nama}`}
-                        src={(pos as any).gmapsUrl || `https://maps.google.com/maps?q=${encodeURIComponent(pos.nama + " " + pos.alamat)}&t=&z=14&ie=UTF8&iwloc=&output=embed`}
+                        src={pos.gmapsUrl}
                         className="w-full h-full border-0 opacity-85 hover:opacity-100 transition-opacity duration-300"
                         allowFullScreen={false}
                         loading="lazy"
@@ -292,7 +295,11 @@ export default function HalamanCabangHome({ params }: HalamanCabangProps) {
                     </div>
                   </div>
                   <div className="mt-6 pt-4 border-t border-gray-100">
-                    <a href={(pos as any).gmapsUrl || "#"} target="_blank" rel="noopener noreferrer" className="inline-flex w-full items-center justify-center gap-1 rounded-lg border border-gray-950 bg-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-950 transition-all hover:bg-gray-950 hover:text-white">Kunjungi Posbakum</a>
+                    <a href={(pos as any).mapsLink || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pos.nama + " " + pos.alamat)}`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex w-full items-center justify-center gap-1 rounded-lg border border-gray-950 bg-white px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-gray-950 transition-all hover:bg-gray-950 hover:text-white"
+              >Kunjungi Posbakum</a>
                   </div>
                 </div>
               ))
