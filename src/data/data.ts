@@ -5,7 +5,7 @@
 // =========================================================================
 export interface AsetGambarType {
   bannerUtama: string;
-  bannerPusat: String;
+  bannerPusat: string;
   kantorSekretariat: string;
   logoResmi: string;
   tentangkami: string;
