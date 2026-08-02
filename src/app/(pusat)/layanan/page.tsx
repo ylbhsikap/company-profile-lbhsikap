@@ -14,19 +14,19 @@ export default function LayananPusatPage() {
       {/* ZONA 1: Kriteria & Form - Tetap Sama (sudah benar) */}
       
       {/* ZONA 2: PROSEDUR DINAMIS */}
-      <section className="relative w-full bg-gray-950 py-20 pb-28">
+      <section className="relative w-full bg-white py-20 pb-28">
         <div className="relative z-10 mx-auto w-11/12 max-w-5xl">
           <div className="mb-12 border-b border-gray-800 pb-5">
-            <h2 className="text-2xl font-black uppercase text-white md:text-3xl">Prosedur Penanganan Perkara</h2>
+            <h2 className="text-2xl font-black uppercase text-black md:text-3xl">Prosedur Penanganan Perkara</h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-white">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-black">
             {prosedurLayanan.map((item) => (
-              <div key={item.step} className="p-6 bg-white/5 rounded-xl border border-white/10 flex flex-col justify-between">
+              <div key={item.step} className="p-6 bg-white/5 rounded-xl border border-black/10 flex flex-col justify-between">
                 <div>
                   <span className="text-xs font-black text-amber-500 uppercase tracking-widest">Langkah {item.step}</span>
                   <h4 className="font-bold text-lg mt-2 uppercase tracking-wide">{item.title}</h4>
-                  <p className="text-gray-400 mt-3 leading-relaxed">{item.desc}</p>
+                  <p className="text-gray-800 mt-3 leading-relaxed">{item.desc}</p>
                 </div>
               </div>
             ))}

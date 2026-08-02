@@ -3,5 +3,14 @@
 @view-transition {
   navigation: auto;
 }
+/* Kustomisasi global untuk Tailwind v4 */
+@theme {
+  /* Contoh: Mengubah atau menambahkan ukuran font kustom */
+  --text-sm: 1rem; 
+  --text-lg: 1rem;
+  /* Perkecil ukuran judul h1 agar ikut mengecil secara global */
+  --text-4xl: 1.5rem; /* Default aslinya biasanya 2.25rem (36px), perkecil misal jadi 1.875rem atau 2rem */
+  --text-6xl: 2.5rem;  /* Default aslinya biasanya 3.75rem (60px), perkecil misal jadi 3rem */
+}
 
 /* Jangan masukkan css manual lama di sini agar tidak bentrok dengan v4 */

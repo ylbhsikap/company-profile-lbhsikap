@@ -11,8 +11,8 @@ export default function PublikasiPusatNasional() {
       {/* 1. BANNER UTAMA (Bebas melebar penuh selayar) */}
       <SubPageHeader 
         title="Publikasi" 
-        subtitle="Jajaran Wilayah Nasional" 
-        bgImage={asetGambar.bannerUtama} //[cite: 1]
+        subtitle="Portal Informasi Jajaran Wilayah Nasional" 
+        bgImage={asetGambar.publikasi} //[cite: 1]
       />
 
       {/* 2. AREA KONTEN UTAMA (Satu komando di dalam max-w-6xl) */}
@@ -24,7 +24,7 @@ export default function PublikasiPusatNasional() {
             Publikasi Jajaran Wilayah Nasional
           </h1>
           <p className="text-xs text-gray-500 mt-1.5 max-w-2xl leading-relaxed">
-            Kumpulan rilis pers, opini hukum, dan dokumentasi kasus dari seluruh cabang LBH SIKAP.
+            Kumpulan rilis pers, opini hukum, dan dokumentasi kasus dari seluruh cabang LBH SIKAP di Indonesia.
           </p>
         </div>
 

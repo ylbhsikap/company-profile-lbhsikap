@@ -5,6 +5,7 @@
 // =========================================================================
 export interface AsetGambarType {
   bannerUtama: string;
+  bannerPusat: String;
   kantorSekretariat: string;
   logoResmi: string;
   tentangkami: string;
@@ -13,18 +14,31 @@ export interface AsetGambarType {
   publikasi: string; 
   dokumentasiKasus: string;
   pks: string;
+  demo: string;
+  penyuluhan: string;
+  mitra: string;
+
+
+
 }
 
 export const asetGambar: AsetGambarType = {
   bannerUtama: "/assets/images/ruangan10.jpg",
+  bannerPusat: "/assets/images/bannerPusat.jpg",
   kantorSekretariat: "/assets/images/ruangan1.jpg", 
   logoResmi: "/assets/images/logo-lbh.png",
-  tentangkami: "/assets/images/ruangan2.jpg",
+  tentangkami: "/assets/images/tentangkami.jpg",
   kontak: "/assets/images/ruangan.jpg",
-  layananBawah: "/assets/images/ruangan.jpg",
-  publikasi: "/assets/images/ruangan.jpg",
-  dokumentasiKasus: "/assets/images/pkslembata.jpg",
-  pks: "/assets/images/pkslembata.jpg",
+  layananBawah: "/assets/images/layananhukum.jpg",
+  publikasi: "/assets/images/publikasi.jpg",
+  dokumentasiKasus: "/assets/images/pkssamarinda.jpg",
+  pks: "/assets/images/pkssamarinda.jpg",
+  demo: "/assets/images/demo.jpg",
+  penyuluhan: "/assets/images/penyuluhan.jpg",
+  mitra: "/assets/images/mitraa.jpg",
+
+
+  
 };
 
 // =========================================================================
@@ -88,7 +102,7 @@ export const dataKantorPusat = {
     nama: "ylbh sikap",
     kota: "Yogyakarta",
     alamat: "Jalan Anggajaya I Brojodento.294, Gejayan, Sanggrahan, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55283",
-    telepon: "081906157620",
+    telepon: "081804074321",
     gmapsUrl: "https://maps.google.com/?cid=ID_MAPS_PUSAT",
     mapsEmbed: "https://maps.google.com/?cid=ID_MAPS_PUSAT",
     jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
@@ -99,6 +113,7 @@ export const dataKantorPusat = {
     { name: "Tentang Kami", href: "/tentang" },
     { name: "Layanan Hukum", href: "/layanan" },
     { name: "Publikasi", href: "/publikasi" },
+    { name: "Mitra", href: "/mitra" },
   ],
   kriteria: kriteriaLayananGlobal,
   berita: [
@@ -109,7 +124,7 @@ export const dataKantorPusat = {
       excerpt: "LBH SIKAP Pusat mengecam keras segala bentuk tindakan intimidasi dan represi aparat terhadap kebebasan berpendapat di muka umum...", 
       category: "SIARAN PERS", 
       color: "#09090b", 
-      gambarKunci: "bannerUtama" as keyof AsetGambarType,
+      gambarKunci: "demo" as keyof AsetGambarType,
       slugCabang: "pusat" 
     },
     { 
@@ -119,7 +134,7 @@ export const dataKantorPusat = {
       excerpt: "Dalam rangka memperkuat jaringan bantuan hukum di akar rumput, LBH SIKAP Pusat resmi membuka pendaftaran pelatihan paralegal struktural...", 
       category: "EDUKASI", 
       color: "#4b5563", 
-      gambarKunci: "kantorSekretariat" as keyof AsetGambarType, 
+      gambarKunci: "penyuluhan" as keyof AsetGambarType, 
       slugCabang: "pusat" 
     },
     { 
@@ -150,19 +165,38 @@ export const dataKantorPusat = {
       category: "EDUKASI", 
       color: "#4b5563", 
       gambarKunci: "kantorSekretariat" as keyof AsetGambarType, 
-      slugCabang: "pusat" 
+      slugCabang: "pusat"
     }
   ],
   publikasi: [
     { id: "p-doc-1", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja Pusat (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP Pusat kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan nasional.", tombolLabel: "Unduh Laporan Pusat (PDF)", link: "#" }
   ],
+  mitra: [
+    {
+     id: "mitra-pusat-1",
+      nama: "PT Our Play Indonesia (OPLAY.ID)",
+      bidangTeknologi: "Web & Server Infrastructure",
+      deskripsi: "Menyediakan infrastruktur cloud terenkripsi tingkat tinggi serta proteksi data arsip hukum lembaga dari ancaman siber.",
+      logo: "/assets/mitra/oplayid.png",
+      websiteUrl: "https://oplay.id",
+      statusKemitraan: "Primary Digital Infrastructure"
+    },
+  ],
+  instansiMitra: [
+    { id: "inst-1", nama: "Kemenkumham RI", logo: "/assets/mitra/kemenkumham.jpg", websiteUrl: "https://kemenkum.go.id" },
+    { id: "inst-2", nama: "BPHN", logo: "/assets/mitra/bphn.png", websiteUrl: "https://bphn.go.id" },
+    { id: "inst-3", nama: "kalurahan Terong", logo: "/assets/mitra/kalurahanterong.png", websiteUrl: "https://terong-bantul.desa.id" },
+    { id: "inst-4", nama: "pemda sleman", logo: "/assets/mitra/pemdasleman.webp", websiteUrl: "https://slemankab.go.id"},
+    { id: "inst-5", nama: "UIN Kalijaga Yogyakarta", logo: "/assets/mitra/uinjogja.png", websiteUrl: "https://uin-suka.ac.id"},
+    { id: "inst-6", nama: "pemda kota jogja", logo: "/assets/mitra/pemdakotajogja.png", websiteUrl: "https://jogjakota.go.id"},
+    { id: "inst-7", nama: "pemda bantul", logo: "/assets/mitra/pemdabantul.png", websiteUrl: "https://bantulkab.go.id/beranda.html"},
+
+  ],
   struktur: {
   pembina: {
-    ketua: "Prof. Dr. Ahmad Sodikin, S.H.",
-    anggota1: "Nama Anggota 1",
-    anggota2: "BUDIMAN",
-    anggota3: "ARIS SUSTIYONO",
-    anggota4: "ESTI WIJAYATI",
+    ketua: "WIDIHASTO WASONO PUTRO",
+    anggota1: "ARIS SUSTIYONO",
+    anggota2: "ESTI WIJAYATI",
   },
   pengurus: {
     ketua: "MOHAMMAD YUSUP, S.H., M.H.",
@@ -208,7 +242,7 @@ export const databaseArtikelNasional: Berita[] = [
     excerpt: "LBH SIKAP Yogyakarta mengecam keras segala bentuk tindakan intimidasi dan represi aparat terhadap kebebasan berpendapat di muka umum...", 
     category: "SIARAN PERS", 
     color: "#09090b", 
-    gambarKunci: "bannerUtama",
+    gambarKunci: "demo",
     slugCabang: "yogyakarta"
   },
   { 
@@ -218,7 +252,7 @@ export const databaseArtikelNasional: Berita[] = [
     excerpt: "Menganalisis urgensi penguatan payung hukum bagi gerakan aktor lini depan bantuan hukum di akar rumput demi menjamin akses keadilan yang merata...", 
     category: "OPINI HUKUM", 
     color: "#4b5563", 
-    gambarKunci: "kantorSekretariat",
+    gambarKunci: "penyuluhan",
     slugCabang: "yogyakarta"
   },
   { 
@@ -235,7 +269,7 @@ export const databaseArtikelNasional: Berita[] = [
     id: "berita-pwt-1", 
     date: "15 Juni 2026", 
     title: "Advokasi Buruh Pabrik Terkait Hak Upah Lembur", 
-    excerpt: "LBH SIKAP Purwokerto memberikan pendampingan hukum struktural bagi 50 buruh...", 
+    excerpt: "LBH SIKAP Banten memberikan pendampingan hukum struktural bagi 50 buruh...", 
     category: "ADVOKASI", 
     color: "#4b5563", 
     gambarKunci: "dokumentasiKasus",
@@ -252,14 +286,14 @@ export const databaseArtikelNasional: Berita[] = [
     slugCabang: "balikpapan"
   },
   { 
-    id: "berita-lembata-1", 
+    id: "berita-samarinda-1", 
     date: "15 21 2026", 
-    title: "PKS Posabnkum LBH SIKAP Lembata dengan Pengadilan Negeri Lembata 2026-2028", 
+    title: "PKS Posabnkum LBH SIKAP samarinda dengan Pengadilan Negeri samarinda 2026-2028", 
     excerpt: "LBH SIKAP Balikpapan memberikan pendampingan hukum struktural bagi 50 buruh...", 
     category: "MoU", 
     color: "#4b5563", 
     gambarKunci: "dokumentasiKasus",
-    slugCabang: "lembata"
+    slugCabang: "samarinda"
   }
 ];
 
@@ -287,7 +321,7 @@ export const dataSeluruhCabang: Record<string, {
   };
   
   anggota: AnggotaType[];
-  posbakum: Array<{ id: string; nama: string; kelurahan: string; kapanewon: string; alamat: string; telepon: string; gmapsUrl: string; latitude: number; longitude: number }>;
+  posbakum: Array<{ id: string; nama: string; kelurahan: string; kapanewon: string; alamat: string; telepon: string; gmapsUrl: string; mapsLink: string; latitude: number; longitude: number }>;
 }> = {
   
   // 📍 1. CABANG YOGYAKARTA
@@ -300,7 +334,7 @@ export const dataSeluruhCabang: Record<string, {
       telepon: "082322278670",
       email: "yogyakarta@ylbhsikap.or.id",
       direktur: "Wandy Marseli, S.H.",
-      bannerCabang: "/assets/images/ruangan10.jpg",
+      bannerCabang: "/assets/images/ruangan0.jpg",
       mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.310898300753!2d110.39374337573301!3d-7.756813776921895!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59a6cc94c5f7%3A0x86660a3450d13952!2sLBH%20SIKAP%20Yogyakarta%20-%20Lembaga%20Bantuan%20Hukum%20%26%20Studi%20Kebijakan%20Publik!5e0!3m2!1sid!2sid!4v1781786623142!5m2!1sid!2sid"
     },
     kriteria: kriteriaLayananGlobal,
@@ -314,61 +348,71 @@ export const dataSeluruhCabang: Record<string, {
         { id: "pers-1", date: "12 Juni 2026", title: "Desakan Hentikan Intimidasi Warga", excerpt: "Ringkasan rilis pers terbaru mengenai situasi eskalasi konflik di lapangan..." }
       ],
       edukasi: [
-        { id: "edu-1", title: "Klinik Hukum Gratis", excerpt: "Jadwal konsultasi mingguan tatap muka langsung di sekretariat LBH SIKAP." }
+        { id: "edu-1", title: "Klinik Hukum Gratis", excerpt: "Jadwal konsultasi secara tatap muka langsung, setiap hari selasa di seluruh mitra posbankum LBH SIKAP Yogyakarta." }
       ]
     },
    struktur: {
       pembina: {
-        ketua: "Mohamad Yusup, S.H.",
+        ketua: "MOHAMAD YUSUP, S.H.,L.LM.",
       },
       pengurus: {
-        direktur: "Wandy Marseli, S.H.",
-        sekretaris: "Rudiarianto Radjanggolo, S.H.", // Ganti sesuai nama
-        bendahara: "Titis A.K Wardani, S.H.",   // Ganti sesuai nama
+        direktur: "WANDY MARSELI, S.H.",
+        sekretaris: "RUDIARIANTO RADJANGOLO, S.H.", // Ganti sesuai nama
+        bendahara: "TITIS A.K WARDANI, S.H.",   // Ganti sesuai nama
       },
       bidang: {
         litigasi: {
-          kepala: "Siti Rahma, S.H.",
+          kepala: "ZULFADLI HARAHAP, S.H.",
           sub_bidang: {
-            pidana: "",
-            perdata: "Zulfadli Harahap, S.H.",
-            phi: "Kirnadi",
+            pidana: "-",
+            perdata: "-",
+            phi: "-",
           }
         },
         non_litigasi: {
-          kepala: "Nama Kepala Bidang",
+          kepala: "KIRNADI",
         }
       }
 },
     anggota: [
       { 
         id: "ygy-member-1", 
-        nama: "Wandy Marseli, S.H.", 
-        jabatan: "Direktur Cabang", 
+        nama: "Rahman, S.H.", 
+        jabatan: "Magang Advokat", 
         deskripsi: "Pakar litigasi pidana umum dan perdata yang berkomitmen mengawal isu kebebasan berpendapat di DIY. Mengabdi di gerakan pro-bono sejak tahun 2017.", 
-        foto: "/assets/images/ruangan10.jpg",
-        noHp: "0819-0615-7620",
-        email: "wandy.m@ylbhsikap.or.id",
+        foto: "/assets/anggota/rahmann.jpg",
+        noHp: "0812-2985-0060",
+        email: "rahman@ylbhsikap.or.id",
         slugCabang: "yogyakarta"
       },
       { 
         id: "ygy-member-2", 
-        nama: "Rian Hidayat, S.H.", 
+        nama: "Zainab, S.H.,M.H.", 
         jabatan: "Advokat Publik", 
         deskripsi: "Berfokus pada pembelaan hak buruh, ketenagakerjaan, serta pendampingan komunitas marjinal perkotaan dalam sengketa ruang hidup.", 
-        foto: "/assets/images/ruangan.jpg",
+        foto: "/assets/anggota/zainabb.jpg",
         noHp: "0812-8899-1122",
-        email: "rian.hidayat@ylbhsikap.or.id",
+        email: "zainab@ylbhsikap.or.id",
         slugCabang: "yogyakarta"
       },
       { 
-        id: "ygy-member-3", 
-        nama: "Laila Sari", 
-        jabatan: "Paralegal Struktural", 
+        id: "ygy-member-3",
+        nama: "Jhon Lock Warorowai, S.H.,M.H.", 
+        jabatan: "Advokat Publik", 
         deskripsi: "Aktif melakukan penyuluhan hukum gratis ke pelosok desa di Sleman dan Bantul serta mengorganisir pos aduan rakyat.", 
-        foto: "/assets/images/ruangan2.jpg",
-        noHp: "0857-4433-2211",
-        email: "laila.sari@ylbhsikap.or.id",
+        foto: "/assets/anggota/jhonn.jpg",
+        noHp: "0813-2879-2380",
+        email: "jhon@ylbhsikap.or.id",
+        slugCabang: "yogyakarta"
+      },
+      { 
+        id: "ygy-member-4", 
+        nama: "Faishal Ammar Dwi Wijaya, S.H.", 
+        jabatan: "Magang Advokat", 
+        deskripsi: "Aktif melakukan penyuluhan hukum gratis ke pelosok desa di Sleman dan Bantul serta mengorganisir pos aduan rakyat.", 
+        foto: "/assets/anggota/faishall.jpg",
+        noHp: "0819-0615-7620",
+        email: "faishal@ylbhsikap.or.id",
         slugCabang: "yogyakarta"
       }
     ],
@@ -379,8 +423,9 @@ export const dataSeluruhCabang: Record<string, {
         kelurahan: "Dlingo", 
         kapanewon: "Bantul", 
         alamat: "Jl. Patuk - Dlingo No.Km 6,5, Terong II, Dlingo, Kec. Dlingo, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55783", 
-        telepon: "081906157620", 
+        telepon: "-", 
         gmapsUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9174.263964646781!2d110.44972641172471!3d-7.89233839102032!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a5300789e3e0b%3A0x4db339af4392bf64!2sPOSBANKUM%20Kalurahan%20Terong%20%E2%80%93%20Mitra%20LBH%20SIKAP%20Yogyakarta!5e0!3m2!1sid!2sid!4v1781784751672!5m2!1sid!2sid", 
+        mapsLink: "https://maps.app.goo.gl/SjTehvmiBThKhSWa8",
         latitude: -7.8923384, 
         longitude: 110.4497264 
       },
@@ -390,8 +435,9 @@ export const dataSeluruhCabang: Record<string, {
         kelurahan: "condongcatur",
         kapanewon: "Depok",
         alamat: "Jl. Affandi No.1, Sanggrahan, Condongcatur, Kec. Depok, Kabupaten Sleman, Daerah Istimewa Yogyakarta 55281",
-        telepon: "082322278670",
+        telepon: "-",
         gmapsUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.3053162520814!2d110.39378307573301!3d-7.75740767692885!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a59a6cb7228c3%3A0x8d80365e4b211fbf!2sPemerintah%20Kalurahan%20Condongcatur!5e0!3m2!1sid!2sid!4v1781785454847!5m2!1sid!2sid",
+        mapsLink: "https://maps.app.goo.gl/DMnDvvw1UCzWeb9q8",
         latitude: -7.7573518,
         longitude: 110.3960006,
       },
@@ -401,26 +447,39 @@ export const dataSeluruhCabang: Record<string, {
         kelurahan: "temuwuh",
         kapanewon: "dlingo",
         alamat: "3FF9+F58, Temuwuh, Kec. Dlingo, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55783",
-        telepon: "082322278670",
+        telepon: "-",
         gmapsUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.700492312387!2d110.46550777557468!3d-7.926318386767228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a530008c1e7ff%3A0xc608acdd11c3d93a!2sPOSBANKUM%20KALURAHAN%20TEMUWUH%20(LBH%20SIKAP)!5e0!3m2!1sid!2sid!4v1781785504882!5m2!1sid!2sid",
+        mapsLink: "https://maps.app.goo.gl/vmhP3Udrxy1BCo8t8",
         latitude: -7.926329,
         longitude: 110.4655078,
+      },
+      {
+        id: "posbakum-yogyakarta-mangunan",
+        nama: "Kalurahan mangunan",
+        kelurahan: "mangunan",
+        kapanewon: "dlingo",
+        alamat: "3C9H+C85, Mangunan, Kec. Dlingo, Kabupaten Bantul, Daerah Istimewa Yogyakarta 55783",
+        telepon: "-",
+        gmapsUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3951.6508678310056!2d110.42579747585717!3d-7.931484478984308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a530052e0838b%3A0x3d44de60ea846fa5!2sPOSBANKUM%20KALURAHAN%20MANGUNAN!5e0!3m2!1sid!2sid!4v1785603133835!5m2!1sid!2sid",
+        mapsLink: "https://maps.app.goo.gl/8SPF7PrAo41zpvwh7",
+        latitude: -7.9314845,
+        longitude: 110.4257975,
       }
     ],
   },
 
-  // 📍 2. CABANG PURWOKERTO
-  purwokerto: {
+  // 📍 2. CABANG BANTEN
+  banten: {
     info: {
-      nama: "LBH SIKAP Purwokerto",
-      kota: "Purwokerto",
-      alamat: "Jl. Jenderal Sudirman No. 45, Purwokerto, Jawa Tengah",
+      nama: "LBH SIKAP Banten",
+      kota: "Banten",
+      alamat: "kolektor, Jl. Raya Serang - Pandeglang Link No.044, RT.001/RW.005, Karundang, Kec. Cipocok Jaya, Kota Serang, Banten 42126",
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
-      telepon: "0281-635xxx",
-      email: "purwokerto@ylbhsikap.or.id",
-      direktur: "Rahman, S.H.",
+      telepon: "0819-0419-8678",
+      email: "banten@ylbhsikap.or.id",
+      direktur: "Deni Ismail Pamungkas, S.H.,M.H.",
       bannerCabang: "/assets/images/ruangan.jpg",
-      mapsEmbed: ""
+      mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.875505081107!2d106.15708197583606!3d-6.147418160261539!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e41f5004af0ae95%3A0x119a507942e638f7!2sLBH%20SIKAP%20BANTEN!5e0!3m2!1sid!2sid!4v1785606047269!5m2!1sid!2sid"
     },
     kriteria: kriteriaLayananGlobal,
     berita: databaseArtikelNasional.filter(art => art.slugCabang === "purwokerto"),
@@ -428,20 +487,20 @@ export const dataSeluruhCabang: Record<string, {
     sectionBackup: { pers: [], edukasi: [] },
     struktur: {
       pembina: {
-        ketua: "Wandy Marseli",
+        ketua: "W-",
       },
       pengurus: {
-        direktur: "Wandy Marseli, S.H.",
+        direktur: "Deni Ismail Pamungkas, S.H.,M.H.",
         sekretaris: "Nama Sekretaris", // Ganti sesuai nama
         bendahara: "Nama Bendahara",   // Ganti sesuai nama
       },
       bidang: {
         litigasi: {
-          kepala: "Siti Rahma, S.H.",
+          kepala: "Nama Kepala Bidang",
           sub_bidang: {
-            pidana: "Nama Penanggung Jawab",
-            perdata: "Nama Penanggung Jawab",
-            phi: "Nama Penanggung Jawab",
+            pidana: "-",
+            perdata: "-",
+            phi: "-",
           }
         },
         non_litigasi: {
@@ -451,40 +510,40 @@ export const dataSeluruhCabang: Record<string, {
     },
     anggota: [
       {
-        id: "pwt-member-1",
-        nama: "Faishal Ammar Dwi Wijaya, S.H.",
-        jabatan: "Direktur Cabang Purwokerto",
+        id: "bntn-member-1",
+        nama: "Deni Ismail Pamungkas, S.H.,M.H.",
+        jabatan: "Direktur Cabang Banten",
         deskripsi: "Berdedikasi dalam menangani advokasi sengketa tanah pertanian rakyat dan edukasi perlindungan konsumen di eks-Karesidenan Banyumas.",
         foto: "/assets/images/ruangan.jpg",
         noHp: "0813-9900-1122",
-        email: "rahman@ylbhsikap.or.id",
-        slugCabang: "purwokerto"
+        email: "deni@ylbhsikap.or.id",
+        slugCabang: "banten"
       },
       {
-        id: "pwt-member-2",
+        id: "bntn-member-2",
         nama: "Eko Saputra, S.H.",
         jabatan: "Advokat Publik",
         deskripsi: "Spesialis hukum perdata keluarga miskin dan jaminan kesehatan sosial rakyat marjinal.",
         foto: "/assets/images/ruangan1.jpg",
         noHp: "0821-3344-5566",
         email: "eko.s@ylbhsikap.or.id",
-        slugCabang: "purwokerto"
+        slugCabang: "banten"
       }
     ],
     posbakum: []
   },
 
   // 📍 3. CABANG BALIKPAPAN
-  balikpapn: {
+  balikpapan: {
     info: {
       nama: "LBH SIKAP Balikpapan",
       kota: "Balikpapan",
       alamat: "Jl. Jenderal Sudirman No. 45, Balikpapan, Kalimantan Timur",
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
-      telepon: "0281-635xxx",
+      telepon: "0812-5358-3333",
       email: "balikpapan@ylbhsikap.or.id",
-      direktur: "Eben Marwi",
-      bannerCabang: "/assets/images/ruangan1.jpg",
+      direktur: "Eben Marwi,S.H.I.,M.H.",
+      bannerCabang: "/assets/images/bannerbalikpapan.jpg",
       mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8966655342424!2d116.85643727567279!3d-1.2315543355702074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df14700558e9ed3%3A0x3bc17f7798283526!2sLBH%20SIKAP%20Balikpapan!5e0!3m2!1sid!2sid!4v1781786764791!5m2!1sid!2sid"
     },
     kriteria: kriteriaLayananGlobal,
@@ -493,20 +552,20 @@ export const dataSeluruhCabang: Record<string, {
     sectionBackup: { pers: [], edukasi: [] },
     struktur: {
       pembina: {
-        ketua: "Wandy Marseli",
+        ketua: "",
       },
       pengurus: {
-        direktur: "Wandy Marseli, S.H.",
+        direktur: "Eben Marwi,S.H.I.,M.H.",
         sekretaris: "Nama Sekretaris", // Ganti sesuai nama
         bendahara: "Nama Bendahara",   // Ganti sesuai nama
       },
       bidang: {
         litigasi: {
-          kepala: "Siti Rahma, S.H.",
+          kepala: "Nama Kepala Bidang",
           sub_bidang: {
-            pidana: "Nama Penanggung Jawab",
-            perdata: "Nama Penanggung Jawab",
-            phi: "Nama Penanggung Jawab",
+            pidana: "-",
+            perdata: "-",
+            phi: "-",
           }
         },
         non_litigasi: {
@@ -517,32 +576,32 @@ export const dataSeluruhCabang: Record<string, {
     anggota: [
       {
         id: "bpp-member-1",
-        nama: "Eben Marwi",
+        nama: "Eben Marwi,S.H.I.,M.H.",
         jabatan: "Direktur Cabang Balikpapan",
         deskripsi: "Tokoh pejuang keadilan lingkungan hidup di Kalimantan Timur, fokus mendampingi nelayan tradisional dan komunitas adat pesisir.",
         foto: "/assets/images/ruangan1.jpg",
-        noHp: "0811-7788-9900",
+        noHp: "081253583333",
         email: "eben.marwi@ylbhsikap.or.id",
-        slugCabang: "balikpapn"
+        slugCabang: "balikpapan"
       }
     ],
     posbakum: []
   },
-  // 📍 3. CABANG LEMBATA
-  lembata: {
+  // 📍 3. CABANG NTT
+  NTT: {
     info: {
-      nama: "LBH SIKAP lembata",
-      kota: "Lembata",
-      alamat: "Dekat cwc, pegadaian lembata, Selandoro, Kec. Nubatukan, Kab. Lembata, Nusa Tenggara Timur 86611",
+      nama: "LBH SIKAP NTT",
+      kota: "NTT",
+      alamat: "Dekat cwc, pegadaian samarinda, Selandoro, Kec. Nubatukan, Kab. samarinda, Nusa Tenggara Timur 86611",
       jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
       telepon: "0813-9380-8277",
-      email: "lembata@ylbhsikap.or.id",
+      email: "ntt@ylbhsikap.or.id",
       direktur: "Juprians Lambabelawa, S.H., M.H.",
       bannerCabang: "/assets/images/bannerlembata.jpg",
       mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3947.310924522287!2d123.43736507574114!3d-8.371044584393282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dab0d00774d64b5%3A0x3f2255b4622bcccd!2sKIOS%20IRWANA!5e0!3m2!1sid!2sid!4v1782043559040!5m2!1sid!2sid" 
     },
     kriteria: kriteriaLayananGlobal,
-    berita: databaseArtikelNasional.filter(art => art.slugCabang === "lembata"),
+    berita: databaseArtikelNasional.filter(art => art.slugCabang === "samarinda"),
     publikasi: [
       { id: "doc-3", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan masyarakat, persentase penyelesaian perkara litigasi maupun non-litigasi, serta transparansi tata kelola keuangan internal lembaga secara berkala.", tombolLabel: "Unduh Laporan Tahunan (PDF)", link: "#" },
       { id: "doc-4", tag: "EDUKASI PUBLIK", tagColor: "#4b5563", judul: "Kertas Kebijakan & Modul Paralegal", deskripsi: "Akses gratis ke modul hukum praktis untuk kader di akar rumput (community paralegal), panduan taktis menghadapi sengketa ruang hidup, draf perlindungan hak-hak pekerja, serta hasil riset advokasi kebijakan publik lainnya.", tombolLabel: "Buka Berkas Modul", link: "#" }
@@ -559,11 +618,11 @@ export const dataSeluruhCabang: Record<string, {
       },
       bidang: {
         litigasi: {
-          kepala: "Siti Rahma, S.H.",
+          kepala: "Nama Kepala Bidang",
           sub_bidang: {
-            pidana: "Nama Penanggung Jawab",
-            perdata: "Nama Penanggung Jawab",
-            phi: "Nama Penanggung Jawab",
+            pidana: "-",
+            perdata: "-",
+            phi: "-",
           }
         },
         non_litigasi: {
@@ -573,14 +632,128 @@ export const dataSeluruhCabang: Record<string, {
     },
     anggota: [
       {
-        id: "bpp-member-1",
+        id: "ntt-member-1",
         nama: "Juprians Lambabelawa, S.H., M.H.",
-        jabatan: "Direktur Cabang Lembata",
+        jabatan: "Direktur Cabang NTT",
         deskripsi: "Tokoh pejuang keadilan lingkungan hidup di Kalimantan Timur, fokus mendampingi nelayan tradisional dan komunitas adat pesisir.",
         foto: "/assets/images/ruangan1.jpg",
         noHp: "0811-7788-9900",
         email: "juprian.lamabelawa@ylbhsikap.or.id",
-        slugCabang: "lembata"
+        slugCabang: "ntt"
+      }
+    ],
+    posbakum: []
+  },
+  // 📍 4. CABANG CIAMIS
+  ciamis: {
+    info: {
+      nama: "LBH SIKAP CIAMIS",
+      kota: "Ciamis",
+      alamat: "Dekat cwc, pegadaian samarinda, Selandoro, Kec. Nubatukan, Kab. samarinda, Nusa Tenggara Timur 86611",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "0813-9243-5107",
+      email: "ciamis@ylbhsikap.or.id",
+      direktur: "Dafiq Syahal M",
+      bannerCabang: "/assets/images/bannerlembata.jpg",
+      mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3947.310924522287!2d123.43736507574114!3d-8.371044584393282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dab0d00774d64b5%3A0x3f2255b4622bcccd!2sKIOS%20IRWANA!5e0!3m2!1sid!2sid!4v1782043559040!5m2!1sid!2sid" 
+    },
+    kriteria: kriteriaLayananGlobal,
+    berita: databaseArtikelNasional.filter(art => art.slugCabang === "samarinda"),
+    publikasi: [
+      { id: "doc-3", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan masyarakat, persentase penyelesaian perkara litigasi maupun non-litigasi, serta transparansi tata kelola keuangan internal lembaga secara berkala.", tombolLabel: "Unduh Laporan Tahunan (PDF)", link: "#" },
+      { id: "doc-4", tag: "EDUKASI PUBLIK", tagColor: "#4b5563", judul: "Kertas Kebijakan & Modul Paralegal", deskripsi: "Akses gratis ke modul hukum praktis untuk kader di akar rumput (community paralegal), panduan taktis menghadapi sengketa ruang hidup, draf perlindungan hak-hak pekerja, serta hasil riset advokasi kebijakan publik lainnya.", tombolLabel: "Buka Berkas Modul", link: "#" }
+    ], 
+    sectionBackup: { pers: [], edukasi: [] },
+    struktur: {
+      pembina: {
+        ketua: "-",
+      },
+      pengurus: {
+        direktur: "Dafiq Syahal M",
+        sekretaris: "-", // Ganti sesuai nama
+        bendahara: "-",   // Ganti sesuai nama
+      },
+      bidang: {
+        litigasi: {
+          kepala: "-",
+          sub_bidang: {
+            pidana: "-",
+            perdata: "-",
+            phi: "-",
+          }
+        },
+        non_litigasi: {
+          kepala: "-",
+        }
+      }
+    },
+    anggota: [
+      {
+        id: "cms-member-1",
+        nama: "Juprians Lambabelawa, S.H., M.H.",
+        jabatan: "Direktur Cabang samarinda",
+        deskripsi: "Tokoh pejuang keadilan lingkungan hidup di Kalimantan Timur, fokus mendampingi nelayan tradisional dan komunitas adat pesisir.",
+        foto: "/assets/images/ruangan1.jpg",
+        noHp: "0811-7788-9900",
+        email: "juprian.lamabelawa@ylbhsikap.or.id",
+        slugCabang: "samarinda"
+      }
+    ],
+    posbakum: []
+  },
+  // 📍 5. CABANG SAMARINDA
+  samarinda: {
+    info: {
+      nama: "LBH SIKAP samarinda",
+      kota: "samarinda",
+      alamat: "Dekat cwc, pegadaian samarinda, Selandoro, Kec. Nubatukan, Kab. samarinda, Nusa Tenggara Timur 86611",
+      jamOperasional: "Senin - Jumat | 09.00 - 16.00 WIB",
+      telepon: "-",
+      email: "samarinda@ylbhsikap.or.id",
+      direktur: "-",
+      bannerCabang: "/assets/images/bannerSamarinda.jpg",
+      mapsEmbed: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3947.310924522287!2d123.43736507574114!3d-8.371044584393282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dab0d00774d64b5%3A0x3f2255b4622bcccd!2sKIOS%20IRWANA!5e0!3m2!1sid!2sid!4v1782043559040!5m2!1sid!2sid" 
+    },
+    kriteria: kriteriaLayananGlobal,
+    berita: databaseArtikelNasional.filter(art => art.slugCabang === "samarinda"),
+    publikasi: [
+      { id: "doc-3", tag: "AKUNTABILITAS", tagColor: "#09090b", judul: "Laporan Tahunan & Kinerja (Annual Report)", deskripsi: "Bentuk akuntabilitas LBH SIKAP kepada publik. Laporan ini mencakup seluruh statistik jumlah kasus aduan masyarakat, persentase penyelesaian perkara litigasi maupun non-litigasi, serta transparansi tata kelola keuangan internal lembaga secara berkala.", tombolLabel: "Unduh Laporan Tahunan (PDF)", link: "#" },
+      { id: "doc-4", tag: "EDUKASI PUBLIK", tagColor: "#4b5563", judul: "Kertas Kebijakan & Modul Paralegal", deskripsi: "Akses gratis ke modul hukum praktis untuk kader di akar rumput (community paralegal), panduan taktis menghadapi sengketa ruang hidup, draf perlindungan hak-hak pekerja, serta hasil riset advokasi kebijakan publik lainnya.", tombolLabel: "Buka Berkas Modul", link: "#" }
+    ], 
+    sectionBackup: { pers: [], edukasi: [] },
+    struktur: {
+      pembina: {
+        ketua: "-",
+      },
+      pengurus: {
+        direktur: "-",
+        sekretaris: "-", // Ganti sesuai nama
+        bendahara: "-",   // Ganti sesuai nama
+      },
+      bidang: {
+        litigasi: {
+          kepala: "-",
+          sub_bidang: {
+            pidana: "-",
+            perdata: "-",
+            phi: "-",
+          }
+        },
+        non_litigasi: {
+          kepala: "-",
+        }
+      }
+    },
+    anggota: [
+      {
+        id: "samarinda-member-1",
+        nama: "Juprians Lambabelawa, S.H., M.H.",
+        jabatan: "Direktur Cabang samarinda",
+        deskripsi: "Tokoh pejuang keadilan lingkungan hidup di Kalimantan Timur, fokus mendampingi nelayan tradisional dan komunitas adat pesisir.",
+        foto: "/assets/images/ruangan1.jpg",
+        noHp: "0811-7788-9900",
+        email: "juprian.lamabelawa@ylbhsikap.or.id",
+        slugCabang: "samarinda"
       }
     ],
     posbakum: []

@@ -10,7 +10,7 @@ interface SubPageHeaderProps {
 
 export function SubPageHeader({ title, subtitle, bgImage }: SubPageHeaderProps) {
   return (
-    <section className="relative w-full h-[70vh] bg-gray-950 overflow-hidden">
+    <section className="relative w-full h-screen bg-gray-950 overflow-hidden">
       {/* Foto Latar Belakang */}
       <div className="absolute inset-0 z-0">
         <Image 
@@ -23,15 +23,17 @@ export function SubPageHeader({ title, subtitle, bgImage }: SubPageHeaderProps) 
       </div>
 
       {/* Teks Judul di Atas Foto */}
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center p-6 text-center text-white">
-        <h1 className="text-3xl font-black uppercase tracking-wider md:text-5xl">
-          {title}
-        </h1>
-        {subtitle && (
-          <p className="mt-3 text-xs font-bold uppercase tracking-widest text-amber-500">
-            {subtitle}
-          </p>
-        )}
+      <div className="absolute inset-0 z-10 flex flex-col items-start justify-center p-6 md:p-20 text-white text-left">
+        <div className="mt-50"> 
+          <h1 className="text-4xl font-black uppercase tracking-wider md:text-6xl drop-shadow-lg">
+            {title}
+          </h1>
+          {subtitle && (
+            <p className="mt-4 max-w-2xl text-sm sm:text-lg text-gray-100 uppercase tracking-widest font-medium drop-shadow-md">
+              {subtitle}
+            </p>
+          )}
+        </div>
       </div>
     </section>
   );

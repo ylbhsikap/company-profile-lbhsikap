@@ -39,27 +39,27 @@ export function BranchOrgTree({ data }: BranchOrgTreeProps) {
 
         {/* 3. BIDANG LITIGASI & NON-LITIGASI */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-8 border-t border-gray-100">
-          {/* Litigasi */}
+            {/* Litigasi */}
           <div className="space-y-4">
-            <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest">Kepala Bidang Litigasi</p>
-            <p className="text-lg font-black">{data.bidang.litigasi.kepala}</p>
-            <div className="grid grid-cols-3 gap-2">
-              {Object.entries(data.bidang.litigasi.sub_bidang).map(([key, val]) => (
-                <div key={key} className="bg-gray-50 p-3 rounded text-center">
-                  <p className="text-[8px] uppercase text-gray-400 font-bold">{key}</p>
-                  <p className="text-[10px] font-medium mt-1">{val}</p>
-                </div>
-              ))}
+             <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest">Kepala Bidang Litigasi</p>
+             <p className="text-lg font-black">{data.bidang.litigasi.kepala}</p>
+          <div className="grid grid-cols-3 gap-2">
+                 {Object.entries(data.bidang.litigasi.sub_bidang).map(([key, val]) => (
+           <div key={key} className="bg-gray-50 p-3 rounded text-center">
+             <p className="text-[8px] uppercase text-gray-400 font-bold">{key}</p>
+             <p className="text-[10px] font-medium mt-1">{val}</p>
             </div>
-          </div>
+            ))}
+            </div>
+         </div>
 
-          {/* Non-Litigasi */}
-          <div className="border-l border-gray-100 pl-8">
-            <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest">Kepala Bidang Non-Litigasi</p>
-            <p className="text-lg font-black mt-4">{data.bidang.non_litigasi.kepala}</p>
+           {/* Non-Litigasi (padding kiri diubah jadi pl-0 atau sejajar dengan gap grid) */}
+         <div className="md:border-l md:border-gray-100 md:pl-6 space-y-4">
+             <p className="text-[9px] font-bold text-amber-600 uppercase tracking-widest">Kepala Bidang Non-Litigasi</p>
+             <p className="text-lg font-black">{data.bidang.non_litigasi.kepala}</p>
+           </div>
           </div>
-        </div>
+       </div>
       </div>
-    </div>
   );
 }
