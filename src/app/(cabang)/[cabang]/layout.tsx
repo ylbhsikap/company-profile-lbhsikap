@@ -23,12 +23,13 @@ export default function CabangLayout({ children, params }: CabangLayoutProps) {
     email: "-",
   };
 
-  // PEMBARUAN: Menambahkan Posbakum ke menu navigasi
+  // Menambahkan FAQ ke menu navigasi agar terhubung ke id="faq"
   const menuItems = [
     { name: "Beranda", href: `/${slugCabang}#hero` },
     { name: "Tentang Kami", href: `/${slugCabang}#tentang` },
     { name: "Berita", href: `/${slugCabang}#berita` },
-    { name: "Posbakum", href: `/${slugCabang}#posbakum` }, 
+    { name: "Posbakum", href: `/${slugCabang}#posbakum` },
+    { name: "FAQ", href: `/${slugCabang}#faq` }, 
     { name: "Kontak", href: `/${slugCabang}#kontak` },
   ];
 

@@ -1,7 +1,7 @@
 // src/app/(pusat)/publikasi/page.tsx
 import React from "react";
 import { databaseArtikelNasional } from "@/data/data"; //[cite: 2]
-import { PublikasiCard } from "@/components/features/publikasi/PublikasiCard";
+import { PublikasiCard } from "@/components/features/pusat/publikasi/PublikasiCard";
 import { SubPageHeader } from "@/components/layout/SubPageHeader";
 import { asetGambar } from "@/data/data"; //[cite: 1]
 

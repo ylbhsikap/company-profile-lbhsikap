@@ -1,8 +1,8 @@
 // src/app/(pusat)/layanan/page.tsx
 import { asetGambar, dataKantorPusat } from "@/data/data";
 import { SubPageHeader } from "@/components/layout/SubPageHeader";
-import { PartnerNetwork } from "@/components/features/mitra/PartnerNetwork";
-import { PartnerLogoGrid } from "@/components/features/mitra/PartnerLogoGrid";
+import { PartnerNetwork } from "@/components/features/pusat/mitra/PartnerNetwork";
+import { PartnerLogoGrid } from "@/components/features/pusat/mitra/PartnerLogoGrid";
 
 export default function LayananPusatPage() {
   return (

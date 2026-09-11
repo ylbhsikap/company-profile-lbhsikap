@@ -2,9 +2,9 @@
 import React from "react";
 import { asetGambar, dataSeluruhCabang, dataKantorPusat } from "@/data/data";
 import { SubPageHeader } from "@/components/layout/SubPageHeader";
-import { BranchNetwork } from "@/components/features/cabang/BranchNetwork";
-import { CentralOrgTree } from "@/components/features/tentang/CentralOrgTree";
-import { LogoSejarahSection } from "@/components/features/tentang/LogoSejarahSection"; // 💡 1. Import komponen Logo & Sejarah
+import { BranchNetwork } from "@/components/features/pusat/listcabang/BranchNetwork";
+import { CentralOrgTree } from "@/components/features/pusat/tentang/CentralOrgTree";
+import { LogoSejarahSection } from "@/components/features/pusat/tentang/LogoSejarahSection"; // 💡 1. Import komponen Logo & Sejarah
 
 export default function TentangPusatPage() {
   // Pemetaan data cabang nasional untuk komponen BranchNetwork

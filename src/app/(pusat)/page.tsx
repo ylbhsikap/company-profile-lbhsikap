@@ -1,11 +1,12 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { dataKantorPusat, asetGambar, dataSeluruhCabang } from "@/data/data"; // 💡 Import data cabang
-import NewsRowCard from "@/components/features/berita/NewsRowCard";
+import { dataKantorPusat, asetGambar, dataSeluruhCabang } from "@/data/data";
+import NewsRowCard from "@/components/features/pusat/berita/NewsRowCard";
 
-// 📦 Import komponen network yang sudah kita perbarui di atas
-import { BranchNetwork } from "@/components/features/cabang/BranchNetwork";
+// 📦 Import komponen network & statistik
+import { BranchNetwork } from "@/components/features/pusat/listcabang/BranchNetwork";
+import { StatistikLembaga } from "@/components/features/pusat/statistik/StatistikLembaga";
 
 export default function BerandaPusat() {
   const beritaPusat = dataKantorPusat.berita.map(item => ({
@@ -26,7 +27,7 @@ export default function BerandaPusat() {
     telepon: cabang.info.telepon,
     email: cabang.info.email,
     direktur: cabang.info.direktur,
-    mapsEmbed: cabang.info.mapsEmbed, // 💡 Menyalurkan string embed maps ke dalam komponen
+    mapsEmbed: cabang.info.mapsEmbed,
   }));
 
   return (
@@ -54,6 +55,9 @@ export default function BerandaPusat() {
           </div>
         </div>
       </section>
+
+      {/* 📊 SEKSI STATISTIK REKAM JEJAK LEMBAGA */}
+      <StatistikLembaga />
 
       {/* SEKSI BERITA UTAMA BESAR */}
       <section className="mx-auto max-w-6xl px-6 py-16 flex flex-col gap-12">
@@ -88,7 +92,6 @@ export default function BerandaPusat() {
       </section>
 
       {/* 🏢 SEKSI JARINGAN KANTOR CABANG */}
-      {/* Kita masukkan array dataCabangSiapPakai ke dalam props branches */}
       <BranchNetwork branches={dataCabangSiapPakai} />
 
     </main>
